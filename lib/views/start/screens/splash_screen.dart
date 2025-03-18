@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/views/start/screens/onboarding_screen.dart';
 
@@ -51,18 +52,7 @@ class _SplashScreenState extends State<SplashScreen>
           body: Center(
             child: Transform.scale(
               scale: _animation.value,
-              child: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: orangeColor,
-                ),
-                padding: const EdgeInsets.all(20),
-                child: const Icon(
-                  Icons.directions_bus_filled_outlined,
-                  color: Colors.white,
-                  size: 60,
-                ),
-              ),
+              child: SvgPicture.asset('assets/images/splashSvg.svg'),
             ),
           ),
         );
