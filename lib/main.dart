@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_hub/views/start/screens/splash_screen.dart';
+import 'package:ticket_hub/views/tabs_screen/screens/tabs_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white
         ),
       ),
-      home: const SplashScreen()
+      home: const TabsScreen()
     );
   }
 }
