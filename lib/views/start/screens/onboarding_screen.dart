@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_hub/constant/widgets/custom_button_widget.dart';
+import 'package:ticket_hub/views/auth/login_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -13,22 +15,34 @@ class OnboardingScreen extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      child: const Padding(
-        padding: EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Travel With Ease',
                 style: TextStyle(
-                    fontSize: 24, fontWeight: FontWeight.w500, color: Colors.white),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
               ),
-              SizedBox(height: 15,),
-              Text(
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
                 'Enjoy a fast and convenient booking experience for modern and safe buses',
                 style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+              LightCustomButton(
+                text: 'Get Started',
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => const LoginScreen()),
+                  );
+                },
               ),
             ],
           ),
