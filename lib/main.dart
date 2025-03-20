@@ -4,6 +4,7 @@ import 'package:ticket_hub/controller/auth/list_provider.dart';
 import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/controller/auth/otp_provider.dart';
 import 'package:ticket_hub/controller/auth/signup_provider.dart';
+import 'package:ticket_hub/controller/booking_controller.dart';
 import 'package:ticket_hub/controller/profile/profile_provider.dart';
 import 'package:ticket_hub/views/start/screens/splash_screen.dart';
 
@@ -16,6 +17,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => SignUpProvider()),
         ChangeNotifierProvider(create: (context) => ForgotPasswordProvider()),
         ChangeNotifierProvider(create: (context) => UserProfileProvider()),
+        ChangeNotifierProvider(create: (context) => BookingController()),
       ],
       child: const MyApp(),
     ),
