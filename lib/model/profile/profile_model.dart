@@ -1,4 +1,4 @@
-class UserProfileModel {
+class UserModel {
   final int id;
   final int? countryId;
   final int? cityId;
@@ -7,14 +7,14 @@ class UserProfileModel {
   final String email;
   final String phone;
   final String role;
-  final String? createdAt;
-  final String? updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final String gender;
   final int? nationalityId;
   final String? code;
   final String? imageLink;
 
-  UserProfileModel({
+  UserModel({
     required this.id,
     this.countryId,
     this.cityId,
@@ -31,8 +31,8 @@ class UserProfileModel {
     this.imageLink,
   });
 
-  factory UserProfileModel.fromJson(Map<String, dynamic> json) {
-    return UserProfileModel(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
       id: json['id'],
       countryId: json['country_id'],
       cityId: json['city_id'],
@@ -41,8 +41,8 @@ class UserProfileModel {
       email: json['email'],
       phone: json['phone'],
       role: json['role'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
+      createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.tryParse(json['updated_at']) : null,
       gender: json['gender'],
       nationalityId: json['nationality_id'],
       code: json['code'],
@@ -60,8 +60,8 @@ class UserProfileModel {
       'email': email,
       'phone': phone,
       'role': role,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
       'gender': gender,
       'nationality_id': nationalityId,
       'code': code,

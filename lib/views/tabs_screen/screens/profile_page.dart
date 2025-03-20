@@ -7,103 +7,90 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  ProfilePageState createState() => ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  late UserProfileProvider profileProvider;
-
+class ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    profileProvider = Provider.of<UserProfileProvider>(context, listen: false);
-    profileProvider.fetchUserProfile(context);
+    Future.microtask(
+      () {
+        Provider.of<UserProvider>(context, listen: false)
+            .fetchUserProfile(context);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    final user = userProvider.user;
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Consumer<UserProfileProvider>(
-        builder: (context, profileProvider, child) {
-          if (profileProvider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (profileProvider.errorMessage != null) {
-            return Center(child: Text(profileProvider.errorMessage!));
-          } else if (profileProvider.userProfile == null) {
-            return const Center(child: Text("No user profile found"));
-          }
-
-          final user = profileProvider.userProfile!;
-
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(25.0),
-                  decoration: const BoxDecoration(
-                    color: blackColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Row(
+      body: userProvider.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : user == null
+              ? const Center(child: Text('Failed to load user data'))
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: user.imageLink != null
-                            ? NetworkImage(user.imageLink!)
-                            : const AssetImage('assets/profile.png')
-                                as ImageProvider,
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.name,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                      Container(
+                        padding: const EdgeInsets.all(25.0),
+                        decoration: const BoxDecoration(
+                          color: blackColor,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundImage: user.imageLink != null
+                                  ? NetworkImage(user.imageLink!)
+                                  : const AssetImage('assets/profile.png')
+                                      as ImageProvider,
                             ),
-                          ),
-                          Text(
-                            '@${user.email.split('@').first}',
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 14,
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user.name,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '@${user.email.split('@')[0]}',
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      const Text(
-                        '30 Point',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          ],
                         ),
                       ),
+                      const SizedBox(height: 20),
+                      _buildInfoCard([
+                        _buildInfoRow(Icons.person, user.name),
+                        _buildInfoRow(Icons.phone, user.phone),
+                        _buildInfoRow(Icons.email, user.email),
+                      ]),
+                      const SizedBox(height: 10),
+                      _buildInfoCard([
+                        _buildInfoRow(Icons.edit, 'Edit Profile',
+                            showArrow: true),
+                        _buildInfoRow(Icons.language, 'Arabic'),
+                      ]),
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                _buildInfoCard([
-                  _buildInfoRow(Icons.person, user.name),
-                  _buildInfoRow(Icons.phone, user.phone),
-                  _buildInfoRow(Icons.email, user.email),
-                ]),
-                const SizedBox(height: 10),
-                _buildInfoCard([
-                  _buildInfoRow(Icons.edit, 'Edit Profile', showArrow: true),
-                  _buildInfoRow(Icons.language, 'Arab'),
-                ]),
-              ],
-            ),
-          );
-        },
-      ),
     );
   }
 
@@ -116,9 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
           color: Colors.grey[200],
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Column(
-          children: children,
-        ),
+        child: Column(children: children),
       ),
     );
   }
