@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/constant/widgets/custom_appbar_widget.dart';
+import 'package:ticket_hub/controller/auth/otp_provider.dart';
 import 'package:ticket_hub/views/auth/new_password_screen.dart';
 
 class OtpPasswordScreen extends StatefulWidget {
-  const OtpPasswordScreen({super.key});
+  const OtpPasswordScreen({super.key, required this.email});
+  final String email;
 
   @override
   State<OtpPasswordScreen> createState() => _OtpPasswordScreenState();
@@ -15,6 +18,7 @@ class OtpPasswordScreen extends StatefulWidget {
 class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
   int _countdown = 180;
   Timer? _timer;
+  String _otpCode = "";
 
   @override
   void initState() {
@@ -50,6 +54,34 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
     return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 
+  void verifyOtp(BuildContext context) async {
+    if (_otpCode.length != 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid 6-digit code')),
+      );
+      return;
+    }
+
+    final provider =
+        Provider.of<ForgotPasswordProvider>(context, listen: false);
+    await provider.checkCode(widget.email, _otpCode);
+
+    if (provider.message != null) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => NewPasswordScreen(
+            email: widget.email,
+            code: _otpCode,
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(provider.errorMessage ?? 'Invalid OTP')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
@@ -83,9 +115,9 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
                 ),
               ),
             ),
-            const Text(
-              'We sent a reset link to contact@dscode...com. Enter the 4-digit code mentioned in the email.',
-              style: TextStyle(
+            Text(
+              'We sent a reset link to ${widget.email}. Enter the 6-digit code mentioned in the email.',
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w400,
                 color: Color(0xFF7C7C7C),
@@ -101,7 +133,9 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
                     border: Border.all(color: blackColor, width: 2),
                   ),
                 ),
-                onCompleted: (pin) => setState(() {}),
+                onCompleted: (pin) => setState(() {
+                  _otpCode = pin;
+                }),
               ),
             ),
             const SizedBox(height: 20),
@@ -118,7 +152,7 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
             const Center(
               child: Text.rich(
                 TextSpan(
-                  text: "Don’t receive code ? ",
+                  text: "Don’t receive code? ",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -140,31 +174,32 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
             ),
             const SizedBox(height: 30),
             Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (ctx) => const NewPasswordScreen(),
+              child: Consumer<ForgotPasswordProvider>(
+                builder: (context, provider, child) {
+                  return ElevatedButton(
+                    onPressed:
+                        provider.isLoading ? null : () => verifyOtp(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: blackColor,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 100),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 5,
                     ),
+                    child: provider.isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            'Reset Password',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: blackColor,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 100),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 5,
-                ),
-                child: const Text(
-                  'Reset Password',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
               ),
             ),
             const SizedBox(height: 20),

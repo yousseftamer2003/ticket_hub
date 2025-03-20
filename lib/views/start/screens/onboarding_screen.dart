@@ -22,6 +22,7 @@ class OnboardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Spacer(),
               const Text(
                 'Travel With Ease',
                 style: TextStyle(
@@ -36,6 +37,7 @@ class OnboardingScreen extends StatelessWidget {
                 'Enjoy a fast and convenient booking experience for modern and safe buses',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
+              const Spacer(),
               LightCustomButton(
                 text: 'Get Started',
                 onPressed: () {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/constant/widgets/custom_button_widget.dart';
 import 'package:ticket_hub/constant/widgets/text_field_widget.dart';
+import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/views/auth/forget_password_screen.dart';
 import 'package:ticket_hub/views/auth/signup_screen.dart';
 import 'package:ticket_hub/views/tabs_screen/screens/tabs_screen.dart';
@@ -101,9 +103,25 @@ class LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 20),
               DarkCustomButton(
                   text: 'Login',
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => const TabsScreen()));
+                  onPressed: () async {
+                    final loginProvider =
+                        Provider.of<LoginProvider>(context, listen: false);
+                    await loginProvider.login(
+                      _emailController.text,
+                      _passwordController.text,
+                    );
+
+                    if (loginProvider.token != null) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => const TabsScreen()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content:
+                                Text(loginProvider.error ?? "Login failed")),
+                      );
+                    }
                   }),
               const SizedBox(height: 20),
               const Row(
