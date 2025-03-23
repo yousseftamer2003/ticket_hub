@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 PreferredSizeWidget customAppBar(BuildContext context, String title) {
   return AppBar(
-    title: Center(child: Text(title)),
+    title: Text(
+      title,
+      style: const TextStyle(fontWeight: FontWeight.bold),
+    ),
     leading: IconButton(
         onPressed: () {
           Navigator.of(context).pop();

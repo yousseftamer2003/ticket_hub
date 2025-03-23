@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/controller/profile/profile_provider.dart';
+import 'package:ticket_hub/views/profile/edit_profile_screen.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -30,7 +32,7 @@ class ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: userProvider.isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? _buildShimmerEffect()
           : user == null
               ? const Center(child: Text('Failed to load user data'))
               : Padding(
@@ -84,13 +86,69 @@ class ProfilePageState extends State<ProfilePage> {
                       ]),
                       const SizedBox(height: 10),
                       _buildInfoCard([
-                        _buildInfoRow(Icons.edit, 'Edit Profile',
-                            showArrow: true),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditProfileScreen(
+                                  email: user.email,
+                                  name: user.name,
+                                  phone: user.phone,
+                                ),
+                              ),
+                            );
+                          },
+                          child: _buildInfoRow(Icons.edit, 'Edit Profile',
+                              showArrow: true),
+                        ),
+                        _buildInfoRow(Icons.wallet, 'Wallet', showArrow: true),
                         _buildInfoRow(Icons.language, 'Arabic'),
                       ]),
                     ],
                   ),
                 ),
+    );
+  }
+
+  Widget _buildShimmerEffect() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              width: double.infinity,
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          _buildShimmerCard(),
+          const SizedBox(height: 10),
+          _buildShimmerCard(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildShimmerCard() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: double.infinity,
+        height: 100,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
     );
   }
 
