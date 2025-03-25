@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
+          useMaterial3: true,
           appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
         ),
         home: const SplashScreen());

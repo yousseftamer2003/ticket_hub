@@ -10,6 +10,7 @@ class HomeHeaderWidget extends StatelessWidget {
           children: [
             SizedBox(
                 width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height * 0.25,
                 child: Image.asset(
                   'assets/images/homebackground.png',
                   fit: BoxFit.cover,
@@ -20,7 +21,7 @@ class HomeHeaderWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

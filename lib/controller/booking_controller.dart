@@ -18,6 +18,8 @@ class BookingController with ChangeNotifier {
   AllTrips? _allTrips;
   AllTrips? get allTrips => _allTrips;
 
+  bool isCitiesLoaded = false;
+
   Future<void> fetchCitiesandPaymentMethods(BuildContext context) async {
     try {
       final authServices = Provider.of<LoginProvider>(context,listen: false);
@@ -33,8 +35,9 @@ class BookingController with ChangeNotifier {
         final responseData = jsonDecode(response.body);
         Cities cities = Cities.fromJson(responseData);
         _cities = cities.cities.map((x) => City.fromJson(x)).toList();
-        // PaymentMethods paymentMethods = PaymentMethods.fromJson(responseData);
-        // _paymentMethods = paymentMethods.paymentMethods.map((x) => PaymentMethod.fromJson(x)).toList();
+        PaymentMethods paymentMethods = PaymentMethods.fromJson(responseData);
+        _paymentMethods = paymentMethods.paymentMethods.map((x) => PaymentMethod.fromJson(x)).toList();
+        isCitiesLoaded = true;
         notifyListeners();
       }else{
         log('Failed to load cities. Status code: ${response.statusCode}');
