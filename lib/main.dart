@@ -5,6 +5,9 @@ import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/controller/auth/otp_provider.dart';
 import 'package:ticket_hub/controller/auth/signup_provider.dart';
 import 'package:ticket_hub/controller/booking_controller.dart';
+import 'package:ticket_hub/controller/data_list_provider.dart';
+import 'package:ticket_hub/controller/points/points_provider.dart';
+import 'package:ticket_hub/controller/private/private_list_provider.dart';
 import 'package:ticket_hub/controller/profile/profile_provider.dart';
 import 'package:ticket_hub/controller/trips/trips_provider.dart';
 import 'package:ticket_hub/controller/wallet/wallet_provider.dart';
@@ -22,6 +25,9 @@ void main() {
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => TripsProvider()),
         ChangeNotifierProvider(create: (context) => WalletProvider()),
+        ChangeNotifierProvider(create: (context) => PaymentProvider()),
+        ChangeNotifierProvider(create: (context) => PointsProvider()),
+        ChangeNotifierProvider(create: (context) => CarProvider()),
       ],
       child: const MyApp(),
     ),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:ticket_hub/constant/colors.dart';
+import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/controller/profile/profile_provider.dart';
+import 'package:ticket_hub/views/auth/login_screen.dart';
 import 'package:ticket_hub/views/profile/edit_profile_screen.dart';
 import 'package:ticket_hub/views/profile/wallet_screen.dart';
 
@@ -46,6 +48,24 @@ class ProfilePageState extends State<ProfilePage> {
     );
 
     userProvider.fetchUserProfile(context);
+  }
+
+  Future<void> _logout(BuildContext context) async {
+    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
+
+    await loginProvider.logout(context);
+
+    if (loginProvider.token == null && loginProvider.error == null) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (route) => false,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(loginProvider.error ?? "Logout failed")),
+      );
+    }
   }
 
   @override
@@ -116,15 +136,22 @@ class ProfilePageState extends State<ProfilePage> {
                               showArrow: true),
                         ),
                         GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (ctx) => const WalletScreen()),
-                              );
-                            },
-                            child: _buildInfoRow(Icons.wallet, 'Wallet',
-                                showArrow: true)),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => const WalletScreen(),
+                              ),
+                            );
+                          },
+                          child: _buildInfoRow(Icons.wallet, 'Wallet',
+                              showArrow: true),
+                        ),
                         _buildInfoRow(Icons.language, 'Arabic'),
+                        GestureDetector(
+                          onTap: () => _logout(context),
+                          child: _buildInfoRow(Icons.logout, 'Logout',
+                              showArrow: true),
+                        ),
                       ]),
                     ],
                   ),

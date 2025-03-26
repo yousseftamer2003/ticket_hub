@@ -4,6 +4,7 @@ import 'package:ticket_hub/constant/widgets/custom_appbar_widget.dart';
 import 'package:ticket_hub/controller/wallet/wallet_provider.dart';
 import 'package:ticket_hub/model/wallet/wallet_model.dart';
 import 'package:ticket_hub/model/wallet/wallet_history_model.dart';
+import 'package:ticket_hub/views/profile/wallet_recharge_screen.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});
@@ -60,6 +61,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             currency: wallet.currency.name,
                             amount: '${wallet.currency.symbol}${wallet.amount}',
                             description: wallet.currency.name,
+                            walletId: wallet.id,
                           )),
                       const SizedBox(height: 20),
                       GestureDetector(
@@ -124,12 +126,14 @@ class CurrencyTile extends StatelessWidget {
   final String currency;
   final String amount;
   final String description;
+  final int walletId; // Add walletId parameter
 
   const CurrencyTile({
     super.key,
     required this.currency,
     required this.amount,
     required this.description,
+    required this.walletId, // Initialize walletId
   });
 
   @override
@@ -143,7 +147,13 @@ class CurrencyTile extends StatelessWidget {
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           subtitle: Text('$description: $amount'),
           trailing: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => WalletRechargeScreen(walletid: walletId),
+                ),
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.orange,
               foregroundColor: Colors.white,
