@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_hub/views/booking/screens/bus_details_screen.dart';
 
 class ResultContainer extends StatelessWidget {
   const ResultContainer({super.key,required this.busNumber, required this.price, required this.availableSeats, required this.departureTime, required this.arrivalTime, required this.departureStation, required this.arrivalStation, required this.isCheapest});
@@ -20,6 +21,7 @@ class ResultContainer extends StatelessWidget {
     int hours = duration.inHours;
     int minutes = duration.inMinutes.remainder(60);
     return Container(
+      margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
@@ -151,7 +153,11 @@ class ResultContainer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx)=> const TabViewScreen()),
+                  );
+                },
                 child: const Text(
                   "Select",
                   style: TextStyle(

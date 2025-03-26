@@ -56,17 +56,17 @@ class Trip {
 
   factory Trip.fromJson(Map<String, dynamic> json) {
     return Trip(
-      id: json['id'],
-      busId: json['bus_id'],
-      pickupStationId: json['pickup_station_id'],
-      dropoffStationId: json['dropoff_station_id'],
-      tripType: json['trip_type'],
-      tripName: json['trip_name'],
-      departureTime: json['deputre_time'],
-      arrivalTime: json['arrival_time'],
-      date: json['date'],
-      availableSeats: json['avalible_seats'],
-      price: json['price'],
+      id: json['id']?? 0,
+      busId: json['bus_id'] ?? 0,
+      pickupStationId: json['pickup_station_id'] ?? 0,
+      dropoffStationId: json['dropoff_station_id'] ?? 0,
+      tripType: json['trip_type'] ?? 'N/A',
+      tripName: json['trip_name'] ?? 'N/A',
+      departureTime: json['deputre_time'] ?? 'N/A',
+      arrivalTime: json['arrival_time'] ??  'N/A',
+      date: json['date']??  'N/A',
+      availableSeats: json['avalible_seats'] ??  0,
+      price: json['price'] ?? 0,
       bus: Bus.fromJson(json['bus']),
       pickupStation: Station.fromJson(json['pickup_station']),
       dropoffStation: Station.fromJson(json['dropoff_station']),
@@ -89,10 +89,26 @@ class Bus {
 
   factory Bus.fromJson(Map<String, dynamic> json) {
     return Bus(
-      id: json['id'],
-      busNumber: json['bus_number'],
-      busImage: json['bus_image'],
-      imageLink: json['image_link'],
+      id: json['id'] ?? 0,
+      busNumber: json['bus_number'] ?? 'N/A',
+      busImage: json['bus_image'] ?? 'N/A',
+      imageLink: json['image_link'] ?? 'N/A',
+    );
+  }
+}
+
+class Aminety {
+  final int id;
+  final String name;
+  final String iconLink;
+
+  Aminety({required this.id, required this.name, required this.iconLink});
+
+  factory Aminety.fromJson(Map<String, dynamic> json) {
+    return Aminety(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'N/A',
+      iconLink: json['icon_link'] ?? 'N/A',
     );
   }
 }
@@ -108,8 +124,8 @@ class Station {
 
   factory Station.fromJson(Map<String, dynamic> json) {
     return Station(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'N/A',
     );
   }
 }
