@@ -1,66 +1,115 @@
-class SearchResult {
-  final List<AllTrips> allTrips;
+class TripResponse {
+  final List<Trip> allTrips;
+  // final List<Trip> busTrips;
+  // final List<Trip> hiaceTrips;
+  // final List<Trip> trainTrips;
 
-  SearchResult({required this.allTrips});
+  TripResponse({
+    required this.allTrips,
+    // required this.busTrips,
+    // required this.hiaceTrips,
+    // required this.trainTrips,
+  });
 
-  factory SearchResult.fromJson(Map<String, dynamic> json) {
-    return SearchResult(
-      allTrips: List<AllTrips>.from(json['all_trips'].map((x) => AllTrips.fromJson(x))),
+  factory TripResponse.fromJson(Map<String, dynamic> json) {
+    return TripResponse(
+      allTrips: (json['all_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
+      // busTrips: (json['bus_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
+      // hiaceTrips: (json['hiace_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
+      // trainTrips: (json['train_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
     );
   }
 }
 
-class AllTrips {
+class Trip {
   final int id;
   final int busId;
   final int pickupStationId;
-  final int dropStationId;
-  final String pickupStationName;
-  final String dropStationName;
-  final String? tripType;
+  final int dropoffStationId;
+  final String tripType;
   final String tripName;
   final String departureTime;
   final String arrivalTime;
   final String date;
   final int availableSeats;
   final int price;
-  final String busNumber;
-  final String busImage;
+  final Bus bus;
+  final Station pickupStation;
+  final Station dropoffStation;
 
-  AllTrips(
-      {required this.id,
-      required this.busId,
-      required this.pickupStationId,
-      required this.dropStationId,
-      required this.pickupStationName,
-      required this.dropStationName,
-      required this.tripType,
-      required this.tripName,
-      required this.departureTime,
-      required this.arrivalTime,
-      required this.date,
-      required this.availableSeats,
-      required this.price,
-      required this.busNumber,
-      required this.busImage});
+  Trip({
+    required this.id,
+    required this.busId,
+    required this.pickupStationId,
+    required this.dropoffStationId,
+    required this.tripType,
+    required this.tripName,
+    required this.departureTime,
+    required this.arrivalTime,
+    required this.date,
+    required this.availableSeats,
+    required this.price,
+    required this.bus,
+    required this.pickupStation,
+    required this.dropoffStation,
+  });
 
-  factory AllTrips.fromJson(Map<String, dynamic> json) {
-    return AllTrips(
+  factory Trip.fromJson(Map<String, dynamic> json) {
+    return Trip(
       id: json['id'],
       busId: json['bus_id'],
       pickupStationId: json['pickup_station_id'],
-      dropStationId: json['drop_station_id'],
-      pickupStationName: json['pickup_station_name'],
-      dropStationName: json['dropoff_station_id'],
-      tripType: json['trip_type'] ?? 'N/A',
+      dropoffStationId: json['dropoff_station_id'],
+      tripType: json['trip_type'],
       tripName: json['trip_name'],
-      departureTime: json['departure_time'],
+      departureTime: json['deputre_time'],
       arrivalTime: json['arrival_time'],
       date: json['date'],
-      availableSeats: json['available_seats'],
+      availableSeats: json['avalible_seats'],
       price: json['price'],
-      busNumber: json['bus']['bus_number'],
-      busImage: json['bus']['image_link'],
+      bus: Bus.fromJson(json['bus']),
+      pickupStation: Station.fromJson(json['pickup_station']),
+      dropoffStation: Station.fromJson(json['dropoff_station']),
+    );
+  }
+}
+
+class Bus {
+  final int id;
+  final String busNumber;
+  final String? busImage;
+  final String imageLink;
+
+  Bus({
+    required this.id,
+    required this.busNumber,
+    this.busImage,
+    required this.imageLink,
+  });
+
+  factory Bus.fromJson(Map<String, dynamic> json) {
+    return Bus(
+      id: json['id'],
+      busNumber: json['bus_number'],
+      busImage: json['bus_image'],
+      imageLink: json['image_link'],
+    );
+  }
+}
+
+class Station {
+  final int id;
+  final String name;
+
+  Station({
+    required this.id,
+    required this.name,
+  });
+
+  factory Station.fromJson(Map<String, dynamic> json) {
+    return Station(
+      id: json['id'],
+      name: json['name'],
     );
   }
 }

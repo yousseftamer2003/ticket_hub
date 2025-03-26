@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/model/booking/booking_lists_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:ticket_hub/model/booking/search_data.dart';
 import 'package:ticket_hub/model/booking/search_result.dart';
 
 class BookingController with ChangeNotifier {
@@ -15,10 +16,17 @@ class BookingController with ChangeNotifier {
   List<PaymentMethod> _paymentMethods = [];
   List<PaymentMethod> get paymentMethods => _paymentMethods;
 
-  AllTrips? _allTrips;
-  AllTrips? get allTrips => _allTrips;
+  TripResponse? _searchResult;
+  TripResponse? get searchResult => _searchResult;
+
+  SearchData searchData = SearchData();
 
   bool isCitiesLoaded = false;
+
+  void setTripType(String type){
+    searchData.type = type;
+    notifyListeners();
+  }
 
   Future<void> fetchCitiesandPaymentMethods(BuildContext context) async {
     try {
@@ -48,30 +56,24 @@ class BookingController with ChangeNotifier {
     }
   }
 
-  Future<void> searchTrips(BuildContext context,{
-    required String from,
-    required String to,
-    required String departureDate,
-    String? returnDate,
-    required int travelers,
-  }) async{
+  Future<void> searchTrips(BuildContext context) async{
     try {
       final authServices = Provider.of<LoginProvider>(context,listen: false);
       final token = authServices.token;
 
-      final body = returnDate != null ? jsonEncode({
-        'from': from,
-        'to': to,
-        'date': departureDate,
-        'return_date': returnDate,
-        'travelers': travelers,
+      final body = searchData.returnDate != null ? jsonEncode({
+        'from': searchData.departureFromId,
+        'to': searchData.arrivalToId,
+        'date': searchData.departureDate,
+        'return_date': searchData.returnDate,
+        'travelers': searchData.travelers,
         'type': 'round_trip'
       }) : 
       jsonEncode({
-        'from': from,
-        'to': to,
-        'date': departureDate,
-        'travelers': travelers,
+        'from': searchData.departureFromId,
+        'to': searchData.arrivalToId,
+        'date': searchData.departureDate,
+        'travelers': searchData.travelers,
         'type': 'one_way'
       });
 
@@ -80,10 +82,13 @@ class BookingController with ChangeNotifier {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       },
-      body: body,
+      // body: body,
       );
       if(response.statusCode == 200){
-
+        final responseData = jsonDecode(response.body);
+        log('Response data: $responseData');
+        _searchResult = TripResponse.fromJson(responseData);
+        notifyListeners();
       }else{
         log('Failed to search trips. Status code: ${response.statusCode}');
         log('Response body: ${response.body}');
