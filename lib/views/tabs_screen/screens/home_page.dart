@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/widgets/custom_button_widget.dart';
+import 'package:ticket_hub/constant/widgets/custom_snack_bar.dart';
 import 'package:ticket_hub/controller/booking_controller.dart';
 import 'package:ticket_hub/views/booking/screens/search_result_screen.dart';
 import 'package:ticket_hub/views/tabs_screen/widgets/home_header_widget.dart';
@@ -110,10 +111,14 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.bottomCenter,
             child: DarkCustomButton(text: 'Search', onPressed: () async{
               final booking = Provider.of<BookingController>(context, listen: false);
-              await booking.searchTrips(context);
+              if(booking.searchData.departureStation != null && booking.searchData.arrivalStation != null){
+                await booking.searchTrips(context);
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (ctx)=> SearchResultScreen(departureFrom: booking.searchData.departureStation!, arrivalTo: booking.searchData.arrivalStation!,)
               ));
+              }else{
+                showCustomSnackbar(context, 'Please select departure and arrival', false);
+              }
             }),
             )
         ],
