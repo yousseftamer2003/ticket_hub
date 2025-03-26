@@ -16,12 +16,35 @@ class ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () {
-        Provider.of<UserProvider>(context, listen: false)
-            .fetchUserProfile(context);
-      },
+    Future.microtask(() {
+      Provider.of<UserProvider>(context, listen: false)
+          .fetchUserProfile(context);
+    });
+  }
+
+  Future<void> _navigateAndRefresh() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final user = userProvider.user;
+
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to load user data')),
+      );
+      return;
+    }
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProfileScreen(
+          email: user.email,
+          name: user.name,
+          phone: user.phone,
+        ),
+      ),
     );
+
+    userProvider.fetchUserProfile(context);
   }
 
   @override
@@ -87,18 +110,7 @@ class ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: 10),
                       _buildInfoCard([
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditProfileScreen(
-                                  email: user.email,
-                                  name: user.name,
-                                  phone: user.phone,
-                                ),
-                              ),
-                            );
-                          },
+                          onTap: _navigateAndRefresh,
                           child: _buildInfoRow(Icons.edit, 'Edit Profile',
                               showArrow: true),
                         ),

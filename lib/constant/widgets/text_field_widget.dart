@@ -6,6 +6,7 @@ class CustomTextField extends StatelessWidget {
   final String labelText;
   final bool obscureText;
   final Widget? suffixIcon;
+  final String? Function(String?)? validator;
 
   const CustomTextField({
     super.key,
@@ -13,13 +14,15 @@ class CustomTextField extends StatelessWidget {
     required this.labelText,
     this.obscureText = false,
     this.suffixIcon,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      validator: validator, // Now supports validation
       decoration: InputDecoration(
         labelText: labelText,
         border: const OutlineInputBorder(

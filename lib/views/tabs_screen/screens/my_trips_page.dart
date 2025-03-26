@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/colors.dart';
+import 'package:ticket_hub/controller/trips/trips_provider.dart';
 
 class MyTripsPage extends StatefulWidget {
   const MyTripsPage({super.key});
@@ -16,66 +18,88 @@ class MyTripsPageState extends State<MyTripsPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    Future.microtask(() {
+      Provider.of<TripsProvider>(context, listen: false)
+          .fetchTripHistory(context);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 25,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.shade300,
-                  blurRadius: 4,
-                  offset: const Offset(0, 2))
-            ],
-          ),
-          margin: const EdgeInsets.all(16),
-          child: TabBar(
-            controller: _tabController,
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.black,
-            indicatorSize: TabBarIndicatorSize.tab, // Ensures full tab color
-            indicator: BoxDecoration(
-              color: orangeColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            tabs: const [
-              Tab(text: "Upcoming"),
-              Tab(text: "Previous"),
-            ],
-          ),
-        ),
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              _buildTripsList(),
-              _buildTripsList(),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
+    return Consumer<TripsProvider>(
+      builder: (context, tripsProvider, child) {
+        if (tripsProvider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-  Widget _buildTripsList() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemCount: 2,
-      itemBuilder: (context, index) {
-        return _buildTripCard();
+        if (tripsProvider.errorMessage.isNotEmpty) {
+          return Center(child: Text(tripsProvider.errorMessage));
+        }
+
+        final historyTrips = tripsProvider.tripsData?.history ?? [];
+        final upcomingTrips = tripsProvider.tripsData?.upcoming ?? [];
+
+        return Column(
+          children: [
+            const SizedBox(height: 25),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade300,
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  )
+                ],
+              ),
+              margin: const EdgeInsets.all(16),
+              child: TabBar(
+                controller: _tabController,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.black,
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicator: BoxDecoration(
+                  color: orangeColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                tabs: const [
+                  Tab(text: "Upcoming"),
+                  Tab(text: "Previous"),
+                ],
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildTripsList(upcomingTrips, isHistory: false),
+                  _buildTripsList(historyTrips, isHistory: true),
+                ],
+              ),
+            ),
+          ],
+        );
       },
     );
   }
 
-  Widget _buildTripCard() {
+  Widget _buildTripsList(List trips, {bool isHistory = false}) {
+    if (trips.isEmpty) {
+      return const Center(child: Text("No trips available"));
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemCount: trips.length,
+      itemBuilder: (context, index) {
+        return _buildTripCard(trips[index], isHistory: isHistory);
+      },
+    );
+  }
+
+  Widget _buildTripCard(tripHistory, {bool isHistory = false}) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       elevation: 3,
@@ -88,34 +112,25 @@ class MyTripsPageState extends State<MyTripsPage>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "#68455",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                Text(
+                  tripHistory.trip.tripName,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.directions, size: 18),
-                  label: const Text("Directions"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: orangeColor,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  ),
-                ),
+                if (isHistory) _buildStatusChip(tripHistory.status),
               ],
             ),
             const SizedBox(height: 8),
+            _buildTripDetail(Icons.location_on,
+                "From: ${tripHistory.trip.city.name}, ${tripHistory.trip.pickupStation.name}"),
+            _buildTripDetail(Icons.location_on,
+                "To: ${tripHistory.trip.toCity.name}, ${tripHistory.trip.dropoffStation.name}"),
             _buildTripDetail(
-                Icons.location_on, "From: Alexandria, Moharam Bek"),
-            _buildTripDetail(Icons.location_on, "To: Cairo, Giza"),
-            _buildTripDetail(
-                Icons.confirmation_number, "Ticket Price: 180.0 EGP"),
-            _buildTripDetail(Icons.calendar_today, "Thursday, February 12"),
-            _buildTripDetail(Icons.access_time, "12:05 AM"),
+                Icons.numbers, "No Travelers:  ${tripHistory.travelers}"),
+            _buildTripDetail(Icons.confirmation_number,
+                "Ticket Price: ${tripHistory.total} EGP"),
+            _buildTripDetail(Icons.calendar_today, tripHistory.travelDate),
+            _buildTripDetail(Icons.access_time, tripHistory.trip.departureTime),
           ],
         ),
       ),
@@ -132,6 +147,30 @@ class MyTripsPageState extends State<MyTripsPage>
           Text(text, style: const TextStyle(fontSize: 16)),
         ],
       ),
+    );
+  }
+
+  Widget _buildStatusChip(String status) {
+    Color statusColor;
+    switch (status.toLowerCase()) {
+      case "confirmed":
+        statusColor = Colors.green;
+        break;
+      case "cancelled":
+        statusColor = Colors.red;
+        break;
+      default:
+        statusColor = Colors.grey;
+    }
+
+    return Chip(
+      label: Text(
+        status.toUpperCase(),
+        style:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+      backgroundColor: statusColor,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
     );
   }
 }
