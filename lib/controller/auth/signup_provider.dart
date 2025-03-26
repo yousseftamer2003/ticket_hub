@@ -18,7 +18,7 @@ class SignUpProvider extends ChangeNotifier {
     required String name,
     required String phone,
     required String gender,
-    required BuildContext context, // Add BuildContext to navigate
+    required BuildContext context,
   }) async {
     const String url = "https://bcknd.ticket-hub.net/api/register";
     _isLoading = true;

@@ -7,6 +7,7 @@ import 'package:ticket_hub/controller/auth/signup_provider.dart';
 import 'package:ticket_hub/controller/booking_controller.dart';
 import 'package:ticket_hub/controller/profile/profile_provider.dart';
 import 'package:ticket_hub/controller/trips/trips_provider.dart';
+import 'package:ticket_hub/controller/wallet/wallet_provider.dart';
 import 'package:ticket_hub/views/start/screens/splash_screen.dart';
 
 void main() {
@@ -20,6 +21,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => BookingController()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => TripsProvider()),
+        ChangeNotifierProvider(create: (context) => WalletProvider()),
       ],
       child: const MyApp(),
     ),

@@ -41,8 +41,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          const HomeHeaderWidget(), // Background Header
-          /// Menu Bar (Responsive)
+          const HomeHeaderWidget(),
           Positioned(
             top: screenHeight * 0.21,
             left: screenWidth * 0.04,
@@ -64,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                         onTap: () => _onItemTapped(index),
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                            vertical: screenHeight * 0.02, 
+                            vertical: screenHeight * 0.02,
                             horizontal: screenWidth * 0.064,
                           ),
                           decoration: BoxDecoration(
@@ -89,8 +88,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-
-          /// Trip Selection Widget (Centered)
           Align(
             alignment: Alignment.topCenter,
             child: Padding(
@@ -98,29 +95,34 @@ class _HomePageState extends State<HomePage> {
               child: const TripSelectionWidget(),
             ),
           ),
-
-          /// Tab Content Section (Below Trip Selection)
           Positioned(
             top: screenHeight * 0.36,
             left: 0,
             right: 0,
             child: const TabContent(),
           ),
-
           Align(
             alignment: Alignment.bottomCenter,
-            child: DarkCustomButton(text: 'Search', onPressed: () async{
-              final booking = Provider.of<BookingController>(context, listen: false);
-              if(booking.searchData.departureStation != null && booking.searchData.arrivalStation != null){
-                await booking.searchTrips(context);
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (ctx)=> SearchResultScreen(departureFrom: booking.searchData.departureStation!, arrivalTo: booking.searchData.arrivalStation!,)
-              ));
-              }else{
-                showCustomSnackbar(context, 'Please select departure and arrival', false);
-              }
-            }),
-            )
+            child: DarkCustomButton(
+                text: 'Search',
+                onPressed: () async {
+                  final booking =
+                      Provider.of<BookingController>(context, listen: false);
+                  if (booking.searchData.departureStation != null &&
+                      booking.searchData.arrivalStation != null) {
+                    await booking.searchTrips(context);
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => SearchResultScreen(
+                              departureFrom:
+                                  booking.searchData.departureStation!,
+                              arrivalTo: booking.searchData.arrivalStation!,
+                            )));
+                  } else {
+                    showCustomSnackbar(
+                        context, 'Please select departure and arrival', false);
+                  }
+                }),
+          )
         ],
       ),
     );

@@ -16,7 +16,7 @@ class LoginProvider extends ChangeNotifier {
   String? get error => _error;
 
   Future<void> login(String email, String password) async {
-    const String url = 'https://bcknd.ticket-hub.net/api/login';
+    const String url = 'https://bcknd.ticket-hub.net/api/login_user';
     _isLoading = true;
     _error = null;
     notifyListeners();

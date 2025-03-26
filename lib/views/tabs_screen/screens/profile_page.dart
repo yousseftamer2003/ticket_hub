@@ -4,6 +4,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/controller/profile/profile_provider.dart';
 import 'package:ticket_hub/views/profile/edit_profile_screen.dart';
+import 'package:ticket_hub/views/profile/wallet_screen.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -114,7 +115,15 @@ class ProfilePageState extends State<ProfilePage> {
                           child: _buildInfoRow(Icons.edit, 'Edit Profile',
                               showArrow: true),
                         ),
-                        _buildInfoRow(Icons.wallet, 'Wallet', showArrow: true),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (ctx) => const WalletScreen()),
+                              );
+                            },
+                            child: _buildInfoRow(Icons.wallet, 'Wallet',
+                                showArrow: true)),
                         _buildInfoRow(Icons.language, 'Arabic'),
                       ]),
                     ],
