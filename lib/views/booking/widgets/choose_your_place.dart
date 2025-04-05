@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_hub/constant/widgets/custom_button_widget.dart';
-import 'package:ticket_hub/constant/widgets/custom_snack_bar.dart';
+import 'package:ticket_hub/views/booking/screens/book_screen.dart';
 
 class ChooseYourPlace extends StatefulWidget {
   const ChooseYourPlace({super.key});
 
   @override
-  _ChooseYourPlaceState createState() => _ChooseYourPlaceState();
+  State<ChooseYourPlace> createState() => _ChooseYourPlaceState();
 }
 
 class _ChooseYourPlaceState extends State<ChooseYourPlace> {
@@ -34,7 +34,9 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
               child: DarkCustomButton(
                 text: "Continue",
                 onPressed: () {
-                  showCustomSnackbar(context, 'Seat Selected', true);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx)=> const BookScreen())
+                  );
                 },
               ),
             )

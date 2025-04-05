@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ticket_hub/controller/booking_controller.dart';
+import 'package:ticket_hub/model/booking/search_result.dart';
 import 'package:ticket_hub/views/booking/screens/bus_details_screen.dart';
 
 class ResultContainer extends StatelessWidget {
-  const ResultContainer({super.key,required this.busNumber, required this.price, required this.availableSeats, required this.departureTime, required this.arrivalTime, required this.departureStation, required this.arrivalStation, required this.isCheapest});
+  const ResultContainer({super.key,required this.busNumber, required this.price, required this.availableSeats, required this.departureTime, required this.arrivalTime, required this.departureStation, required this.arrivalStation, required this.isCheapest,required this.trip});
+  final Trip trip;
   final String busNumber;
   final int price;
   final int availableSeats;
@@ -154,6 +158,7 @@ class ResultContainer extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
+                  Provider.of<BookingController>(context, listen: false).setTrip(trip);
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (ctx)=> const TabViewScreen()),
                   );

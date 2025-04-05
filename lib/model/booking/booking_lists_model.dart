@@ -22,11 +22,12 @@ class Cities{
 class PaymentMethod {
   final String name;
   final int id;
+  final String imageLink;
 
-  PaymentMethod({required this.name, required this.id});
+  PaymentMethod({required this.name, required this.id, required this.imageLink});
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) {
-    return PaymentMethod(name: json['name'], id: json['id']);
+    return PaymentMethod(name: json['name'], id: json['id'], imageLink: json['image_link']);
   }
 }
 

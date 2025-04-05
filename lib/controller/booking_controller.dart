@@ -21,6 +21,13 @@ class BookingController with ChangeNotifier {
 
   SearchData searchData = SearchData();
 
+  Trip? selectedTrip;
+
+  void setTrip(Trip trip){
+    selectedTrip = trip;
+    notifyListeners();
+  } 
+
   bool isCitiesLoaded = false;
 
   void setTripType(String type){
@@ -95,6 +102,35 @@ class BookingController with ChangeNotifier {
       }
     } catch (e) {
       log('Error searching trips: $e');
+    }
+  }
+
+  Future<void> bookTrip(BuildContext context,{required int tripId,required int paymentMethodId,required int amount,String? receiptImage}) async{
+    final authServices = Provider.of<LoginProvider>(context,listen: false);
+      final token = authServices.token;
+    try {
+      final response = await http.post(Uri.parse('https://bcknd.ticket-hub.net/user/booking/payment'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'payment_method_id': paymentMethodId,
+        'trip_id': tripId,
+        'travelers': searchData.travelers,
+        'amount': amount,
+        'travel_date': searchData.departureDate,
+        'receipt_image': receiptImage
+      }),
+      );
+      if(response.statusCode == 200){
+        log('trip booked successfully');
+      }else{
+        log('Failed to book trip. Status code: ${response.statusCode}');
+        log('Response body: ${response.body}');
+      }
+    } catch (e) {
+      log('error in booking trip: $e');
     }
   }
 }
