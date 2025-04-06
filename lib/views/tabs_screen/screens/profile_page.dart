@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/controller/auth/login_provider.dart';
+import 'package:ticket_hub/controller/lang_controller.dart';
 import 'package:ticket_hub/controller/profile/profile_provider.dart';
 import 'package:ticket_hub/views/auth/login_screen.dart';
 import 'package:ticket_hub/views/profile/edit_profile_screen.dart';
@@ -132,8 +133,7 @@ class ProfilePageState extends State<ProfilePage> {
                       _buildInfoCard([
                         GestureDetector(
                           onTap: _navigateAndRefresh,
-                          child: _buildInfoRow(Icons.edit, 'Edit Profile',
-                              showArrow: true),
+                          child: _buildInfoRow(Icons.edit, 'Edit Profile',showArrow: true),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -143,14 +143,24 @@ class ProfilePageState extends State<ProfilePage> {
                               ),
                             );
                           },
-                          child: _buildInfoRow(Icons.wallet, 'Wallet',
-                              showArrow: true),
+                          child: _buildInfoRow(Icons.wallet, 'Wallet',showArrow: true),
                         ),
-                        _buildInfoRow(Icons.language, 'Arabic'),
+                        Consumer<LangController>(
+                          builder: (context, langProvider, _) {
+                        return GestureDetector(
+                          onTap: () {
+                            if(langProvider.selectedLang == 'en'){
+                              langProvider.selectLang('ar');
+                            }else{
+                              langProvider.selectLang('en');
+                            }
+                          },
+                          child: _buildInfoRow(Icons.language, langProvider.selectedLang == 'en' ? 'Arabic' : 'الانجليزية'),);
+                           }, 
+                          ),
                         GestureDetector(
                           onTap: () => _logout(context),
-                          child: _buildInfoRow(Icons.logout, 'Logout',
-                              showArrow: true),
+                          child: _buildInfoRow(Icons.logout, 'Logout',showArrow: true),
                         ),
                       ]),
                     ],

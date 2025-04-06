@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/colors.dart';
+import 'package:ticket_hub/controller/lang_controller.dart';
 import 'package:ticket_hub/views/start/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,8 +18,10 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _animation;
 
   @override
+
   void initState() {
     super.initState();
+    Provider.of<LangController>(context, listen: false).loadLangFromPrefs();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
