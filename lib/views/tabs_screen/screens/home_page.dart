@@ -28,8 +28,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    Provider.of<BookingController>(context, listen: false)
-        .fetchCitiesandPaymentMethods(context);
+    Provider.of<BookingController>(context, listen: false).fetchCitiesandPaymentMethods();
     super.initState();
   }
 

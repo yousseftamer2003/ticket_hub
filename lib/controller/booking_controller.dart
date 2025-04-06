@@ -35,15 +35,11 @@ class BookingController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchCitiesandPaymentMethods(BuildContext context) async {
+  Future<void> fetchCitiesandPaymentMethods() async {
     try {
-      final authServices = Provider.of<LoginProvider>(context,listen: false);
-      final token = authServices.token;
-
       final response = await http.get(Uri.parse('https://bcknd.ticket-hub.net/user/booking/lists'),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
       },
       );
       if(response.statusCode == 200){
@@ -65,8 +61,6 @@ class BookingController with ChangeNotifier {
 
   Future<void> searchTrips(BuildContext context) async{
     try {
-      final authServices = Provider.of<LoginProvider>(context,listen: false);
-      final token = authServices.token;
 
       final body = searchData.returnDate != null ? jsonEncode({
         'from': searchData.departureFromId,
@@ -87,7 +81,6 @@ class BookingController with ChangeNotifier {
       final response = await http.post(Uri.parse('https://bcknd.ticket-hub.net/user/booking'),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
       },
       // body: body,
       );

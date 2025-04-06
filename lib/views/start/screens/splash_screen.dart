@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/controller/lang_controller.dart';
+import 'package:ticket_hub/controller/setup_controller.dart';
 import 'package:ticket_hub/views/start/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -33,9 +34,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.addListener(() {
       if (_controller.isCompleted) {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (ctx)=> const OnboardingScreen()),
-        );
+        Provider.of<SetupController>(context,listen: false).checkFirstTimeUser(context);
       }
     });
   }
