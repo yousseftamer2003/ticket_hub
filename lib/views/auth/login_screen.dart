@@ -4,6 +4,7 @@ import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/constant/widgets/custom_button_widget.dart';
 import 'package:ticket_hub/constant/widgets/text_field_widget.dart';
 import 'package:ticket_hub/controller/auth/login_provider.dart';
+import 'package:ticket_hub/generated/l10n.dart' show S;
 import 'package:ticket_hub/views/auth/forget_password_screen.dart';
 import 'package:ticket_hub/views/auth/signup_screen.dart';
 import 'package:ticket_hub/views/tabs_screen/screens/tabs_screen.dart';
@@ -25,9 +26,9 @@ class LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'Login',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+        title: Text(
+          S.of(context).login,
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
       ),
@@ -38,20 +39,20 @@ class LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 20),
-              const Row(
+              Row(
                 children: [
                   Text(
-                    'Welcome Back',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+                    S.of(context).WelcomeBack,
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
-              const Row(
+              Row(
                 children: [
                   Text(
-                    'Log in to your account',
-                    style: TextStyle(
+                    S.of(context).loginToYourAccount,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF7C7C7C),
@@ -62,12 +63,12 @@ class LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 20),
               CustomTextField(
                 controller: _emailController,
-                labelText: 'Email',
+                labelText: S.of(context).email,
               ),
               const SizedBox(height: 20),
               CustomTextField(
                 controller: _passwordController,
-                labelText: 'Password',
+                labelText: S.of(context).password,
                 obscureText: _obscurePassword,
                 suffixIcon: IconButton(
                   icon: Icon(_obscurePassword
@@ -89,9 +90,9 @@ class LoginScreenState extends State<LoginScreen> {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (ctx) => const ForgetPasswordScreen()));
                     },
-                    child: const Text(
-                      'Forgot Password?',
-                      style: TextStyle(
+                    child: Text(
+                      S.of(context).forgotPassword,
+                      style: const TextStyle(
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.bold,
                         color: blackColor,
@@ -102,7 +103,7 @@ class LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               DarkCustomButton(
-                  text: 'Login',
+                  text: S.of(context).login,
                   onPressed: () async {
                     final loginProvider =
                         Provider.of<LoginProvider>(context, listen: false);
@@ -124,18 +125,18 @@ class LoginScreenState extends State<LoginScreen> {
                     }
                   }),
               const SizedBox(height: 20),
-              const Row(
+              Row(
                 children: [
-                  Expanded(child: Divider(color: Colors.grey, thickness: 0)),
+                  const Expanded(child: Divider(color: Colors.grey, thickness: 0)),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      "Or login with",
+                      S.of(context).orLoginWith,
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                          const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                   ),
-                  Expanded(child: Divider(color: Colors.grey, thickness: 0)),
+                  const Expanded(child: Divider(color: Colors.grey, thickness: 0)),
                 ],
               ),
               const SizedBox(height: 10),
@@ -160,15 +161,19 @@ class LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Don\'t have an account?'),
+                  Text(S.of(context).dontHaveAnAccount,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      )),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (ctx) => const SignupScreen()));
                     },
-                    child: const Text(
-                      'Sign up',
-                      style: TextStyle(
+                    child: Text(
+                      S.of(context).signUp,
+                      style: const TextStyle(
                         decoration: TextDecoration.underline,
                         color: blackColor,
                         fontSize: 16,

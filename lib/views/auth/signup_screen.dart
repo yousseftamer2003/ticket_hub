@@ -5,6 +5,7 @@ import 'package:ticket_hub/constant/widgets/text_field_widget.dart';
 import 'package:ticket_hub/constant/widgets/custom_appbar_widget.dart';
 import 'package:ticket_hub/controller/auth/list_provider.dart';
 import 'package:ticket_hub/controller/auth/signup_provider.dart';
+import 'package:ticket_hub/generated/l10n.dart' show S;
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -35,7 +36,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, 'Sign Up'),
+      appBar: customAppBar(context, S.of(context).signUp),
       body: Column(
         children: [
           Expanded(
@@ -44,13 +45,13 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Welcome',
+                  Text(
+                    S.of(context).welcome,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
                   ),
                   const SizedBox(height: 10),
-                  const Text(
-                    'Create a new account',
+                  Text(
+                    S.of(context).createANewAccount,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -59,17 +60,20 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 20),
                   CustomTextField(
-                      controller: _nameController, labelText: 'Name'),
+                      controller: _nameController,
+                      labelText: S.of(context).name),
                   const SizedBox(height: 20),
                   CustomTextField(
-                      controller: _phoneController, labelText: 'Phone'),
+                      controller: _phoneController,
+                      labelText: S.of(context).phone),
                   const SizedBox(height: 20),
                   CustomTextField(
-                      controller: _emailController, labelText: 'Email'),
+                      controller: _emailController,
+                      labelText: S.of(context).email),
                   const SizedBox(height: 20),
                   CustomTextField(
                     controller: _passwordController,
-                    labelText: 'Password',
+                    labelText: S.of(context).password,
                     obscureText: _obscurePassword,
                     suffixIcon: IconButton(
                       onPressed: () {
@@ -86,7 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 20),
                   CustomDropdown(
-                    label: 'Gender',
+                    label: S.of(context).gender,
                     items: _genders,
                     selectedValue: _selectedGender,
                     onChanged: (value) {
@@ -101,7 +105,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       List<String> nationalities =
                           provider.nationalities.map((n) => n.name).toList();
                       return CustomDropdown(
-                        label: 'Nationality',
+                        label: S.of(context).nationality,
                         items: nationalities,
                         selectedValue: _selectedNationality,
                         onChanged: (value) {
@@ -123,7 +127,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 return signUpProvider.isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : DarkCustomButton(
-                        text: 'Sign Up',
+                        text: S.of(context).signUp,
                         onPressed: () {
                           final nationalityProvider =
                               Provider.of<NationalityProvider>(context,
@@ -142,7 +146,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             phone: _phoneController.text,
                             password: _passwordController.text,
                             gender: _selectedGender ?? '',
-                            nationalityId: selectedNationalityId.toString(), 
+                            nationalityId: selectedNationalityId.toString(),
                           );
                         },
                       );
