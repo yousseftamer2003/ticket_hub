@@ -19,11 +19,11 @@ class _PrivateScreenState extends State<PrivateScreen> {
   final TextEditingController _addressToController = TextEditingController();
   String? _selectedDate;
   int _travelers = 1;
-  Country? _selectedCountry;
   City? _selectedCityFrom;
   City? _selectedCityTo;
-  Car? _selectedCar;
-  bool _isLoading = true; // Loading state
+  Brand? _selectedCar;
+
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _PrivateScreenState extends State<PrivateScreen> {
 
   Future<void> _fetchData() async {
     final carProvider = Provider.of<CarProvider>(context, listen: false);
-    await carProvider.fetchData(); // Ensure you have a method that fetches data
+    await carProvider.fetchData();
     setState(() {
       _isLoading = false;
     });
@@ -46,53 +46,23 @@ class _PrivateScreenState extends State<PrivateScreen> {
     return Scaffold(
       appBar: customAppBar(context, 'Private Booking'),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator()) // Show loading
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(8.0),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownCard(
-                            title: "Which country are you from?",
-                            items: carProvider.countries
-                                .map((e) => e.name)
-                                .toList(),
-                            hint: "Select country",
-                            selectedValue: _selectedCountry?.name,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedCountry = carProvider.countries
-                                    .firstWhere(
-                                        (country) => country.name == value);
-                                _selectedCityFrom = null;
-                                _selectedCityTo = null;
-                              });
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: DropdownCard(
-                            title: "Which city are you from?",
-                            items: carProvider.cities
-                                .where((city) =>
-                                    city.countryId == _selectedCountry?.id)
-                                .map((e) => e.name)
-                                .toList(),
-                            hint: "Select your city",
-                            selectedValue: _selectedCityFrom?.name,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedCityFrom = carProvider.cities
-                                    .firstWhere((city) => city.name == value);
-                              });
-                            },
-                          ),
-                        ),
-                      ],
+                    DropdownCard(
+                      title: "Which city are you from?",
+                      items: carProvider.cities.map((e) => e.name).toList(),
+                      hint: "Select your city",
+                      selectedValue: _selectedCityFrom?.name,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedCityFrom = carProvider.cities
+                              .firstWhere((city) => city.name == value);
+                        });
+                      },
                     ),
                     const SizedBox(height: 10),
                     TextFieldCard(
@@ -102,17 +72,13 @@ class _PrivateScreenState extends State<PrivateScreen> {
                     ),
                     const SizedBox(height: 10),
                     DropdownCard(
-                      title: "Which city are you going to?",
-                      items: carProvider.cities
-                          .where(
-                              (city) => city.countryId == _selectedCountry?.id)
-                          .map((e) => e.name)
-                          .toList(),
+                      title: "Which city are you to?",
+                      items: carProvider.cities.map((e) => e.name).toList(),
                       hint: "Select your city",
-                      selectedValue: _selectedCityTo?.name,
+                      selectedValue: _selectedCityFrom?.name,
                       onChanged: (value) {
                         setState(() {
-                          _selectedCityTo = carProvider.cities
+                          _selectedCityFrom = carProvider.cities
                               .firstWhere((city) => city.name == value);
                         });
                       },
@@ -125,17 +91,14 @@ class _PrivateScreenState extends State<PrivateScreen> {
                     ),
                     const SizedBox(height: 10),
                     DropdownCard(
-                      title: 'Which car type?',
-                      items: carProvider.cars
-                          .map((car) => car.category.name)
-                          .toSet()
-                          .toList(),
-                      hint: 'Select car type',
-                      selectedValue: _selectedCar?.category.name,
+                      title: "Select Car Brand",
+                      items: carProvider.brands.map((e) => e.name).toList(),
+                      hint: "Select Car Brand",
+                      selectedValue: _selectedCar?.name,
                       onChanged: (value) {
                         setState(() {
-                          _selectedCar = carProvider.cars
-                              .firstWhere((car) => car.category.name == value);
+                          _selectedCar = carProvider.brands
+                              .firstWhere((brand) => brand.name == value);
                         });
                       },
                     ),
@@ -173,21 +136,10 @@ class _PrivateScreenState extends State<PrivateScreen> {
   Future<void> _submitBooking(BuildContext context) async {
     final carProvider = Provider.of<CarProvider>(context, listen: false);
 
-    print('Sending Booking Request:');
-    print('Date: ${_selectedDate}');
-    print('Travelers: $_travelers');
-    print('Country ID: ${_selectedCountry?.id}');
-    print('From City ID: ${_selectedCityFrom?.id}');
-    print('From Address: ${_addressFromController.text}');
-    print('To City ID: ${_selectedCityTo?.id}');
-    print('To Address: ${_addressToController.text}');
-    print('Car ID: ${_selectedCar?.id}');
-
     bool success = await carProvider.sendBookingRequest(
       context: context,
       date: _selectedDate!,
       traveler: _travelers,
-      countryId: _selectedCountry!.id,
       cityId: _selectedCityTo!.id,
       address: _addressToController.text,
       carId: _selectedCar!.id,
@@ -197,8 +149,7 @@ class _PrivateScreenState extends State<PrivateScreen> {
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Booking successful!')
-        ),
+        const SnackBar(content: Text('Booking successful!')),
       );
       Navigator.of(context).push(
         MaterialPageRoute(

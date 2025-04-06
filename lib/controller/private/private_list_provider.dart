@@ -7,14 +7,14 @@ import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/model/private/private_model.dart';
 
 class CarProvider with ChangeNotifier {
-  List<Car> _cars = [];
   List<Country> _countries = [];
   List<City> _cities = [];
+  List<Brand> _brands = [];
   bool _isLoading = false;
 
-  List<Car> get cars => _cars;
   List<Country> get countries => _countries;
   List<City> get cities => _cities;
+  List<Brand> get brands => _brands;
   bool get isLoading => _isLoading;
 
   Future<void> fetchData() async {
@@ -29,24 +29,21 @@ class CarProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
 
-        // Fetch Cars
-        final List<dynamic> carData = responseData['car'];
-        _cars = carData.map((json) => Car.fromJson(json)).toList();
-
-        // Fetch Countries
         final List<dynamic> countryData = responseData['countries'];
         _countries = countryData.map((json) => Country.fromJson(json)).toList();
 
-        // Fetch Cities
         final List<dynamic> cityData = responseData['cities'];
         _cities = cityData.map((json) => City.fromJson(json)).toList();
+
+        final List<dynamic> brandData = responseData['brands'];
+        _brands = brandData.map((json) => Brand.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load data');
       }
     } catch (error) {
-      print('Error fetching data: $error');
+      print('Error fetching data: $error'); 
     }
-
+    
     _isLoading = false;
     notifyListeners();
   }
@@ -55,7 +52,6 @@ class CarProvider with ChangeNotifier {
     required BuildContext context,
     required String date,
     required int traveler,
-    required int countryId,
     required int cityId,
     required String address,
     required int carId,
@@ -74,10 +70,9 @@ class CarProvider with ChangeNotifier {
     final Map<String, dynamic> requestData = {
       'date': date,
       'traveler': traveler,
-      'country_id': countryId,
       'city_id': cityId,
       'address': address,
-      'car_id': carId,
+      'brand_id': carId,
       'from_city_id': fromCityId,
       'from_address': fromAddress,
     };
@@ -87,7 +82,7 @@ class CarProvider with ChangeNotifier {
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token', // Include token for authentication
+          'Authorization': 'Bearer $token',
         },
         body: json.encode(requestData),
       );

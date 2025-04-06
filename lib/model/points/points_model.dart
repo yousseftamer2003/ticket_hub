@@ -6,8 +6,8 @@ class PointsModel {
 
   factory PointsModel.fromJson(Map<String, dynamic> json) {
     return PointsModel(
-      userData: UserData.fromJson(json['user_data']),
-      redeemPoints: (json['redeem_points'] as List)
+      userData: UserData.fromJson(json['user_data'] ?? {}),
+      redeemPoints: (json['redeem_points'] as List? ?? [])
           .map((e) => RedeemPoints.fromJson(e))
           .toList(),
     );
@@ -26,11 +26,11 @@ class UserData {
   final String createdAt;
   final String updatedAt;
   final String gender;
-  final int? nationalityId;
-  final String? code;
-  final String? image;
+  final int nationalityId;
+  final String code;
+  final String image;
   final int points;
-  final String? imageLink;
+  final String imageLink;
 
   UserData({
     required this.id,
@@ -44,31 +44,31 @@ class UserData {
     required this.createdAt,
     required this.updatedAt,
     required this.gender,
-    this.nationalityId,
-    this.code,
-    this.image,
+    required this.nationalityId,
+    required this.code,
+    required this.image,
     required this.points,
-    this.imageLink,
+    required this.imageLink,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
-      id: json['id'],
-      countryId: json['country_id'],
-      cityId: json['city_id'],
-      zoneId: json['zone_id'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      role: json['role'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      gender: json['gender'],
-      nationalityId: json['nationality_id'],
-      code: json['code'],
-      image: json['image'],
-      points: json['points'],
-      imageLink: json['image_link'],
+      id: json['id'] ?? 0,
+      countryId: json['country_id'] ?? 0,
+      cityId: json['city_id'] ?? 0,
+      zoneId: json['zone_id'] ?? 0,
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
+      role: json['role'] ?? '',
+      createdAt: json['created_at'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
+      gender: json['gender'] ?? '',
+      nationalityId: json['nationality_id'] ?? 0,
+      code: json['code'] ?? '',
+      image: json['image'] ?? '',
+      points: json['points'] ?? 0,
+      imageLink: json['image_link'] ?? '',
     );
   }
 }
@@ -77,6 +77,7 @@ class RedeemPoints {
   final int id;
   final int currencyId;
   final int points;
+  final int currencies;
   final String createdAt;
   final String updatedAt;
   final Currency currency;
@@ -88,16 +89,18 @@ class RedeemPoints {
     required this.createdAt,
     required this.updatedAt,
     required this.currency,
+    required this.currencies,
   });
 
   factory RedeemPoints.fromJson(Map<String, dynamic> json) {
     return RedeemPoints(
-      id: json['id'],
-      currencyId: json['currency_id'],
-      points: json['points'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      currency: Currency.fromJson(json['currency']),
+      id: json['id'] ?? 0,
+      currencyId: json['currency_id'] ?? 0,
+      points: json['points'] ?? 0,
+      currencies: json['currencies'] ?? 0,
+      createdAt: json['created_at'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
+      currency: Currency.fromJson(json['currency'] ?? {}),
     );
   }
 }
@@ -117,10 +120,10 @@ class Currency {
 
   factory Currency.fromJson(Map<String, dynamic> json) {
     return Currency(
-      id: json['id'],
-      name: json['name'],
-      symbol: json['symbol'],
-      status: json['status'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      symbol: json['symbol'] ?? '',
+      status: json['status'] ?? 0,
     );
   }
 }
