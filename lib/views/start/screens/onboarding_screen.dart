@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_hub/constant/widgets/custom_button_widget.dart';
-import 'package:ticket_hub/views/auth/login_screen.dart';
+import 'package:ticket_hub/views/tabs_screen/screens/tabs_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -42,7 +42,7 @@ class OnboardingScreen extends StatelessWidget {
                 text: 'Get Started',
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (ctx) => const LoginScreen()),
+                    MaterialPageRoute(builder: (ctx) => const TabsScreen()),
                   );
                 },
               ),

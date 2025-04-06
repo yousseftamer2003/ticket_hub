@@ -11,6 +11,7 @@ import 'package:ticket_hub/controller/lang_controller.dart';
 import 'package:ticket_hub/controller/points/points_provider.dart';
 import 'package:ticket_hub/controller/private/private_list_provider.dart';
 import 'package:ticket_hub/controller/profile/profile_provider.dart';
+import 'package:ticket_hub/controller/setup_controller.dart';
 import 'package:ticket_hub/controller/trips/trips_provider.dart';
 import 'package:ticket_hub/controller/wallet/wallet_provider.dart';
 import 'package:ticket_hub/generated/l10n.dart';
@@ -32,6 +33,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => PointsProvider()),
         ChangeNotifierProvider(create: (context) => CarProvider()),
         ChangeNotifierProvider(create: (context) => LangController()),
+        ChangeNotifierProvider(create: (context) => SetupController()),
       ],
       child: const MyApp(),
     ),
