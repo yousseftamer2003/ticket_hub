@@ -30,12 +30,25 @@ class MessageLookup extends MessageLookupByLibrary {
     "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "Search": MessageLookupByLibrary.simpleMessage("بحث"),
     "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك"),
+    "address_from": MessageLookupByLibrary.simpleMessage("عنوان من"),
+    "address_from_hint": MessageLookupByLibrary.simpleMessage("أدخل عنوانك"),
+    "address_to": MessageLookupByLibrary.simpleMessage("عنوان إلى"),
+    "address_to_hint": MessageLookupByLibrary.simpleMessage("أدخل وجهتك"),
     "all": MessageLookupByLibrary.simpleMessage("الكل"),
+    "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
     "arrival_to": MessageLookupByLibrary.simpleMessage("الوصول إلى"),
+    "book_button": MessageLookupByLibrary.simpleMessage("احجز"),
+    "booking_failed": MessageLookupByLibrary.simpleMessage(
+      "فشل الحجز. حاول مرة أخرى لاحقًا.",
+    ),
+    "booking_successful": MessageLookupByLibrary.simpleMessage(
+      "تم الحجز بنجاح!",
+    ),
     "cancelled": MessageLookupByLibrary.simpleMessage("تم الإلغاء"),
     "check_email": MessageLookupByLibrary.simpleMessage(
       "افحص بريدك الإلكتروني",
     ),
+    "chooseCurrency": MessageLookupByLibrary.simpleMessage("اختر العملة"),
     "comfortableAndEasyTrips": MessageLookupByLibrary.simpleMessage(
       "رحلات مريحة وسهلة، احجز الآن واستمتع بتجربة سفر فريدة!",
     ),
@@ -44,27 +57,48 @@ class MessageLookup extends MessageLookupByLibrary {
       "تأكيد كلمة المرور",
     ),
     "confirmed": MessageLookupByLibrary.simpleMessage("تم التأكيد"),
+    "conversionOptions": MessageLookupByLibrary.simpleMessage("خيارات التحويل"),
     "createANewAccount": MessageLookupByLibrary.simpleMessage(
       "أنشئ حسابًا جديدًا",
     ),
     "create_new_password": MessageLookupByLibrary.simpleMessage(
       "إنشاء كلمة مرور جديدة",
     ),
+    "currency": MessageLookupByLibrary.simpleMessage("العملة"),
+    "currentPoints": MessageLookupByLibrary.simpleMessage("نقاطك الحالية"),
     "departure_from": MessageLookupByLibrary.simpleMessage("المغادرة من"),
     "dontHaveAnAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
     "dont_receive_code": MessageLookupByLibrary.simpleMessage(
       "لم تستلم الرمز؟",
     ),
     "editProfile": MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
+    "edit_profile": MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
+    "edit_profile_button": MessageLookupByLibrary.simpleMessage(
+      "تعديل الملف الشخصي",
+    ),
     "email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
     "emailOrPhonePlaceholder": MessageLookupByLibrary.simpleMessage(
       "أدخل البريد الإلكتروني أو الهاتف",
     ),
+    "english": MessageLookupByLibrary.simpleMessage("الإنجليزية"),
     "enjoyAFastAndConvientBookingExperienceForModernAndSafeBuses":
         MessageLookupByLibrary.simpleMessage(
           "استمتع بتجربة حجز سريعة ومريحة لحافلات حديثة وآمنة",
         ),
+    "enter_amount": MessageLookupByLibrary.simpleMessage("أدخل المبلغ"),
+    "enter_email": MessageLookupByLibrary.simpleMessage(
+      "أدخل بريدك الإلكتروني",
+    ),
+    "enter_name": MessageLookupByLibrary.simpleMessage("أدخل اسمك"),
     "enter_otp_code": m0,
+    "enter_phone": MessageLookupByLibrary.simpleMessage("أدخل رقم هاتفك"),
+    "error_fill_fields": MessageLookupByLibrary.simpleMessage(
+      "يرجى ملء جميع الحقول وتحميل صورة",
+    ),
+    "error_message": MessageLookupByLibrary.simpleMessage("خطأ"),
+    "failed_to_load_user_data": MessageLookupByLibrary.simpleMessage(
+      "فشل في تحميل بيانات المستخدم",
+    ),
     "forgetPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "نسيت كلمة المرور؟",
     ),
@@ -81,19 +115,36 @@ class MessageLookup extends MessageLookupByLibrary {
       "الذهاب إلى تسجيل الدخول",
     ),
     "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+    "image_selected": MessageLookupByLibrary.simpleMessage(
+      "تم اختيار الصورة وتحويلها إلى Base64",
+    ),
     "invalid_otp": MessageLookupByLibrary.simpleMessage("OTP غير صالح"),
+    "language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginToYourAccount": MessageLookupByLibrary.simpleMessage(
       "قم بتسجيل الدخول إلى حسابك",
     ),
     "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
+    "myPoints": MessageLookupByLibrary.simpleMessage("نقاطي"),
     "myTrips": MessageLookupByLibrary.simpleMessage("رحلاتي"),
     "name": MessageLookupByLibrary.simpleMessage("الاسم"),
     "nationality": MessageLookupByLibrary.simpleMessage("الجنسية"),
     "new_password": MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
+    "noConversionOptions": MessageLookupByLibrary.simpleMessage(
+      "لا توجد خيارات تحويل متاحة",
+    ),
+    "noDataAvailable": MessageLookupByLibrary.simpleMessage(
+      "لا توجد بيانات متاحة",
+    ),
     "noOfTravelers": MessageLookupByLibrary.simpleMessage("عدد المسافرين"),
     "noTripsAvailable": MessageLookupByLibrary.simpleMessage(
       "لا توجد رحلات متاحة",
+    ),
+    "no_image_selected": MessageLookupByLibrary.simpleMessage(
+      "لم يتم اختيار صورة",
+    ),
+    "no_transactions": MessageLookupByLibrary.simpleMessage(
+      "لا توجد معاملات متاحة.",
     ),
     "number_of_travelers": MessageLookupByLibrary.simpleMessage(
       "عدد المسافرين",
@@ -110,9 +161,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "phone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "points": MessageLookupByLibrary.simpleMessage("النقاط"),
+    "pointsConversion": MessageLookupByLibrary.simpleMessage(" نقاط ➜ "),
     "previous": MessageLookupByLibrary.simpleMessage("السابقة"),
     "private": MessageLookupByLibrary.simpleMessage("خاص"),
+    "private_booking": MessageLookupByLibrary.simpleMessage("حجز خاص"),
     "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
+    "profile_update_failed": MessageLookupByLibrary.simpleMessage(
+      "فشل في تحديث الملف الشخصي.",
+    ),
+    "profile_updated": MessageLookupByLibrary.simpleMessage(
+      "تم تحديث الملف الشخصي بنجاح!",
+    ),
+    "redeemMyPoints": MessageLookupByLibrary.simpleMessage("استبدال النقاط"),
     "resend": MessageLookupByLibrary.simpleMessage("إعادة إرسال"),
     "resetPasswordButton": MessageLookupByLibrary.simpleMessage(
       "إعادة تعيين كلمة المرور",
@@ -121,24 +181,59 @@ class MessageLookup extends MessageLookupByLibrary {
       "إعادة تعيين كلمة المرور",
     ),
     "round_trip": MessageLookupByLibrary.simpleMessage("ذهاب وعودة"),
+    "selectCurrency": MessageLookupByLibrary.simpleMessage("اختر العملة"),
     "select_a_city": MessageLookupByLibrary.simpleMessage("اختر مدينة"),
+    "select_car_brand": MessageLookupByLibrary.simpleMessage(
+      "اختر علامة السيارة",
+    ),
+    "select_car_brand_hint": MessageLookupByLibrary.simpleMessage(
+      "اختر علامة السيارة",
+    ),
+    "select_city_hint": MessageLookupByLibrary.simpleMessage("اختر مدينتك"),
+    "select_city_to": MessageLookupByLibrary.simpleMessage("إلى أي مدينة أنت؟"),
     "select_date": MessageLookupByLibrary.simpleMessage("اختر التاريخ"),
+    "select_payment_method": MessageLookupByLibrary.simpleMessage(
+      "اختر طريقة الدفع",
+    ),
+    "select_your_city": MessageLookupByLibrary.simpleMessage(
+      "من أي مدينة أنت؟",
+    ),
     "selectdeparturearrival": MessageLookupByLibrary.simpleMessage(
       "يرجى اختيار المغادرة والوصول",
     ),
     "signUp": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
+    "submit_recharge": MessageLookupByLibrary.simpleMessage(
+      "إرسال إعادة الشحن",
+    ),
+    "success_dialog_message": MessageLookupByLibrary.simpleMessage(
+      "تم إرسال طلب إعادة الشحن بنجاح.",
+    ),
+    "success_dialog_title": MessageLookupByLibrary.simpleMessage("تم"),
+    "successfulConversion": MessageLookupByLibrary.simpleMessage(
+      "تم تحويل النقاط بنجاح",
+    ),
     "ticketEasy": MessageLookupByLibrary.simpleMessage("تذكرة إيزي"),
     "ticketPrice": MessageLookupByLibrary.simpleMessage("سعر التذكرة"),
     "ticket_price": MessageLookupByLibrary.simpleMessage("سعر التذكرة"),
     "to": MessageLookupByLibrary.simpleMessage("إلى"),
     "train": MessageLookupByLibrary.simpleMessage("قطار"),
+    "transaction_history": MessageLookupByLibrary.simpleMessage(
+      "سجل المعاملات",
+    ),
     "travelDate": MessageLookupByLibrary.simpleMessage("تاريخ السفر"),
     "travelWithEase": MessageLookupByLibrary.simpleMessage("سافر بسهولة"),
+    "travelers_count": MessageLookupByLibrary.simpleMessage("عدد المسافرين"),
     "upcoming": MessageLookupByLibrary.simpleMessage("القادمة"),
+    "upload_image": MessageLookupByLibrary.simpleMessage("تحميل الصورة"),
+    "user_balance": MessageLookupByLibrary.simpleMessage("رصيد المستخدم"),
     "valid_otp_prompt": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال رمز مكون من 6 أرقام صالح",
     ),
     "wallet": MessageLookupByLibrary.simpleMessage("المحفظة"),
+    "wallet_recharge": MessageLookupByLibrary.simpleMessage(
+      "إعادة شحن المحفظة",
+    ),
+    "wallet_screen_title": MessageLookupByLibrary.simpleMessage("المحفظة"),
     "welcome": MessageLookupByLibrary.simpleMessage("مرحبًا"),
   };
 }

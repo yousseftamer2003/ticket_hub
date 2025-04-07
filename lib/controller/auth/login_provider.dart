@@ -17,7 +17,7 @@ class LoginProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
 
-  bool isUserAuthenticated = true;
+  bool isUserAuthenticated() => _token != null;
 
   Future<void> login(String email, String password) async {
     const String url = 'https://bcknd.ticket-hub.net/api/login_user';
@@ -95,7 +95,7 @@ Future<void> logout(BuildContext context) async {
   }
 }
 
-Future<void> checkIfUserIsAuthenticated() async{
+Future<void> getTokenFromPrefs() async{
   final prefs = await SharedPreferences.getInstance();
   _token = prefs.getString('token');
   notifyListeners();

@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ticket_hub/constant/colors.dart';
+import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/controller/booking_controller.dart';
 import 'package:ticket_hub/model/booking/search_result.dart';
+import 'package:ticket_hub/views/auth/login_screen.dart';
 import 'package:ticket_hub/views/booking/screens/bus_details_screen.dart';
 
 class ResultContainer extends StatelessWidget {
-  const ResultContainer({super.key,required this.busNumber, required this.price, required this.availableSeats, required this.departureTime, required this.arrivalTime, required this.departureStation, required this.arrivalStation, required this.isCheapest,required this.trip});
+  const ResultContainer(
+      {super.key,
+      required this.busNumber,
+      required this.price,
+      required this.availableSeats,
+      required this.departureTime,
+      required this.arrivalTime,
+      required this.departureStation,
+      required this.arrivalStation,
+      required this.isCheapest,
+      required this.trip});
   final Trip trip;
   final String busNumber;
   final int price;
@@ -102,7 +115,8 @@ class ResultContainer extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        const Icon(Icons.arrow_forward, size: 14, color: Colors.grey),
+                        const Icon(Icons.arrow_forward,
+                            size: 14, color: Colors.grey),
                         const SizedBox(width: 8),
                         Text(
                           arrivalStation,
@@ -136,19 +150,22 @@ class ResultContainer extends StatelessWidget {
                   color: Colors.pink[100],
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Text("$availableSeats available seats", style: const TextStyle(fontSize: 14)),
+                child: Text("$availableSeats available seats",
+                    style: const TextStyle(fontSize: 14)),
               ),
               const SizedBox(width: 8),
-              isCheapest? Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.green[100],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Center(
-                  child: Text("Cheapest", style: TextStyle(fontSize: 14)),
-                ),
-              ) : const SizedBox(),
+              isCheapest
+                  ? Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.green[100],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Center(
+                        child: Text("Cheapest", style: TextStyle(fontSize: 14)),
+                      ),
+                    )
+                  : const SizedBox(),
               const Spacer(),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -158,10 +175,47 @@ class ResultContainer extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Provider.of<BookingController>(context, listen: false).setTrip(trip);
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (ctx)=> const TabViewScreen()),
-                  );
+                  Provider.of<BookingController>(context, listen: false)
+                      .setTrip(trip);
+                  final authProvider =
+                      Provider.of<LoginProvider>(context, listen: false);
+
+                  if (authProvider.isUserAuthenticated()) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (ctx) => const TabViewScreen()),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: const Text("Login Required"),
+                        content: const Text("You need to log in to proceed."),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop(); 
+                            },
+                            child: const Text("Cancel"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (ctx) => const LoginScreen()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: orangeColor,
+                              foregroundColor: Colors.white
+                            ),
+                            child: const Text("Login"),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 },
                 child: const Text(
                   "Select",

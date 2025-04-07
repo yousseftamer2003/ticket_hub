@@ -579,6 +579,476 @@ class S {
       args: [],
     );
   }
+
+  /// `My Points`
+  String get myPoints {
+    return Intl.message('My Points', name: 'myPoints', desc: '', args: []);
+  }
+
+  /// `Your Current Points`
+  String get currentPoints {
+    return Intl.message(
+      'Your Current Points',
+      name: 'currentPoints',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversion Options`
+  String get conversionOptions {
+    return Intl.message(
+      'Conversion Options',
+      name: 'conversionOptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No data available`
+  String get noDataAvailable {
+    return Intl.message(
+      'No data available',
+      name: 'noDataAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No conversion options available`
+  String get noConversionOptions {
+    return Intl.message(
+      'No conversion options available',
+      name: 'noConversionOptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Currency`
+  String get selectCurrency {
+    return Intl.message(
+      'Select Currency',
+      name: 'selectCurrency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a currency`
+  String get chooseCurrency {
+    return Intl.message(
+      'Choose a currency',
+      name: 'chooseCurrency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Redeem My Points`
+  String get redeemMyPoints {
+    return Intl.message(
+      'Redeem My Points',
+      name: 'redeemMyPoints',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currency`
+  String get currency {
+    return Intl.message('Currency', name: 'currency', desc: '', args: []);
+  }
+
+  /// ` points ➜ `
+  String get pointsConversion {
+    return Intl.message(
+      ' points ➜ ',
+      name: 'pointsConversion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Points converted successfully`
+  String get successfulConversion {
+    return Intl.message(
+      'Points converted successfully',
+      name: 'successfulConversion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Private Booking`
+  String get private_booking {
+    return Intl.message(
+      'Private Booking',
+      name: 'private_booking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Which city are you from?`
+  String get select_your_city {
+    return Intl.message(
+      'Which city are you from?',
+      name: 'select_your_city',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select your city`
+  String get select_city_hint {
+    return Intl.message(
+      'Select your city',
+      name: 'select_city_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address From`
+  String get address_from {
+    return Intl.message(
+      'Address From',
+      name: 'address_from',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your address`
+  String get address_from_hint {
+    return Intl.message(
+      'Enter your address',
+      name: 'address_from_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Which city are you to?`
+  String get select_city_to {
+    return Intl.message(
+      'Which city are you to?',
+      name: 'select_city_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address To`
+  String get address_to {
+    return Intl.message('Address To', name: 'address_to', desc: '', args: []);
+  }
+
+  /// `Enter your destination`
+  String get address_to_hint {
+    return Intl.message(
+      'Enter your destination',
+      name: 'address_to_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Car Brand`
+  String get select_car_brand {
+    return Intl.message(
+      'Select Car Brand',
+      name: 'select_car_brand',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Car Brand`
+  String get select_car_brand_hint {
+    return Intl.message(
+      'Select Car Brand',
+      name: 'select_car_brand_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Travelers Count`
+  String get travelers_count {
+    return Intl.message(
+      'Travelers Count',
+      name: 'travelers_count',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Book`
+  String get book_button {
+    return Intl.message('Book', name: 'book_button', desc: '', args: []);
+  }
+
+  /// `Booking successful!`
+  String get booking_successful {
+    return Intl.message(
+      'Booking successful!',
+      name: 'booking_successful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking failed. Try again later.`
+  String get booking_failed {
+    return Intl.message(
+      'Booking failed. Try again later.',
+      name: 'booking_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load user data`
+  String get failed_to_load_user_data {
+    return Intl.message(
+      'Failed to load user data',
+      name: 'failed_to_load_user_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message('Language', name: 'language', desc: '', args: []);
+  }
+
+  /// `Arabic`
+  String get arabic {
+    return Intl.message('Arabic', name: 'arabic', desc: '', args: []);
+  }
+
+  /// `English`
+  String get english {
+    return Intl.message('English', name: 'english', desc: '', args: []);
+  }
+
+  /// `Edit Profile`
+  String get edit_profile {
+    return Intl.message(
+      'Edit Profile',
+      name: 'edit_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your name`
+  String get enter_name {
+    return Intl.message(
+      'Enter your name',
+      name: 'enter_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your email`
+  String get enter_email {
+    return Intl.message(
+      'Enter your email',
+      name: 'enter_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your phone`
+  String get enter_phone {
+    return Intl.message(
+      'Enter your phone',
+      name: 'enter_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Profile`
+  String get edit_profile_button {
+    return Intl.message(
+      'Edit Profile',
+      name: 'edit_profile_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile updated successfully!`
+  String get profile_updated {
+    return Intl.message(
+      'Profile updated successfully!',
+      name: 'profile_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to update profile.`
+  String get profile_update_failed {
+    return Intl.message(
+      'Failed to update profile.',
+      name: 'profile_update_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet Recharge`
+  String get wallet_recharge {
+    return Intl.message(
+      'Wallet Recharge',
+      name: 'wallet_recharge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Amount`
+  String get enter_amount {
+    return Intl.message(
+      'Enter Amount',
+      name: 'enter_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Payment Method`
+  String get select_payment_method {
+    return Intl.message(
+      'Select Payment Method',
+      name: 'select_payment_method',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload Image`
+  String get upload_image {
+    return Intl.message(
+      'Upload Image',
+      name: 'upload_image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No image selected`
+  String get no_image_selected {
+    return Intl.message(
+      'No image selected',
+      name: 'no_image_selected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image selected and converted to Base64`
+  String get image_selected {
+    return Intl.message(
+      'Image selected and converted to Base64',
+      name: 'image_selected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit Recharge`
+  String get submit_recharge {
+    return Intl.message(
+      'Submit Recharge',
+      name: 'submit_recharge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please fill all fields and upload an image`
+  String get error_fill_fields {
+    return Intl.message(
+      'Please fill all fields and upload an image',
+      name: 'error_fill_fields',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get success_dialog_title {
+    return Intl.message(
+      'Success',
+      name: 'success_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet recharge request submitted successfully.`
+  String get success_dialog_message {
+    return Intl.message(
+      'Wallet recharge request submitted successfully.',
+      name: 'success_dialog_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get error_message {
+    return Intl.message('Error', name: 'error_message', desc: '', args: []);
+  }
+
+  /// `Wallet`
+  String get wallet_screen_title {
+    return Intl.message(
+      'Wallet',
+      name: 'wallet_screen_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User Balance`
+  String get user_balance {
+    return Intl.message(
+      'User Balance',
+      name: 'user_balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction History`
+  String get transaction_history {
+    return Intl.message(
+      'Transaction History',
+      name: 'transaction_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No transactions available.`
+  String get no_transactions {
+    return Intl.message(
+      'No transactions available.',
+      name: 'no_transactions',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

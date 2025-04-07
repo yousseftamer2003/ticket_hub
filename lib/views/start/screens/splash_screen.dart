@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/colors.dart';
+import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/controller/lang_controller.dart';
 import 'package:ticket_hub/controller/setup_controller.dart';
 
@@ -22,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     Provider.of<LangController>(context, listen: false).loadLangFromPrefs();
+    Provider.of<LoginProvider>(context, listen: false).getTokenFromPrefs();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
