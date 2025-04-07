@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/controller/lang_controller.dart';
 import 'package:ticket_hub/controller/setup_controller.dart';
-import 'package:ticket_hub/views/start/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

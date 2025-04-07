@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticket_hub/model/auth/login_model.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -16,8 +17,11 @@ class LoginProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
 
+  bool isUserAuthenticated = true;
+
   Future<void> login(String email, String password) async {
     const String url = 'https://bcknd.ticket-hub.net/api/login_user';
+    final prefs = await SharedPreferences.getInstance();
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -40,6 +44,8 @@ class LoginProvider extends ChangeNotifier {
 
         _userModel = UserModel.fromJson(jsonResponse);
         _token = _userModel?.token;
+        await prefs.setString('token', _token!);
+        notifyListeners();
       } else {
         _error = 'Error: ${response.statusCode}, ${response.body}';
       }
@@ -87,5 +93,11 @@ Future<void> logout(BuildContext context) async {
     _isLoading = false;
     notifyListeners();
   }
+}
+
+Future<void> checkIfUserIsAuthenticated() async{
+  final prefs = await SharedPreferences.getInstance();
+  _token = prefs.getString('token');
+  notifyListeners();
 }
 }

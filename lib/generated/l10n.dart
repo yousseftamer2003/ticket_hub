@@ -95,6 +95,26 @@ class S {
     return Intl.message('To', name: 'to', desc: '', args: []);
   }
 
+  /// `Ticket Price`
+  String get ticketPrice {
+    return Intl.message(
+      'Ticket Price',
+      name: 'ticketPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No. of Travelers`
+  String get noOfTravelers {
+    return Intl.message(
+      'No. of Travelers',
+      name: 'noOfTravelers',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Select Date`
   String get select_date {
     return Intl.message('Select Date', name: 'select_date', desc: '', args: []);
@@ -353,6 +373,211 @@ class S {
   /// `Nationality`
   String get nationality {
     return Intl.message('Nationality', name: 'nationality', desc: '', args: []);
+  }
+
+  /// `Please select departure and arrival`
+  String get selectdeparturearrival {
+    return Intl.message(
+      'Please select departure and arrival',
+      name: 'selectdeparturearrival',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to Login`
+  String get goToLogin {
+    return Intl.message('Go to Login', name: 'goToLogin', desc: '', args: []);
+  }
+
+  /// `Ticket Price`
+  String get ticket_price {
+    return Intl.message(
+      'Ticket Price',
+      name: 'ticket_price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CONFIRMED`
+  String get confirmed {
+    return Intl.message('CONFIRMED', name: 'confirmed', desc: '', args: []);
+  }
+
+  /// `CANCELLED`
+  String get cancelled {
+    return Intl.message('CANCELLED', name: 'cancelled', desc: '', args: []);
+  }
+
+  /// `Profile`
+  String get profile {
+    return Intl.message('Profile', name: 'profile', desc: '', args: []);
+  }
+
+  /// `Forget Password?`
+  String get forgetPasswordTitle {
+    return Intl.message(
+      'Forget Password?',
+      name: 'forgetPasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Email or Phone`
+  String get emailOrPhonePlaceholder {
+    return Intl.message(
+      'Enter Email or Phone',
+      name: 'emailOrPhonePlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset Password`
+  String get resetPasswordButton {
+    return Intl.message(
+      'Reset Password',
+      name: 'resetPasswordButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your email or phone number to reset your password.`
+  String get forgotPasswordMessage {
+    return Intl.message(
+      'Please enter your email or phone number to reset your password.',
+      name: 'forgotPasswordMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Password`
+  String get new_password {
+    return Intl.message(
+      'New Password',
+      name: 'new_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a new password`
+  String get create_new_password {
+    return Intl.message(
+      'Create a new password',
+      name: 'create_new_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Password`
+  String get confirm_password {
+    return Intl.message(
+      'Confirm Password',
+      name: 'confirm_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message('Confirm', name: 'confirm', desc: '', args: []);
+  }
+
+  /// `Please fill all fields`
+  String get password_empty {
+    return Intl.message(
+      'Please fill all fields',
+      name: 'password_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passwords do not match`
+  String get password_mismatch {
+    return Intl.message(
+      'Passwords do not match',
+      name: 'password_mismatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OTP Verification`
+  String get otp_verification {
+    return Intl.message(
+      'OTP Verification',
+      name: 'otp_verification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check your email`
+  String get check_email {
+    return Intl.message(
+      'Check your email',
+      name: 'check_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We sent a reset link to {email}. Enter the 6-digit code mentioned in the email.`
+  String enter_otp_code(Object email) {
+    return Intl.message(
+      'We sent a reset link to $email. Enter the 6-digit code mentioned in the email.',
+      name: 'enter_otp_code',
+      desc: '',
+      args: [email],
+    );
+  }
+
+  /// `Invalid OTP`
+  String get invalid_otp {
+    return Intl.message('Invalid OTP', name: 'invalid_otp', desc: '', args: []);
+  }
+
+  /// `Please enter a valid 6-digit code`
+  String get valid_otp_prompt {
+    return Intl.message(
+      'Please enter a valid 6-digit code',
+      name: 'valid_otp_prompt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don’t receive code?`
+  String get dont_receive_code {
+    return Intl.message(
+      'Don’t receive code?',
+      name: 'dont_receive_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-send`
+  String get resend {
+    return Intl.message('Re-send', name: 'resend', desc: '', args: []);
+  }
+
+  /// `Reset Password`
+  String get reset_password {
+    return Intl.message(
+      'Reset Password',
+      name: 'reset_password',
+      desc: '',
+      args: [],
+    );
   }
 }
 

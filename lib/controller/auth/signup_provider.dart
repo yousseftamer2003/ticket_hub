@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticket_hub/views/tabs_screen/screens/tabs_screen.dart';
 
 class SignUpProvider extends ChangeNotifier {
@@ -21,6 +22,7 @@ class SignUpProvider extends ChangeNotifier {
     required BuildContext context,
   }) async {
     const String url = "https://bcknd.ticket-hub.net/api/register";
+    final prefs = await SharedPreferences.getInstance();
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -49,6 +51,8 @@ class SignUpProvider extends ChangeNotifier {
             context,
             MaterialPageRoute(builder: (context) => const TabsScreen()),
           );
+
+          await prefs.setString('token', data['token']);
         } else {
           _errorMessage = "Failed to retrieve token";
           log("Token not found in response");

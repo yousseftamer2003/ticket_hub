@@ -47,7 +47,29 @@
     "phone": "رقم الهاتف",
     "gender": "الجنس",
     "nationality": "الجنسية",
-    "selectdeparturearrival": "يرجى اختيار المغادرة والوصول"
-
+    "selectdeparturearrival": "يرجى اختيار المغادرة والوصول",
+    "goToLogin": "الذهاب إلى تسجيل الدخول",
+    "ticket_price": "سعر التذكرة",
+    "confirmed": "تم التأكيد",
+    "cancelled": "تم الإلغاء",
+    "profile": "الملف الشخصي",
+    "forgetPasswordTitle": "نسيت كلمة المرور؟",
+    "emailOrPhonePlaceholder": "أدخل البريد الإلكتروني أو الهاتف",
+    "resetPasswordButton": "إعادة تعيين كلمة المرور",
+    "forgotPasswordMessage": "يرجى إدخال بريدك الإلكتروني أو رقم هاتفك لإعادة تعيين كلمة المرور.",
+    "new_password": "كلمة المرور الجديدة",
+    "create_new_password": "إنشاء كلمة مرور جديدة",
+    "confirm_password": "تأكيد كلمة المرور",
+    "confirm": "تأكيد",
+    "password_empty": "يرجى ملء جميع الحقول",
+    "password_mismatch": "كلمات المرور غير متطابقة",
+    "otp_verification": "التحقق من OTP",
+    "check_email": "افحص بريدك الإلكتروني",
+    "enter_otp_code": "لقد أرسلنا رابط إعادة تعيين إلى {email}. أدخل الرمز المكون من 6 أرقام المذكور في البريد الإلكتروني.",
+    "invalid_otp": "OTP غير صالح",
+    "valid_otp_prompt": "يرجى إدخال رمز مكون من 6 أرقام صالح",
+    "dont_receive_code": "لم تستلم الرمز؟",
+    "resend": "إعادة إرسال",
+    "reset_password": "إعادة تعيين كلمة المرور"
   }
   
