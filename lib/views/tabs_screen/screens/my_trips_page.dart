@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/controller/trips/trips_provider.dart';
+import 'package:ticket_hub/generated/l10n.dart' show S;
+import 'package:ticket_hub/views/auth/login_screen.dart';
 
 class MyTripsPage extends StatefulWidget {
   const MyTripsPage({super.key});
@@ -33,7 +35,37 @@ class MyTripsPageState extends State<MyTripsPage>
         }
 
         if (tripsProvider.errorMessage.isNotEmpty) {
-          return Center(child: Text(tripsProvider.errorMessage));
+          if (tripsProvider.errorMessage == 'Authentication token is missing') {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: orangeColor,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
+                    ),
+                    child: const Text(
+                      'Go to Login',
+                      style: TextStyle(color: blackColor),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Center(child: Text(tripsProvider.errorMessage));
+          }
         }
 
         final historyTrips = tripsProvider.tripsData?.history ?? [];
@@ -64,9 +96,9 @@ class MyTripsPageState extends State<MyTripsPage>
                   color: orangeColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                tabs: const [
-                  Tab(text: "Upcoming"),
-                  Tab(text: "Previous"),
+                tabs: [
+                  Tab(text: S.of(context).upcoming),
+                  Tab(text: S.of(context).previous),
                 ],
               ),
             ),
@@ -87,7 +119,9 @@ class MyTripsPageState extends State<MyTripsPage>
 
   Widget _buildTripsList(List trips, {bool isHistory = false}) {
     if (trips.isEmpty) {
-      return const Center(child: Text("No trips available"));
+      return Center(
+        child: Text(S.of(context).noTripsAvailable),
+      );
     }
 
     return ListView.builder(
@@ -122,11 +156,11 @@ class MyTripsPageState extends State<MyTripsPage>
             ),
             const SizedBox(height: 8),
             _buildTripDetail(Icons.location_on,
-                "From: ${tripHistory.trip.city.name}, ${tripHistory.trip.pickupStation.name}"),
+                "${S.of(context).from}: ${tripHistory.trip.city.name}, ${tripHistory.trip.pickupStation.name}"),
             _buildTripDetail(Icons.location_on,
-                "To: ${tripHistory.trip.toCity.name}, ${tripHistory.trip.dropoffStation.name}"),
-            _buildTripDetail(
-                Icons.numbers, "No Travelers:  ${tripHistory.travelers}"),
+                "${S.of(context).to}: ${tripHistory.trip.toCity.name}, ${tripHistory.trip.dropoffStation.name}"),
+            _buildTripDetail(Icons.numbers,
+                "${S.of(context).number_of_travelers}:  ${tripHistory.travelers}"),
             _buildTripDetail(Icons.confirmation_number,
                 "Ticket Price: ${tripHistory.total} EGP"),
             _buildTripDetail(Icons.calendar_today, tripHistory.travelDate),
@@ -144,7 +178,9 @@ class MyTripsPageState extends State<MyTripsPage>
         children: [
           Icon(icon, color: orangeColor, size: 20),
           const SizedBox(width: 8),
-          Text(text, style: const TextStyle(fontSize: 16)),
+          Expanded(
+            child: Text(text, style: const TextStyle(fontSize: 16)),
+          ),
         ],
       ),
     );

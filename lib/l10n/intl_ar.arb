@@ -7,6 +7,8 @@
     "round_trip": "ذهاب وعودة",
     "from": "من",
     "to": "إلى",
+    "ticketPrice": "سعر التذكرة",
+    "noOfTravelers": "عدد المسافرين",
     "select_date": "اختر التاريخ",
     "travelDate": "تاريخ السفر",
     "Search": "بحث",
@@ -44,6 +46,8 @@
     "name": "الاسم",
     "phone": "رقم الهاتف",
     "gender": "الجنس",
-    "nationality": "الجنسية"
+    "nationality": "الجنسية",
+    "selectdeparturearrival": "يرجى اختيار المغادرة والوصول"
+
   }
   

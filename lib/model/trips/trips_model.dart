@@ -29,18 +29,18 @@ class Trip {
 
   factory Trip.fromJson(Map<String, dynamic> json) {
     return Trip(
-      id: json['id'],
-      tripName: json['trip_name'],
-      departureTime: json['deputre_time'],
-      arrivalTime: json['arrival_time'],
-      pickupStationId: json['pickup_station_id'],
-      dropoffStationId: json['dropoff_station_id'],
-      cityId: json['city_id'],
-      toCityId: json['to_city_id'],
-      pickupStation: Station.fromJson(json['pickup_station']),
-      dropoffStation: Station.fromJson(json['dropoff_station']),
-      city: City.fromJson(json['city']),
-      toCity: City.fromJson(json['to_city']),
+      id: json['id'] ?? 0,
+      tripName: json['trip_name'] ?? '',
+      departureTime: json['deputre_time'] ?? '',
+      arrivalTime: json['arrival_time'] ?? '',
+      pickupStationId: json['pickup_station_id'] ?? 0,
+      dropoffStationId: json['dropoff_station_id'] ?? 0,
+      cityId: json['city_id'] ?? 0,
+      toCityId: json['to_city_id'] ?? 0,
+      pickupStation: Station.fromJson(json['pickup_station'] ?? {}),
+      dropoffStation: Station.fromJson(json['dropoff_station'] ?? {}),
+      city: City.fromJson(json['city'] ?? {}),
+      toCity: City.fromJson(json['to_city'] ?? {}),
     );
   }
 }
@@ -53,8 +53,8 @@ class Station {
 
   factory Station.fromJson(Map<String, dynamic> json) {
     return Station(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
     );
   }
 }
@@ -67,8 +67,8 @@ class City {
 
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
     );
   }
 }
@@ -98,15 +98,15 @@ class TripHistory {
 
   factory TripHistory.fromJson(Map<String, dynamic> json) {
     return TripHistory(
-      id: json['id'],
-      amount: json['amount'],
-      total: json['total'],
-      status: json['status'],
-      travelers: json['travelers'],
-      travelDate: json['travel_date'],
-      tripId: json['trip_id'],
-      travelStatus: json['travel_status'],
-      trip: Trip.fromJson(json['trip']),
+      id: json['id'] ?? 0,
+      amount: json['amount'] ?? 0,
+      total: json['total'] ?? 0,
+      status: json['status'] ?? '',
+      travelers: json['travelers'] ?? 0,
+      travelDate: json['travel_date'] ?? '',
+      tripId: json['trip_id'] ?? 0,
+      travelStatus: json['travel_status'] ?? '',
+      trip: Trip.fromJson(json['trip'] ?? {}),
     );
   }
 }
@@ -119,10 +119,10 @@ class TripsData {
 
   factory TripsData.fromJson(Map<String, dynamic> json) {
     return TripsData(
-      history: (json['history'] as List)
+      history: (json['history'] as List? ?? [])
           .map((item) => TripHistory.fromJson(item))
           .toList(),
-      upcoming: (json['upcoming'] as List)
+      upcoming: (json['upcoming'] as List? ?? [])
           .map((item) => TripHistory.fromJson(item))
           .toList(),
     );

@@ -7,6 +7,8 @@
     "round_trip" : "Round-Trip",
     "from" : "From",
     "to" : "To",
+    "ticketPrice": "Ticket Price",
+    "noOfTravelers": "No. of Travelers",
     "select_date" : "Select Date",
     "travelDate" : "Travel Date",
     "Search" : "Search",
@@ -44,5 +46,7 @@
     "name": "Name",
     "phone": "Phone",
     "gender": "Gender",
-    "nationality": "Nationality"
+    "nationality": "Nationality",
+    "selectdeparturearrival": "Please select departure and arrival"
+
 }

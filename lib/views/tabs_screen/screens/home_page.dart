@@ -7,8 +7,25 @@ import 'package:ticket_hub/views/booking/screens/search_result_screen.dart';
 import 'package:ticket_hub/views/tabs_screen/widgets/home_header_widget.dart';
 import 'package:ticket_hub/views/tabs_screen/widgets/tab_content.dart';
 import 'package:ticket_hub/views/tabs_screen/widgets/trip_selection_widget.dart';
+import 'package:ticket_hub/generated/l10n.dart' show S;
 
 enum MenuItem { all, hiace, bus, train }
+
+extension MenuItemExtension on MenuItem {
+  String localizedName(BuildContext context) {
+    final s = S.of(context);
+    switch (this) {
+      case MenuItem.all:
+        return s.all;
+      case MenuItem.hiace:
+        return s.Hiace;
+      case MenuItem.bus:
+        return s.Bus;
+      case MenuItem.train:
+        return s.train;
+    }
+  }
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,7 +45,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    Provider.of<BookingController>(context, listen: false).fetchCitiesandPaymentMethods();
+    Provider.of<BookingController>(context, listen: false)
+        .fetchCitiesandPaymentMethods();
     super.initState();
   }
 
@@ -71,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: Center(
                             child: Text(
-                              menuItem.name.toUpperCase(),
+                              menuItem.localizedName(context),
                               style: TextStyle(
                                 fontSize: screenWidth * 0.04,
                                 color: isSelected ? Colors.white : Colors.black,
@@ -103,19 +121,21 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: DarkCustomButton(
-                text: 'Search',
+                text: S.of(context).Search,
                 onPressed: () async {
                   final booking =
                       Provider.of<BookingController>(context, listen: false);
                   if (booking.searchData.departureStation != null &&
                       booking.searchData.arrivalStation != null) {
                     await booking.searchTrips(context);
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
                         builder: (ctx) => SearchResultScreen(
-                              departureFrom:
-                                  booking.searchData.departureStation!,
-                              arrivalTo: booking.searchData.arrivalStation!,
-                            )));
+                          departureFrom: booking.searchData.departureStation!,
+                          arrivalTo: booking.searchData.arrivalStation!,
+                        ),
+                      ),
+                    );
                   } else {
                     showCustomSnackbar(
                         context, 'Please select departure and arrival', false);

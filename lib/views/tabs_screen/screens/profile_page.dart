@@ -79,7 +79,30 @@ class ProfilePageState extends State<ProfilePage> {
       body: userProvider.isLoading
           ? _buildShimmerEffect()
           : user == null
-              ? const Center(child: Text('Failed to load user data'))
+              ? Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 12),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: orangeColor,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const LoginScreen()),
+                          );
+                        },
+                        child: const Text('Go to Login',
+                            style: TextStyle(fontSize: 16, color: blackColor)),
+                      ),
+                    ],
+                  ),
+                )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -133,7 +156,8 @@ class ProfilePageState extends State<ProfilePage> {
                       _buildInfoCard([
                         GestureDetector(
                           onTap: _navigateAndRefresh,
-                          child: _buildInfoRow(Icons.edit, 'Edit Profile',showArrow: true),
+                          child: _buildInfoRow(Icons.edit, 'Edit Profile',
+                              showArrow: true),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -143,24 +167,31 @@ class ProfilePageState extends State<ProfilePage> {
                               ),
                             );
                           },
-                          child: _buildInfoRow(Icons.wallet, 'Wallet',showArrow: true),
+                          child: _buildInfoRow(Icons.wallet, 'Wallet',
+                              showArrow: true),
                         ),
                         Consumer<LangController>(
                           builder: (context, langProvider, _) {
-                        return GestureDetector(
-                          onTap: () {
-                            if(langProvider.selectedLang == 'en'){
-                              langProvider.selectLang('ar');
-                            }else{
-                              langProvider.selectLang('en');
-                            }
+                            return GestureDetector(
+                              onTap: () {
+                                if (langProvider.selectedLang == 'en') {
+                                  langProvider.selectLang('ar');
+                                } else {
+                                  langProvider.selectLang('en');
+                                }
+                              },
+                              child: _buildInfoRow(
+                                  Icons.language,
+                                  langProvider.selectedLang == 'en'
+                                      ? 'Arabic'
+                                      : 'الانجليزية'),
+                            );
                           },
-                          child: _buildInfoRow(Icons.language, langProvider.selectedLang == 'en' ? 'Arabic' : 'الانجليزية'),);
-                           }, 
-                          ),
+                        ),
                         GestureDetector(
                           onTap: () => _logout(context),
-                          child: _buildInfoRow(Icons.logout, 'Logout',showArrow: true),
+                          child: _buildInfoRow(Icons.logout, 'Logout',
+                              showArrow: true),
                         ),
                       ]),
                     ],
