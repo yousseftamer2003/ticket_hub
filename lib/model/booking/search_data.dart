@@ -7,6 +7,7 @@ class SearchData {
   String? returnDate;
   int? travelers;
   String? type;
+  List<Traveler>? travelersList;
 
   SearchData(
       {this.departureFromId,
@@ -16,5 +17,18 @@ class SearchData {
       this.departureDate = 'Select Date',
       this.returnDate,
       this.travelers  = 1,
+      this.travelersList,
       this.type = 'one_way'});
+}
+
+class Traveler {
+  String? name;
+  String? age;
+
+  Traveler({
+    this.age,
+    this.name
+  });
+
+  Map<String, dynamic> toJson() => {'name': name, 'age': age};
 }

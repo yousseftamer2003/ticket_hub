@@ -3,9 +3,33 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/controller/booking_controller.dart';
+import 'package:ticket_hub/model/booking/search_data.dart';
 
-class YourRideContent extends StatelessWidget {
+class YourRideContent extends StatefulWidget {
   const YourRideContent({super.key});
+
+  @override
+  State<YourRideContent> createState() => _YourRideContentState();
+}
+
+class _YourRideContentState extends State<YourRideContent> {
+  @override
+  void initState() {
+    super.initState();
+    // Initialize travelers list on widget initialization
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final bookingProvider = Provider.of<BookingController>(context, listen: false);
+      final travelersCount = bookingProvider.searchData.travelers ?? 0;
+      
+      // Create the list if it doesn't exist
+      if (bookingProvider.searchData.travelersList == null) {
+        bookingProvider.searchData.travelersList = List.generate(
+          travelersCount,
+          (index) => Traveler(name: '', age: ''),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +107,17 @@ class YourRideContent extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 ...List.generate(travelersCount, (index) {
+                  // Ensure travelersList is initialized
+                  bookingProvider.searchData.travelersList ??= List.generate(
+                    travelersCount,
+                    (i) => Traveler(name: '', age: ''),
+                  );
+                  
+                  // Ensure we have enough travelers in the list
+                  while (bookingProvider.searchData.travelersList!.length <= index) {
+                    bookingProvider.searchData.travelersList!.add(Traveler(name: '', age: ''));
+                  }
+                  
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: Card(
@@ -121,18 +156,26 @@ class YourRideContent extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 TextFormField(
+                                  initialValue: bookingProvider.searchData.travelersList![index].name,
                                   decoration: const InputDecoration(
                                     labelText: 'Full Name',
                                     border: OutlineInputBorder(),
                                   ),
+                                  onChanged: (value) {
+                                    bookingProvider.searchData.travelersList![index].name = value;
+                                  },
                                 ),
                                 const SizedBox(height: 10),
                                 TextFormField(
+                                  initialValue: bookingProvider.searchData.travelersList![index].age,
                                   keyboardType: TextInputType.number,
                                   decoration: const InputDecoration(
                                     labelText: 'Age',
                                     border: OutlineInputBorder(),
                                   ),
+                                  onChanged: (value) {
+                                    bookingProvider.searchData.travelersList![index].age = value;
+                                  },
                                 ),
                               ],
                             ),

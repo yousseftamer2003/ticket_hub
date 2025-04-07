@@ -101,6 +101,7 @@ class BookingController with ChangeNotifier {
   Future<void> bookTrip(BuildContext context,{required int tripId,required int paymentMethodId,required int amount,String? receiptImage}) async{
     final authServices = Provider.of<LoginProvider>(context,listen: false);
       final token = authServices.token;
+      log('Travelers: ${searchData.travelersList!.map((x) => x.name).toList()}');
     try {
       final response = await http.post(Uri.parse('https://bcknd.ticket-hub.net/user/booking/payment'),
       headers: {
@@ -113,7 +114,9 @@ class BookingController with ChangeNotifier {
         'travelers': searchData.travelers,
         'amount': amount,
         'travel_date': searchData.departureDate,
-        'receipt_image': receiptImage
+        'receipt_image': receiptImage,
+        'travellers_data': searchData.travelersList!.map((x) => x.toJson()).toList(),
+        'seats': [1,2]
       }),
       );
       if(response.statusCode == 200){
