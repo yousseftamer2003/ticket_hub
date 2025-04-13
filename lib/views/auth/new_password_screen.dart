@@ -6,6 +6,8 @@ import 'package:ticket_hub/constant/widgets/custom_appbar_widget.dart';
 import 'package:ticket_hub/controller/auth/otp_provider.dart';
 import 'package:ticket_hub/views/auth/login_screen.dart';
 
+import '../../generated/l10n.dart' show S;
+
 class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({super.key, required this.email, required this.code});
   final String email;
@@ -27,24 +29,28 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
     final forgotPasswordProvider = Provider.of<ForgotPasswordProvider>(context);
 
     return Scaffold(
-      appBar: customAppBar(context, 'New Password'),
+      appBar: customAppBar(
+        context,
+        S.of(context).new_password,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
-            const Row(
+            Row(
               children: [
                 Text(
-                  'New password',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+                  S.of(context).new_password,
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.w400),
                 ),
               ],
             ),
             const SizedBox(height: 10),
-            const Row(
+            Row(
               children: [
                 Text(
-                  'Create a new password',
+                  S.of(context).createANewAccount,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
               ],
@@ -52,7 +58,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
             const SizedBox(height: 20),
             CustomTextField(
               controller: _passwordController,
-              labelText: 'Password',
+              labelText: S.of(context).password,
               obscureText: _obscurePassword,
               suffixIcon: IconButton(
                 onPressed: () {
@@ -67,7 +73,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
             const SizedBox(height: 20),
             CustomTextField(
               controller: _confirmpasswordController,
-              labelText: 'Confirm Password',
+              labelText: S.of(context).confirm_password,
               obscureText: _confirmObscurePassword,
               suffixIcon: IconButton(
                 onPressed: () {
@@ -85,12 +91,12 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               const CircularProgressIndicator()
             else
               DarkCustomButton(
-                text: 'Confirm',
+                text: S.of(context).confirm,
                 onPressed: () async {
                   if (_passwordController.text.isEmpty ||
                       _confirmpasswordController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please fill all fields')),
+                      SnackBar(content: Text('Please fill all fields')),
                     );
                     return;
                   }
@@ -98,7 +104,10 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   if (_passwordController.text !=
                       _confirmpasswordController.text) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Passwords do not match')),
+                      SnackBar(
+                          content: Text(
+                        S.of(context).password_mismatch,
+                      )),
                     );
                     return;
                   }

@@ -6,6 +6,8 @@ import 'package:ticket_hub/model/wallet/wallet_model.dart';
 import 'package:ticket_hub/model/wallet/wallet_history_model.dart';
 import 'package:ticket_hub/views/profile/wallet_recharge_screen.dart';
 
+import '../../generated/l10n.dart' show S;
+
 class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});
 
@@ -22,14 +24,17 @@ class _WalletScreenState extends State<WalletScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<WalletProvider>(context, listen: false).fetchWallets(context);
       Provider.of<WalletProvider>(context, listen: false)
-          .fetchWalletHistory(context); // Fetching transaction history
+          .fetchWalletHistory(context);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, 'Wallet'),
+      appBar: customAppBar(
+        context,
+        S.of(context).wallet,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Consumer<WalletProvider>(
@@ -49,8 +54,8 @@ class _WalletScreenState extends State<WalletScreen> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'User Balance',
+                Text(
+                  S.of(context).user_balance,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
@@ -73,8 +78,8 @@ class _WalletScreenState extends State<WalletScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              'Transaction History:',
+                            Text(
+                              S.of(context).transaction_history,
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
@@ -104,9 +109,9 @@ class _WalletScreenState extends State<WalletScreen> {
                                         ))
                                     .toList(),
                               )
-                            : const Center(
+                            : Center(
                                 child: Text(
-                                  'No transactions available.',
+                                  S.of(context).no_transactions,
                                   style: TextStyle(fontSize: 16),
                                 ),
                               ),

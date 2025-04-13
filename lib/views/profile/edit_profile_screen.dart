@@ -5,6 +5,8 @@ import 'package:ticket_hub/constant/widgets/custom_button_widget.dart';
 import 'package:ticket_hub/constant/widgets/text_field_widget.dart';
 import 'package:ticket_hub/controller/profile/profile_provider.dart';
 
+import '../../generated/l10n.dart' show S;
+
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({
     super.key,
@@ -62,14 +64,20 @@ class EditProfileScreenState extends State<EditProfileScreen> {
 
     if (userProvider.user != null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile updated successfully!')),
+        SnackBar(
+            content: Text(
+          S.of(context).profile_updated,
+        )),
       );
 
       // Return true to indicate successful update
       Navigator.pop(context, true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to update profile.')),
+        SnackBar(
+            content: Text(
+          S.of(context).profile_update_failed,
+        )),
       );
     }
   }
@@ -79,7 +87,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     final userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
-      appBar: customAppBar(context, 'Edit Profile'),
+      appBar: customAppBar(
+        context,
+        S.of(context).editProfile,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -89,28 +100,28 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               children: [
                 CustomTextField(
                   controller: nameController,
-                  labelText: 'Name',
+                  labelText: S.of(context).name,
                   validator: (value) =>
-                      value!.isEmpty ? 'Enter your name' : null,
+                      value!.isEmpty ? S.of(context).enter_name : null,
                 ),
                 const SizedBox(height: 10),
                 CustomTextField(
                   controller: emailController,
-                  labelText: 'Email',
+                  labelText: S.of(context).email,
                   validator: (value) =>
-                      value!.isEmpty ? 'Enter your email' : null,
+                      value!.isEmpty ? S.of(context).enter_email : null,
                 ),
                 const SizedBox(height: 10),
                 CustomTextField(
                   controller: phoneController,
-                  labelText: 'Phone',
+                  labelText: S.of(context).phone,
                   validator: (value) =>
-                      value!.isEmpty ? 'Enter your phone' : null,
+                      value!.isEmpty ? S.of(context).enter_phone : null,
                 ),
                 const SizedBox(height: 10),
                 CustomTextField(
                   controller: passwordController,
-                  labelText: 'Password',
+                  labelText: S.of(context).password,
                   obscureText: true,
                   suffixIcon: const Icon(Icons.visibility_off),
                 ),
@@ -118,7 +129,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 userProvider.isLoading
                     ? const CircularProgressIndicator()
                     : DarkCustomButton(
-                        text: 'Edit Profile',
+                        text: S.of(context).editProfile,
                         onPressed: _editProfile,
                       ),
               ],

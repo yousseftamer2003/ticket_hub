@@ -7,6 +7,8 @@ import 'package:ticket_hub/constant/widgets/custom_appbar_widget.dart';
 import 'package:ticket_hub/controller/auth/otp_provider.dart';
 import 'package:ticket_hub/views/auth/new_password_screen.dart';
 
+import '../../generated/l10n.dart' show S;
+
 class OtpPasswordScreen extends StatefulWidget {
   const OtpPasswordScreen({super.key, required this.email});
   final String email;
@@ -57,7 +59,10 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
   void verifyOtp(BuildContext context) async {
     if (_otpCode.length != 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid 6-digit code')),
+        SnackBar(
+            content: Text(
+          S.of(context).valid_otp_prompt,
+        )),
       );
       return;
     }
@@ -77,7 +82,8 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(provider.errorMessage ?? 'Invalid OTP')),
+        SnackBar(
+            content: Text(provider.errorMessage ?? S.of(context).invalid_otp)),
       );
     }
   }
@@ -99,16 +105,16 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
     );
 
     return Scaffold(
-      appBar: customAppBar(context, 'OTP Verification'),
+      appBar: customAppBar(context, S.of(context).otp_verification),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                "Check your email",
+                S.of(context).check_email,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w400,
@@ -149,10 +155,10 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            const Center(
+            Center(
               child: Text.rich(
                 TextSpan(
-                  text: "Don’t receive code? ",
+                  text: S.of(context).dont_receive_code,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -160,7 +166,7 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
                   ),
                   children: [
                     TextSpan(
-                      text: "Re-send",
+                      text: S.of(context).resend,
                       style: TextStyle(
                         decoration: TextDecoration.underline,
                         fontSize: 16,
@@ -190,8 +196,8 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
                     ),
                     child: provider.isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            'Reset Password',
+                        : Text(
+                            S.of(context).reset_password,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.white,

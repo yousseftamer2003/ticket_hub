@@ -9,6 +9,8 @@ import 'package:ticket_hub/views/auth/login_screen.dart';
 import 'package:ticket_hub/views/profile/edit_profile_screen.dart';
 import 'package:ticket_hub/views/profile/wallet_screen.dart';
 
+import '../../../generated/l10n.dart' show S;
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -97,7 +99,7 @@ class ProfilePageState extends State<ProfilePage> {
                                 builder: (_) => const LoginScreen()),
                           );
                         },
-                        child: const Text('Go to Login',
+                        child: Text(S.of(context).login,
                             style: TextStyle(fontSize: 16, color: blackColor)),
                       ),
                     ],
@@ -156,7 +158,8 @@ class ProfilePageState extends State<ProfilePage> {
                       _buildInfoCard([
                         GestureDetector(
                           onTap: _navigateAndRefresh,
-                          child: _buildInfoRow(Icons.edit, 'Edit Profile',
+                          child: _buildInfoRow(
+                              Icons.edit, S.of(context).editProfile,
                               showArrow: true),
                         ),
                         GestureDetector(
@@ -167,7 +170,8 @@ class ProfilePageState extends State<ProfilePage> {
                               ),
                             );
                           },
-                          child: _buildInfoRow(Icons.wallet, 'Wallet',
+                          child: _buildInfoRow(
+                              Icons.wallet, S.of(context).wallet,
                               showArrow: true),
                         ),
                         Consumer<LangController>(
@@ -181,16 +185,18 @@ class ProfilePageState extends State<ProfilePage> {
                                 }
                               },
                               child: _buildInfoRow(
-                                  Icons.language,
-                                  langProvider.selectedLang == 'en'
-                                      ? 'Arabic'
-                                      : 'الانجليزية'),
+                                Icons.language,
+                                langProvider.selectedLang == 'en'
+                                    ? S.of(context).arabic
+                                    : S.of(context).english,
+                              ),
                             );
                           },
                         ),
                         GestureDetector(
                           onTap: () => _logout(context),
-                          child: _buildInfoRow(Icons.logout, 'Logout',
+                          child: _buildInfoRow(
+                              Icons.logout, S.of(context).logout,
                               showArrow: true),
                         ),
                       ]),

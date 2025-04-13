@@ -88,13 +88,14 @@ class _BookScreenState extends State<BookScreen> {
                       bookingProvider.bookTrip(
                         context,
                         tripId: selectedTrip.id,
-                        paymentMethodId:
-                            _selectedPaymentMethodId!, 
+                        paymentMethodId: _selectedPaymentMethodId!,
                         amount: selectedTrip.price,
                       );
-                      showCustomSnackbar(context, 'Trip booked Successfully', true);
+                      showCustomSnackbar(
+                          context, 'Trip booked Successfully', true);
                     } else {
-                      showCustomSnackbar(context, 'Please select payment method', false);
+                      showCustomSnackbar(
+                          context, 'Please select payment method', false);
                     }
                   },
                 )
@@ -125,7 +126,7 @@ class _BookScreenState extends State<BookScreen> {
         onChanged: (value) {
           setState(() {
             _selectedPaymentMethod = value;
-            _selectedPaymentMethodId = id; // Assign selected payment method ID
+            _selectedPaymentMethodId = id;
           });
         },
         title: Row(

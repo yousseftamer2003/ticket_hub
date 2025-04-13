@@ -10,6 +10,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
+import '../../generated/l10n.dart' show S;
+
 class WalletRechargeScreen extends StatefulWidget {
   const WalletRechargeScreen({super.key, required this.walletid});
   final int walletid;
@@ -54,8 +56,10 @@ class WalletRechargeScreenState extends State<WalletRechargeScreen> {
         _selectedPaymentMethod == null ||
         _base64Image == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Please fill all fields and upload an image')),
+        SnackBar(
+            content: Text(
+          S.of(context).error_fill_fields,
+        )),
       );
       return;
     }
@@ -89,8 +93,12 @@ class WalletRechargeScreenState extends State<WalletRechargeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Success'),
-        content: const Text('Wallet recharge request submitted successfully.'),
+        title: Text(
+          S.of(context).success_dialog_message,
+        ),
+        content: Text(
+          S.of(context).success_dialog_message,
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -104,7 +112,10 @@ class WalletRechargeScreenState extends State<WalletRechargeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, 'Wallet Recharge'),
+      appBar: customAppBar(
+        context,
+        S.of(context).wallet_recharge,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Consumer<PaymentProvider>(
@@ -123,20 +134,19 @@ class WalletRechargeScreenState extends State<WalletRechargeScreen> {
               children: [
                 CustomTextField(
                   controller: _amountController,
-                  labelText: 'Enter Amount',
+                  labelText: S.of(context).enter_amount,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter an amount';
+                      return S.of(context).enter_amount;
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 16),
-
                 DropdownButtonFormField<String>(
                   value: _selectedPaymentMethod,
                   decoration: InputDecoration(
-                    labelText: 'Select Payment Method',
+                    labelText: S.of(context).select_payment_method,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -155,14 +165,14 @@ class WalletRechargeScreenState extends State<WalletRechargeScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-
-                // Image Upload Section
                 Row(
                   children: [
                     ElevatedButton.icon(
                       onPressed: _pickImage,
                       icon: const Icon(Icons.upload),
-                      label: const Text('Upload Image'),
+                      label: Text(
+                        S.of(context).upload_image,
+                      ),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
                             vertical: 12, horizontal: 16),
@@ -179,25 +189,24 @@ class WalletRechargeScreenState extends State<WalletRechargeScreen> {
                               fit: BoxFit.cover,
                             ),
                           )
-                        : const Text('No image selected'),
+                        : Text(
+                            S.of(context).no_image_selected,
+                            style: const TextStyle(color: Colors.grey),
+                          ),
                   ],
                 ),
                 const SizedBox(height: 16),
-
                 _base64Image != null
-                    ? const Text(
-                        'Image selected and converted to Base64',
+                    ? Text(
+                        S.of(context).image_selected,
                         style: TextStyle(color: Colors.green),
                       )
                     : const SizedBox.shrink(),
-
                 const SizedBox(height: 24),
-
-                // Submit Button
                 _isSubmitting
                     ? const Center(child: CircularProgressIndicator())
                     : DarkCustomButton(
-                        text: 'Submit Recharge',
+                        text: S.of(context).submit_recharge,
                         onPressed: () => _submitRecharge(context),
                       ),
               ],

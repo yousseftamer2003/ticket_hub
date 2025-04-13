@@ -7,6 +7,8 @@ import 'package:ticket_hub/model/private/private_model.dart';
 import 'package:ticket_hub/views/private/widget/cart_widget.dart';
 import 'package:ticket_hub/views/tabs_screen/screens/tabs_screen.dart';
 
+import '../../generated/l10n.dart' show S;
+
 class PrivateScreen extends StatefulWidget {
   const PrivateScreen({super.key});
 
@@ -44,7 +46,10 @@ class _PrivateScreenState extends State<PrivateScreen> {
     final carProvider = Provider.of<CarProvider>(context);
 
     return Scaffold(
-      appBar: customAppBar(context, 'Private Booking'),
+      appBar: customAppBar(
+        context,
+        S.of(context).private_booking,
+      ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
@@ -53,9 +58,9 @@ class _PrivateScreenState extends State<PrivateScreen> {
                 child: Column(
                   children: [
                     DropdownCard(
-                      title: "Which city are you from?",
+                      title: S.of(context).select_a_city,
                       items: carProvider.cities.map((e) => e.name).toList(),
-                      hint: "Select your city",
+                      hint: S.of(context).select_city_hint,
                       selectedValue: _selectedCityFrom?.name,
                       onChanged: (value) {
                         setState(() {
@@ -66,34 +71,34 @@ class _PrivateScreenState extends State<PrivateScreen> {
                     ),
                     const SizedBox(height: 10),
                     TextFieldCard(
-                      title: "Address From",
+                      title: S.of(context).address_from,
                       controller: _addressFromController,
-                      hintText: "Enter your address",
+                      hintText: S.of(context).address_from_hint,
                     ),
                     const SizedBox(height: 10),
                     DropdownCard(
-                      title: "Which city are you to?",
+                      title: S.of(context).select_city_to,
                       items: carProvider.cities.map((e) => e.name).toList(),
-                      hint: "Select your city",
-                      selectedValue: _selectedCityFrom?.name,
+                      hint: S.of(context).select_a_city,
+                      selectedValue: _selectedCityTo?.name,
                       onChanged: (value) {
                         setState(() {
-                          _selectedCityFrom = carProvider.cities
+                          _selectedCityTo = carProvider.cities
                               .firstWhere((city) => city.name == value);
                         });
                       },
                     ),
                     const SizedBox(height: 10),
                     TextFieldCard(
-                      title: "Address To",
+                      title: S.of(context).address_to,
                       controller: _addressToController,
-                      hintText: "Enter your destination",
+                      hintText: S.of(context).address_to_hint,
                     ),
                     const SizedBox(height: 10),
                     DropdownCard(
-                      title: "Select Car Brand",
+                      title: S.of(context).select_car_brand,
                       items: carProvider.brands.map((e) => e.name).toList(),
-                      hint: "Select Car Brand",
+                      hint: S.of(context).select_car_brand_hint,
                       selectedValue: _selectedCar?.name,
                       onChanged: (value) {
                         setState(() {
@@ -104,7 +109,7 @@ class _PrivateScreenState extends State<PrivateScreen> {
                     ),
                     const SizedBox(height: 10),
                     DateCard(
-                      title: 'Select Date',
+                      title: S.of(context).select_date,
                       onDateSelected: (date) {
                         setState(() {
                           _selectedDate = date;
@@ -121,7 +126,7 @@ class _PrivateScreenState extends State<PrivateScreen> {
                     ),
                     const SizedBox(height: 10),
                     DarkCustomButton(
-                      text: 'Book',
+                      text: S.of(context).book_button,
                       onPressed: () async {
                         await _submitBooking(context);
                       },
@@ -149,7 +154,7 @@ class _PrivateScreenState extends State<PrivateScreen> {
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Booking successful!')),
+        SnackBar(content: Text(S.of(context).booking_successful)),
       );
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -158,7 +163,10 @@ class _PrivateScreenState extends State<PrivateScreen> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Booking failed. Try again later.')),
+        SnackBar(
+            content: Text(
+          S.of(context).booking_failed,
+        )),
       );
     }
   }

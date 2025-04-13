@@ -5,6 +5,8 @@ import 'package:ticket_hub/constant/widgets/custom_appbar_widget.dart';
 import 'package:ticket_hub/controller/auth/otp_provider.dart';
 import 'package:ticket_hub/views/auth/otp_screen.dart';
 
+import '../../generated/l10n.dart' show S;
+
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
 
@@ -18,7 +20,7 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, 'Forget Password?'),
+      appBar: customAppBar(context, S.of(context).forgotPassword),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Consumer<ForgotPasswordProvider>(
@@ -26,17 +28,17 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Forgot Password?',
-                  style: TextStyle(
+                Text(
+                  S.of(context).forgotPassword,
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  'Please enter your email or phone number to reset your password.',
-                  style: TextStyle(
+                Text(
+                  S.of(context).forgotPasswordMessage,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: Color(0xFF7C7C7C),
@@ -45,13 +47,13 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 const SizedBox(height: 20),
                 TextField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Email or Phone',
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    labelText: S.of(context).email,
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                        const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -100,9 +102,9 @@ class ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     ),
                     child: provider.isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            'Reset Password',
-                            style: TextStyle(
+                        : Text(
+                            S.of(context).reset_password,
+                            style: const TextStyle(
                               fontSize: 20,
                               color: Colors.white,
                               fontWeight: FontWeight.w500,

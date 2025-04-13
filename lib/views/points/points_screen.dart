@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/controller/points/points_provider.dart';
 
+import '../../generated/l10n.dart' show S;
+
 class PointsScreen extends StatefulWidget {
   const PointsScreen({super.key});
 
@@ -25,7 +27,9 @@ class _PointsScreenState extends State<PointsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Points"),
+        title: Text(
+          S.of(context).points,
+        ),
         centerTitle: true,
       ),
       body: Consumer<PointsProvider>(builder: (context, provider, _) {
@@ -39,7 +43,7 @@ class _PointsScreenState extends State<PointsScreen> {
 
         final pointsModel = provider.pointsModel;
         if (pointsModel == null) {
-          return const Center(child: Text("No data available"));
+          return Center(child: Text(S.of(context).noDataAvailable));
         }
 
         final userPoints = pointsModel.userData.points;
@@ -49,7 +53,6 @@ class _PointsScreenState extends State<PointsScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Your Points Card
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
@@ -66,8 +69,8 @@ class _PointsScreenState extends State<PointsScreen> {
                 ),
                 child: Column(
                   children: [
-                    const Text(
-                      "Your Current Points",
+                    Text(
+                      S.of(context).currentPoints,
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                     const SizedBox(height: 8),
@@ -82,22 +85,21 @@ class _PointsScreenState extends State<PointsScreen> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 30),
-
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Conversion Options",
+                  S.of(context).conversionOptions,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
               const SizedBox(height: 10),
-
               Expanded(
                 child: redeemList.isEmpty
-                    ? const Center(
-                        child: Text("No conversion options available"),
+                    ? Center(
+                        child: Text(
+                          S.of(context).noConversionOptions,
+                        ),
                       )
                     : ListView.builder(
                         itemCount: redeemList.length,
@@ -120,7 +122,7 @@ class _PointsScreenState extends State<PointsScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "${redeem.points} points ➜ ${redeem.currencies} ${redeem.currency.symbol}",
+                                          "${redeem.points} ${S.of(context).pointsConversion} ${redeem.currencies} ${redeem.currency.symbol}",
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
@@ -128,7 +130,7 @@ class _PointsScreenState extends State<PointsScreen> {
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
-                                          "Currency: ${redeem.currency.name}",
+                                          "${S.of(context).currency}: ${redeem.currency.name}",
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.grey,
@@ -148,7 +150,7 @@ class _PointsScreenState extends State<PointsScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Select Currency",
+                    S.of(context).selectCurrency,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
@@ -171,7 +173,7 @@ class _PointsScreenState extends State<PointsScreen> {
                         borderRadius: BorderRadius.circular(8)),
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12),
-                    hintText: "Choose a currency",
+                    hintText: S.of(context).selectCurrency,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -201,7 +203,9 @@ class _PointsScreenState extends State<PointsScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: const Text("Redeem My Points"),
+                  child: Text(
+                    S.of(context).redeemMyPoints,
+                  ),
                 ),
                 const SizedBox(height: 30),
               ],
