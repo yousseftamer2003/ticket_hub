@@ -7,6 +7,7 @@ import 'package:ticket_hub/controller/auth/otp_provider.dart';
 import 'package:ticket_hub/controller/auth/signup_provider.dart';
 import 'package:ticket_hub/controller/booking_controller.dart';
 import 'package:ticket_hub/controller/data_list_provider.dart';
+import 'package:ticket_hub/controller/image_controller.dart';
 import 'package:ticket_hub/controller/lang_controller.dart';
 import 'package:ticket_hub/controller/points/points_provider.dart';
 import 'package:ticket_hub/controller/private/private_list_provider.dart';
@@ -34,6 +35,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => CarProvider()),
         ChangeNotifierProvider(create: (context) => LangController()),
         ChangeNotifierProvider(create: (context) => SetupController()),
+        ChangeNotifierProvider(create: (context) => ImageController()),
       ],
       child: const MyApp(),
     ),

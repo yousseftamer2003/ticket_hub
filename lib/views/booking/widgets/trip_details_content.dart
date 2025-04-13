@@ -23,7 +23,7 @@ class TripDetailsContent extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  _buildAmenityItem("assets/images/ac.svg", "A/C"), // Replace with your asset path
+                  _buildAmenityItem("assets/images/ac.svg", "A/C"),
                   const SizedBox(width: 16),
                   _buildAmenityItem("assets/images/ac.svg", "WC"),
                 ],

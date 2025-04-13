@@ -5,6 +5,7 @@ import 'package:ticket_hub/constant/widgets/custom_appbar_widget.dart';
 import 'package:ticket_hub/constant/widgets/custom_button_widget.dart';
 import 'package:ticket_hub/constant/widgets/custom_snack_bar.dart';
 import 'package:ticket_hub/controller/booking_controller.dart';
+import 'package:ticket_hub/controller/image_controller.dart';
 
 class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
@@ -21,85 +22,129 @@ class _BookScreenState extends State<BookScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context, 'Pay'),
-      body: Consumer<BookingController>(
-        builder: (context, bookingProvider, _) {
+      body: Consumer2<BookingController, ImageController>(
+        builder: (context, bookingProvider, imageController, _) {
           final paymentMethods = bookingProvider.paymentMethods;
           final selectedTrip = bookingProvider.selectedTrip;
           return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Trip Details",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.2,
-                  child: Card(
-                    color: Colors.grey[200],
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildTripDetailRow(Icons.monetization_on,
-                              "Ticket Price: ${selectedTrip!.price} EGP"),
-                          _buildTripDetailRow(Icons.calendar_today,
-                              "Thursday, ${selectedTrip.date}"),
-                          _buildTripDetailRow(
-                              Icons.access_time, selectedTrip.departureTime),
-                          _buildTripDetailRow(Icons.location_on,
-                              "${selectedTrip.pickupStation.name}, ${selectedTrip.dropoffStation.name}"),
-                          _buildTripDetailRow(Icons.location_on,
-                              "To: ${bookingProvider.searchData.departureStation}, ${bookingProvider.searchData.arrivalStation}"),
-                        ],
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Trip Details",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.sizeOf(context).height * 0.2,
+                    child: Card(
+                      color: Colors.grey[200],
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildTripDetailRow(Icons.monetization_on,
+                                "Ticket Price: ${selectedTrip!.price} EGP"),
+                            _buildTripDetailRow(Icons.calendar_today,
+                                "Thursday, ${selectedTrip.date}"),
+                            _buildTripDetailRow(
+                                Icons.access_time, selectedTrip.departureTime),
+                            _buildTripDetailRow(Icons.location_on,
+                                "${selectedTrip.pickupStation.name}, ${selectedTrip.dropoffStation.name}"),
+                            _buildTripDetailRow(Icons.location_on,
+                                "To: ${bookingProvider.searchData.departureStation}, ${bookingProvider.searchData.arrivalStation}"),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Text(
-                  "Total Booking: ${selectedTrip.price} EGP",
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                const TextField(
-                  decoration: InputDecoration(
-                    hintText: "Discount Coupon",
-                    prefixIcon: Icon(Icons.local_offer),
-                    border: OutlineInputBorder(),
+                  Text(
+                    "Total Booking: ${selectedTrip.price} EGP",
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Choose Payment Method",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                ...paymentMethods.map(
-                    (method) => _buildPaymentOption(method.name, method.id)),
-                const SizedBox(height: 20),
-                DarkCustomButton(
-                  text: 'Book Now',
-                  onPressed: () {
-                    if (_selectedPaymentMethodId != null) {
-                      bookingProvider.bookTrip(
-                        context,
-                        tripId: selectedTrip.id,
-                        paymentMethodId: _selectedPaymentMethodId!,
-                        amount: selectedTrip.price,
-                      );
-                      showCustomSnackbar(
-                          context, 'Trip booked Successfully', true);
-                    } else {
-                      showCustomSnackbar(
-                          context, 'Please select payment method', false);
-                    }
-                  },
-                )
-              ],
+                  const SizedBox(height: 10),
+                  const TextField(
+                    decoration: InputDecoration(
+                      hintText: "Discount Coupon",
+                      prefixIcon: Icon(Icons.local_offer),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Choose Payment Method",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  ...paymentMethods.map(
+                      (method) => _buildPaymentOption(method.name, method.id)),
+                  const SizedBox(height: 20),
+                  if (_selectedPaymentMethod?.toLowerCase() != 'paypal' &&
+                      _selectedPaymentMethod != null) ...[
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Upload Payment Receipt",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    GestureDetector(
+                      onTap: () => imageController.pickImageFromGallery(),
+                      child: Container(
+                        width: double.infinity,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        child: imageController.imageFile != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(imageController.imageFile!,
+                                    fit: BoxFit.cover),
+                              )
+                            : const Center(
+                                child: Text("Tap to upload receipt image")),
+                      ),
+                    ),
+                  ],
+                  DarkCustomButton(
+                    text: 'Book Now',
+                    onPressed: () {
+                      if (_selectedPaymentMethodId != null) {
+                        if (_selectedPaymentMethod?.toLowerCase() == 'paypal') {
+                          bookingProvider.bookTrip(
+                            context,
+                            tripId: selectedTrip.id,
+                            paymentMethodId: _selectedPaymentMethodId!,
+                            amount: selectedTrip.price,
+                          );
+                          
+                        } else {
+                          if (imageController.base64Image == null) {
+                            showCustomSnackbar(context,'Please upload a receipt image', false);
+                            return;
+                          }
+                          bookingProvider.bookTrip(
+                            context,
+                            tripId: selectedTrip.id,
+                            paymentMethodId: _selectedPaymentMethodId!,
+                            amount: selectedTrip.price,
+                            receiptImage:imageController.imageFile!, 
+                          );
+                          imageController.clearImage();                         }
+                      } else {
+                        showCustomSnackbar(context,'Please select payment method',false,);
+                      }
+                    },
+                  )
+                ],
+              ),
             ),
           );
         },
@@ -119,6 +164,7 @@ class _BookScreenState extends State<BookScreen> {
 
   Widget _buildPaymentOption(String title, int id) {
     return Card(
+      color: Colors.white,
       child: RadioListTile<String>(
         activeColor: orangeColor,
         value: title,

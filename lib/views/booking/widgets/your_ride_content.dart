@@ -16,18 +16,15 @@ class _YourRideContentState extends State<YourRideContent> {
   @override
   void initState() {
     super.initState();
-    // Initialize travelers list on widget initialization
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final bookingProvider = Provider.of<BookingController>(context, listen: false);
       final travelersCount = bookingProvider.searchData.travelers ?? 0;
       
-      // Create the list if it doesn't exist
-      if (bookingProvider.searchData.travelersList == null) {
-        bookingProvider.searchData.travelersList = List.generate(
+      
+      bookingProvider.searchData.travelersList ??= List.generate(
           travelersCount,
           (index) => Traveler(name: '', age: ''),
         );
-      }
     });
   }
 
@@ -48,7 +45,55 @@ class _YourRideContentState extends State<YourRideContent> {
                         TextStyle(fontSize: 24, fontWeight: FontWeight.w500)),
                 const SizedBox(height: 10),
                 const Text(
-                  'Departure Time:',
+                  'Departure Date and Time:',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.black, width: 1),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset('assets/images/calendar.svg'),
+                          const SizedBox(width: 8),
+                          Text('${bookingProvider.searchData.departureDate}',
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 20,),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.black, width: 1),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.timer_outlined),
+                          const SizedBox(width: 8),
+                          Text(bookingProvider.selectedTrip!.departureTime,
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10,),
+                const Text(
+                  'Arrival Time:',
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -64,9 +109,9 @@ class _YourRideContentState extends State<YourRideContent> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SvgPicture.asset('assets/images/calendar.svg'),
+                      const Icon(Icons.timer_outlined),
                       const SizedBox(width: 8),
-                      Text('${bookingProvider.searchData.departureDate}',
+                      Text(bookingProvider.selectedTrip!.arrivalTime,
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w500)),
                     ],

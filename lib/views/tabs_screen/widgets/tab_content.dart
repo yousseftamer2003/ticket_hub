@@ -225,7 +225,7 @@ class _TabContentState extends State<TabContent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyle(color: Colors.grey[600])),
+                Text(title, style: TextStyle(color: Colors.grey[600],fontSize: 12),maxLines: 1,overflow: TextOverflow.ellipsis,),
                 isCitiesLoaded
                     ? DropdownButton<String>(
                         value: selectedValue,
@@ -235,7 +235,7 @@ class _TabContentState extends State<TabContent> {
                             .map((city) => DropdownMenuItem(
                                 value: city, child: Text(city)))
                             .toList(),
-                        hint: const Text('Select a city'),
+                        hint: const Text('Select a city',style: TextStyle(fontSize: 12),),
                         onChanged: (newValue) {
                           setState(() {
                             if (title == 'Departure From') {

@@ -6,7 +6,8 @@ import 'package:ticket_hub/views/tabs_screen/screens/my_trips_page.dart';
 import 'package:ticket_hub/views/tabs_screen/screens/profile_page.dart';
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({super.key});
+  const TabsScreen({super.key, this.selectedIndex});
+  final int? selectedIndex;
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
@@ -26,6 +27,12 @@ class _TabsScreenState extends State<TabsScreen> {
     MyTripsPage(),
     ProfilePage()
   ];
+
+  @override
+  void initState() {
+    _selectedIndex = widget.selectedIndex ?? 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

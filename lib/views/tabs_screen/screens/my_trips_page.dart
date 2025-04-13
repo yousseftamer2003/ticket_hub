@@ -21,9 +21,8 @@ class MyTripsPageState extends State<MyTripsPage>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     Future.microtask(() {
-      Provider.of<TripsProvider>(context, listen: false)
-          .fetchTripHistory(context);
-    });
+      Provider.of<TripsProvider>(context, listen: false).fetchTripHistory(context);
+});
   }
 
   @override

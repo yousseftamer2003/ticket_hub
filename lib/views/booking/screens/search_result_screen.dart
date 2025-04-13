@@ -49,13 +49,6 @@ class SearchResultScreen extends StatelessWidget {
                   int minPrice = results.map((result) => result.price).reduce((a, b) => a < b ? a : b);
                   return ResultContainer(
                     trip: result,
-                    arrivalStation: result.dropoffStation.name,
-                    arrivalTime: result.arrivalTime,
-                    availableSeats: result.availableSeats,
-                    busNumber: result.bus.busNumber,
-                    departureStation: result.pickupStation.name,
-                    departureTime: result.departureTime,
-                    price: result.price,
                     isCheapest: result.price == minPrice,
                   );
                 }

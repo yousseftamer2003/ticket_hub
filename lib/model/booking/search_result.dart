@@ -33,7 +33,7 @@ class Trip {
   final String date;
   final int availableSeats;
   final int price;
-  final Bus bus;
+  final Bus? bus;
   final Station pickupStation;
   final Station dropoffStation;
 
@@ -49,25 +49,25 @@ class Trip {
     required this.date,
     required this.availableSeats,
     required this.price,
-    required this.bus,
+    this.bus,
     required this.pickupStation,
     required this.dropoffStation,
   });
 
   factory Trip.fromJson(Map<String, dynamic> json) {
     return Trip(
-      id: json['id']?? 0,
+      id: json['id'] ?? 0,
       busId: json['bus_id'] ?? 0,
       pickupStationId: json['pickup_station_id'] ?? 0,
       dropoffStationId: json['dropoff_station_id'] ?? 0,
       tripType: json['trip_type'] ?? 'N/A',
       tripName: json['trip_name'] ?? 'N/A',
       departureTime: json['deputre_time'] ?? 'N/A',
-      arrivalTime: json['arrival_time'] ??  'N/A',
-      date: json['date']??  'N/A',
-      availableSeats: json['avalible_seats'] ??  0,
+      arrivalTime: json['arrival_time'] ?? 'N/A',
+      date: json['date'] ?? 'N/A',
+      availableSeats: json['avalible_seats'] ?? 0,
       price: json['price'] ?? 0,
-      bus: Bus.fromJson(json['bus']),
+      bus: json['bus'] != null ? Bus.fromJson(json['bus']) : null,
       pickupStation: Station.fromJson(json['pickup_station']),
       dropoffStation: Station.fromJson(json['dropoff_station']),
     );

@@ -18,9 +18,9 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
   void _toggleSeatSelection(int seatNumber) {
     setState(() {
       if (selectedSeat == seatNumber) {
-        selectedSeat = null; // Deselect seat
+        selectedSeat = null; 
       } else {
-        selectedSeat = seatNumber; // Select seat
+        selectedSeat = seatNumber; 
       }
     });
   }
@@ -35,8 +35,7 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
                 text: "Continue",
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (ctx)=> const BookScreen())
-                  );
+                      MaterialPageRoute(builder: (ctx) => const BookScreen()));
                 },
               ),
             )
@@ -54,7 +53,7 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
             Row(
               children: [
                 Image.asset(
-                  'assets/images/swa2.png', // Replace with actual asset
+                  'assets/images/swa2.png',
                   width: 50,
                   height: 50,
                 ),
@@ -62,21 +61,46 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
                 _buildSeat(1),
               ],
             ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
+            const SizedBox(height: 16),
+            Row(
               children: [
-                _buildSeat(2), _buildSeat(3), _buildSeat(4),
-                const SizedBox(width: 40), // Space for aisle
+                _buildSeat(2),
+                const SizedBox(width: 8),
+                _buildSeat(3),
+                const SizedBox(width: 8),
+                _buildSeat(4),
+                const Spacer(),
                 _buildSeat(7),
-                _buildSeat(5), _buildSeat(6),
-                const SizedBox(width: 40), // Space for aisle
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                _buildSeat(5),
+                const SizedBox(width: 8),
+                _buildSeat(6),
+                const Spacer(),
                 _buildSeat(10),
-                _buildSeat(8), _buildSeat(9),
-                const SizedBox(width: 40), // Space for aisle
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                _buildSeat(8),
+                const SizedBox(width: 8),
+                _buildSeat(9),
+                const Spacer(),
                 _buildSeat(11),
-                _buildSeat(12), _buildSeat(13), _buildSeat(14),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                _buildSeat(12),
+                const SizedBox(width: 8),
+                _buildSeat(13),
+                const SizedBox(width: 8),
+                _buildSeat(14),
               ],
             ),
           ],

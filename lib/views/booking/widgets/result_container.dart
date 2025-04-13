@@ -9,30 +9,14 @@ import 'package:ticket_hub/views/booking/screens/bus_details_screen.dart';
 
 class ResultContainer extends StatelessWidget {
   const ResultContainer(
-      {super.key,
-      required this.busNumber,
-      required this.price,
-      required this.availableSeats,
-      required this.departureTime,
-      required this.arrivalTime,
-      required this.departureStation,
-      required this.arrivalStation,
-      required this.isCheapest,
-      required this.trip});
+      {super.key,required this.isCheapest,required this.trip});
   final Trip trip;
-  final String busNumber;
-  final int price;
-  final int availableSeats;
-  final String departureTime;
-  final String arrivalTime;
-  final String departureStation;
-  final String arrivalStation;
   final bool isCheapest;
 
   @override
   Widget build(BuildContext context) {
-    DateTime departure = DateTime.parse("2024-01-01 $departureTime");
-    DateTime arrival = DateTime.parse("2024-01-01 $arrivalTime");
+    DateTime departure = DateTime.parse("2024-01-01 ${trip.departureTime}");
+    DateTime arrival = DateTime.parse("2024-01-01 ${trip.arrivalTime}");
 
     Duration duration = arrival.difference(departure);
     int hours = duration.inHours;
@@ -67,12 +51,23 @@ class ResultContainer extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Bus($busNumber)",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              trip.tripType,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                            trip.bus != null ? trip.bus!.busNumber : '',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                         Text(
                           "$hours h $minutes m",
@@ -107,7 +102,7 @@ class ResultContainer extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          departureStation,
+                          trip.pickupStation.name,
                           style: const TextStyle(
                             fontSize: 11,
                             color: Colors.black,
@@ -119,7 +114,7 @@ class ResultContainer extends StatelessWidget {
                             size: 14, color: Colors.grey),
                         const SizedBox(width: 8),
                         Text(
-                          arrivalStation,
+                          trip.dropoffStation.name,
                           style: const TextStyle(
                             fontSize: 11,
                             decoration: TextDecoration.underline,
@@ -130,7 +125,7 @@ class ResultContainer extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      "From \$$price / Person",
+                      "From \$${trip.price} / Person",
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -150,7 +145,7 @@ class ResultContainer extends StatelessWidget {
                   color: Colors.pink[100],
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Text("$availableSeats available seats",
+                child: Text("${trip.availableSeats} available seats",
                     style: const TextStyle(fontSize: 14)),
               ),
               const SizedBox(width: 8),
@@ -175,8 +170,7 @@ class ResultContainer extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Provider.of<BookingController>(context, listen: false)
-                      .setTrip(trip);
+                  Provider.of<BookingController>(context, listen: false).setTrip(trip);
                   final authProvider =
                       Provider.of<LoginProvider>(context, listen: false);
 

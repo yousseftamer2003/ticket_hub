@@ -126,7 +126,8 @@ class _HomePageState extends State<HomePage> {
                   final booking =
                       Provider.of<BookingController>(context, listen: false);
                   if (booking.searchData.departureStation != null &&
-                      booking.searchData.arrivalStation != null) {
+                      booking.searchData.arrivalStation != null && 
+                      booking.searchData.departureDate != null) {
                     await booking.searchTrips(context);
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -137,8 +138,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   } else {
-                    showCustomSnackbar(
-                        context, 'Please select departure and arrival', false);
+                    showCustomSnackbar(context, 'Please fill all the fields', false);
                   }
                 }),
           )

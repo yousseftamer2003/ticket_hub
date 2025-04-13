@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ticket_hub/constant/widgets/custom_snack_bar.dart';
 import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/model/booking/booking_lists_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ticket_hub/model/booking/search_data.dart';
 import 'package:ticket_hub/model/booking/search_result.dart';
+import 'package:ticket_hub/views/tabs_screen/screens/tabs_screen.dart';
 
 class BookingController with ChangeNotifier {
   List<City> _cities = [];
@@ -82,7 +85,7 @@ class BookingController with ChangeNotifier {
       headers: {
         'Content-Type': 'application/json',
       },
-      // body: body,
+      body: body,
       );
       if(response.statusCode == 200){
         final responseData = jsonDecode(response.body);
@@ -98,35 +101,74 @@ class BookingController with ChangeNotifier {
     }
   }
 
-  Future<void> bookTrip(BuildContext context,{required int tripId,required int paymentMethodId,required int amount,String? receiptImage}) async{
-    final authServices = Provider.of<LoginProvider>(context,listen: false);
-      final token = authServices.token;
-      log('Travelers: ${searchData.travelersList!.map((x) => x.name).toList()}');
-    try {
-      final response = await http.post(Uri.parse('https://bcknd.ticket-hub.net/user/booking/payment'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode({
-        'payment_method_id': paymentMethodId,
-        'trip_id': tripId,
-        'travelers': searchData.travelers,
-        'amount': amount,
-        'travel_date': searchData.departureDate,
-        'receipt_image': receiptImage,
-        'travellers_data': searchData.travelersList!.map((x) => x.toJson()).toList(),
-        'seats': [1,2]
-      }),
-      );
-      if(response.statusCode == 200){
-        log('trip booked successfully');
-      }else{
-        log('Failed to book trip. Status code: ${response.statusCode}');
-        log('Response body: ${response.body}');
-      }
-    } catch (e) {
-      log('error in booking trip: $e');
+  Future<void> bookTrip(
+  BuildContext context, {
+  required int tripId,
+  required int paymentMethodId,
+  required int amount,
+  File? receiptImage,
+}) async {
+  final authServices = Provider.of<LoginProvider>(context, listen: false);
+  final token = authServices.token;
+
+  try {
+    final uri = Uri.parse('https://bcknd.ticket-hub.net/user/booking/payment');
+    final request = http.MultipartRequest('POST', uri);
+
+    // Headers
+    request.headers.addAll({
+      'Authorization': 'Bearer $token',
+    });
+
+    // Simple fields
+    request.fields['payment_method_id'] = paymentMethodId.toString();
+    request.fields['trip_id'] = tripId.toString();
+    request.fields['amount'] = amount.toString();
+    request.fields['travel_date'] = searchData.departureDate!;
+    request.fields['travelers'] = jsonEncode(searchData.travelers);
+
+    // Add seats as array: seats[0], seats[1], ...
+    List<int> seats = [1, 2]; // Update with your actual seat logic
+    for (int i = 0; i < seats.length; i++) {
+      request.fields['seats[$i]'] = seats[i].toString();
     }
+
+    // Add travellers_data as array: travellers_data[0][key]
+    final travellers = searchData.travelersList!;
+    for (int i = 0; i < travellers.length; i++) {
+      final travelerJson = travellers[i].toJson();
+      travelerJson.forEach((key, value) {
+        request.fields['travellers_data[$i][$key]'] = value.toString();
+      });
+    }
+
+    // Optional receipt image
+    if (receiptImage != null) {
+      request.files.add(await http.MultipartFile.fromPath(
+        'receipt_image',
+        receiptImage.path,
+      ));
+    }
+
+    // Send
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      showCustomSnackbar(context, 'Trip booked Successfully', true);
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (ctx) => const TabsScreen(selectedIndex: 1)),
+        );
+      });
+    } else {
+      final resBody = await response.stream.bytesToString();
+      log('Failed to book trip. Status code: ${response.statusCode}');
+      log('Response body: $resBody');
+    }
+  } catch (e) {
+    log('Error booking trip: $e');
   }
+}
+
+
 }
