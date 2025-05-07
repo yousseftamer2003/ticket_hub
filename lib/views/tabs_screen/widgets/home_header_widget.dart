@@ -13,7 +13,7 @@ class HomeHeaderWidget extends StatelessWidget {
       children: [
         SizedBox(
           width: MediaQuery.sizeOf(context).width,
-          height: MediaQuery.sizeOf(context).height * 0.25,
+          height: MediaQuery.sizeOf(context).height * 0.23,
           child: Image.asset(
             'assets/images/homebackground.png',
             fit: BoxFit.cover,
@@ -24,7 +24,7 @@ class HomeHeaderWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -71,12 +71,12 @@ class HomeHeaderWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               const Text(
                 'Ticket easy',
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               const Text(
                 'Comfortable and easy trips, book now and enjoy a unique travel experience!',
                 style: TextStyle(fontSize: 16, color: Colors.white),

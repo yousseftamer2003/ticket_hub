@@ -115,7 +115,6 @@ class BookingController with ChangeNotifier {
     final uri = Uri.parse('https://bcknd.ticket-hub.net/user/booking/payment');
     final request = http.MultipartRequest('POST', uri);
 
-    // Headers
     request.headers.addAll({
       'Authorization': 'Bearer $token',
     });
@@ -127,13 +126,11 @@ class BookingController with ChangeNotifier {
     request.fields['travel_date'] = searchData.departureDate!;
     request.fields['travelers'] = jsonEncode(searchData.travelers);
 
-    // Add seats as array: seats[0], seats[1], ...
-    List<int> seats = [1, 2]; // Update with your actual seat logic
+    List<int> seats = [1, 2];
     for (int i = 0; i < seats.length; i++) {
       request.fields['seats[$i]'] = seats[i].toString();
     }
 
-    // Add travellers_data as array: travellers_data[0][key]
     final travellers = searchData.travelersList!;
     for (int i = 0; i < travellers.length; i++) {
       final travelerJson = travellers[i].toJson();
@@ -142,7 +139,6 @@ class BookingController with ChangeNotifier {
       });
     }
 
-    // Optional receipt image
     if (receiptImage != null) {
       request.files.add(await http.MultipartFile.fromPath(
         'receipt_image',

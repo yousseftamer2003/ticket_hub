@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           const HomeHeaderWidget(),
           Positioned(
-            top: screenHeight * 0.21,
+            top: screenHeight * 0.19,
             left: screenWidth * 0.04,
             child: SizedBox(
               width: screenWidth * 0.92,
@@ -108,12 +108,12 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: EdgeInsets.only(top: screenHeight * 0.30),
+              padding: EdgeInsets.only(top: screenHeight * 0.28),
               child: const TripSelectionWidget(),
             ),
           ),
           Positioned(
-            top: screenHeight * 0.36,
+            top: screenHeight * 0.34,
             left: 0,
             right: 0,
             child: const TabContent(),

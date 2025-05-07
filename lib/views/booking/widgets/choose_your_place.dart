@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/widgets/custom_button_widget.dart';
+import 'package:ticket_hub/constant/widgets/custom_snack_bar.dart';
+import 'package:ticket_hub/controller/booking_controller.dart';
 import 'package:ticket_hub/views/booking/screens/book_screen.dart';
 
 class ChooseYourPlace extends StatefulWidget {
@@ -29,16 +32,24 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: selectedSeat != null
-          ? Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: DarkCustomButton(
-                text: "Continue",
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (ctx) => const BookScreen()));
-                },
-              ),
-            )
+          ? Consumer<BookingController>(
+            builder: (context, value, _) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: DarkCustomButton(
+                  text: "Continue",
+                  onPressed: () {
+                    if(value.searchData.travelersList![0].name != '' && value.searchData.travelersList![0].age != ''){
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => const BookScreen()));
+                    }else{
+                      showCustomSnackbar(context, 'Please fill Travelers data', false);
+                    }
+                  },
+                ),
+              );
+            },
+          )
           : null,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
