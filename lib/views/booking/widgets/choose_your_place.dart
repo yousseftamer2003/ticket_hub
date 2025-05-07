@@ -13,43 +13,59 @@ class ChooseYourPlace extends StatefulWidget {
 }
 
 class _ChooseYourPlaceState extends State<ChooseYourPlace> {
-  int? selectedSeat;
+  List<int> selectedSeats = [];
 
   final List<int> availableSeats = [1, 2, 3, 4, 7, 10, 11, 12, 13, 14];
   final List<int> unavailableSeats = [5, 6, 8, 9];
 
   void _toggleSeatSelection(int seatNumber) {
+    final totalTravelers = Provider.of<BookingController>(context, listen: false)
+        .searchData
+        .travelersList!
+        .length;
+
     setState(() {
-      if (selectedSeat == seatNumber) {
-        selectedSeat = null; 
+      if (selectedSeats.contains(seatNumber)) {
+        selectedSeats.remove(seatNumber);
       } else {
-        selectedSeat = seatNumber; 
+        if (selectedSeats.length < totalTravelers) {
+          selectedSeats.add(seatNumber);
+        } else {
+          showCustomSnackbar(
+              context, 'You can only select $totalTravelers seats.', false);
+        }
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final totalTravelers = Provider.of<BookingController>(context)
+        .searchData
+        .travelersList!
+        .length;
+
     return Scaffold(
-      bottomNavigationBar: selectedSeat != null
-          ? Consumer<BookingController>(
-            builder: (context, value, _) {
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: DarkCustomButton(
-                  text: "Continue",
-                  onPressed: () {
-                    if(value.searchData.travelersList![0].name != '' && value.searchData.travelersList![0].age != ''){
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => const BookScreen()));
-                    }else{
-                      showCustomSnackbar(context, 'Please fill Travelers data', false);
-                    }
-                  },
-                ),
-              );
-            },
-          )
+      bottomNavigationBar: selectedSeats.length == totalTravelers
+          ? Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: DarkCustomButton(
+                text: "Continue",
+                onPressed: () {
+                  final travelers = Provider.of<BookingController>(context, listen: false)
+                      .searchData
+                      .travelersList!;
+                  if (travelers.any((t) => t.name == '' || t.age == '')) {
+                    showCustomSnackbar(context, 'Please fill Travelers data', false);
+                    return;
+                  }
+
+                  // Optionally pass selectedSeats to BookScreen if needed
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (ctx) => const BookScreen()));
+                },
+              ),
+            )
           : null,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -121,7 +137,7 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
   }
 
   Widget _buildSeat(int seatNumber) {
-    bool isSelected = seatNumber == selectedSeat;
+    bool isSelected = selectedSeats.contains(seatNumber);
     bool isAvailable = availableSeats.contains(seatNumber);
     bool isUnavailable = unavailableSeats.contains(seatNumber);
 

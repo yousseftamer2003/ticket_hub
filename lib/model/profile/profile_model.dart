@@ -34,18 +34,18 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
-      countryId: json['country_id'],
-      cityId: json['city_id'],
-      zoneId: json['zone_id'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      role: json['role'],
+      countryId: json['country_id']??0,
+      cityId: json['city_id']??0,
+      zoneId: json['zone_id']??0,
+      name: json['name'] ?? 'No name',
+      email: json['email'] ?? 'No email',
+      phone: json['phone'] ?? 'No phone',
+      role: json['role'] ?? 'No role',
       createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at']) : null,
       updatedAt: json['updated_at'] != null ? DateTime.tryParse(json['updated_at']) : null,
-      gender: json['gender'],
-      nationalityId: json['nationality_id'],
-      code: json['code'],
+      gender: json['gender'] ?? 'No gender',
+      nationalityId: json['nationality_id'] ?? 0,
+      code: json['code'] ?? '',
       imageLink: json['image_link'],
     );
   }

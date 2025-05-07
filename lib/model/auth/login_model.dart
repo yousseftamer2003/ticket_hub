@@ -1,7 +1,7 @@
 class UserModel {
-  final String message;
-  final User user;
-  final String token;
+  final String? message;
+  final User? user;
+  final String? token;
 
   UserModel({
     required this.message,
@@ -23,13 +23,13 @@ class User {
   final int? countryId;
   final int? cityId;
   final int? zoneId;
-  final String name;
-  final String email;
-  final String phone;
-  final String role;
+  final String? name;
+  final String? email;
+  final String? phone;
+  final String? role;
   final String? createdAt;
   final String? updatedAt;
-  final String gender;
+  final String? gender;
   final int? nationalityId;
 
   User({
@@ -49,18 +49,18 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      countryId: json['country_id'],
-      cityId: json['city_id'],
-      zoneId: json['zone_id'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      role: json['role'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      gender: json['gender'],
-      nationalityId: json['nationality_id'],
+      id: json['id'] ?? 0,
+      countryId: json['country_id'] ?? 0,
+      cityId: json['city_id']  ?? 0,
+      zoneId: json['zone_id'] ?? 0,
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
+      role: json['role'] ?? '',
+      createdAt: json['created_at']?? '',
+      updatedAt: json['updated_at']?? '',
+      gender: json['gender'] ?? 'No gender detected',
+      nationalityId: json['nationality_id']?? 0,
     );
   }
 }
