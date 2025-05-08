@@ -15,14 +15,11 @@ class ChooseYourPlace extends StatefulWidget {
 class _ChooseYourPlaceState extends State<ChooseYourPlace> {
   List<int> selectedSeats = [];
 
-  final List<int> availableSeats = [1, 2, 3, 4, 7, 10, 11, 12, 13, 14];
-  final List<int> unavailableSeats = [5, 6, 8, 9];
+  List<int> availableSeats = [];
+  final List<int> unavailableSeats = [];
 
   void _toggleSeatSelection(int seatNumber) {
-    final totalTravelers = Provider.of<BookingController>(context, listen: false)
-        .searchData
-        .travelersList!
-        .length;
+    final totalTravelers = Provider.of<BookingController>(context, listen: false).searchData.travelersList!.length;
 
     setState(() {
       if (selectedSeats.contains(seatNumber)) {
@@ -31,19 +28,28 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
         if (selectedSeats.length < totalTravelers) {
           selectedSeats.add(seatNumber);
         } else {
-          showCustomSnackbar(
-              context, 'You can only select $totalTravelers seats.', false);
+          showCustomSnackbar(context, 'You can only select $totalTravelers seats.', false);
         }
       }
     });
   }
 
   @override
+  void initState() {
+    final bookingProvider = Provider.of<BookingController>(context, listen: false);
+    for(int i = 1; i <= bookingProvider.selectedTrip!.bus!.availableSeats.length; i++){
+      if(bookingProvider.selectedTrip!.bus!.availableSeats['$i'] == false){
+        availableSeats.add(i);
+      }else{
+        unavailableSeats.add(i);
+      }
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final totalTravelers = Provider.of<BookingController>(context)
-        .searchData
-        .travelersList!
-        .length;
+    final totalTravelers = Provider.of<BookingController>(context).searchData.travelersList!.length;
 
     return Scaffold(
       bottomNavigationBar: selectedSeats.length == totalTravelers
@@ -60,7 +66,9 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
                     return;
                   }
 
-                  // Optionally pass selectedSeats to BookScreen if needed
+                  final bookingProvider = Provider.of<BookingController>(context, listen: false);
+                  bookingProvider.chosenSeats = selectedSeats;
+
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (ctx) => const BookScreen()));
                 },
@@ -96,8 +104,6 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
                 _buildSeat(3),
                 const SizedBox(width: 8),
                 _buildSeat(4),
-                const Spacer(),
-                _buildSeat(7),
               ],
             ),
             const SizedBox(height: 8),
@@ -107,7 +113,7 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
                 const SizedBox(width: 8),
                 _buildSeat(6),
                 const Spacer(),
-                _buildSeat(10),
+                _buildSeat(7),
               ],
             ),
             const SizedBox(height: 8),
@@ -117,12 +123,14 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
                 const SizedBox(width: 8),
                 _buildSeat(9),
                 const Spacer(),
-                _buildSeat(11),
+                _buildSeat(10),
               ],
             ),
             const SizedBox(height: 8),
             Row(
               children: [
+                _buildSeat(11),
+                const SizedBox(width: 8),
                 _buildSeat(12),
                 const SizedBox(width: 8),
                 _buildSeat(13),

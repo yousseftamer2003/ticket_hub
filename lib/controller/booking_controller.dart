@@ -22,6 +22,8 @@ class BookingController with ChangeNotifier {
   TripResponse? _searchResult;
   TripResponse? get searchResult => _searchResult;
 
+  List<int> chosenSeats = [];
+
   SearchData searchData = SearchData();
 
   Trip? selectedTrip;
@@ -126,9 +128,8 @@ class BookingController with ChangeNotifier {
     request.fields['travel_date'] = searchData.departureDate!;
     request.fields['travelers'] = jsonEncode(searchData.travelers);
 
-    List<int> seats = [1, 2];
-    for (int i = 0; i < seats.length; i++) {
-      request.fields['seats[$i]'] = seats[i].toString();
+    for (int i = 0; i < chosenSeats.length; i++) {
+      request.fields['seats[$i]'] = chosenSeats[i].toString();
     }
 
     final travellers = searchData.travelersList!;

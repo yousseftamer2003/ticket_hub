@@ -76,6 +76,8 @@ class Trip {
 
 class Bus {
   final int id;
+  final int capacity;
+  final Map<String, dynamic> availableSeats;
   final String busNumber;
   final String? busImage;
   final String imageLink;
@@ -83,6 +85,8 @@ class Bus {
   Bus({
     required this.id,
     required this.busNumber,
+    required this.capacity,
+    required this.availableSeats,
     this.busImage,
     required this.imageLink,
   });
@@ -93,6 +97,8 @@ class Bus {
       busNumber: json['bus_number'] ?? 'N/A',
       busImage: json['bus_image'] ?? 'N/A',
       imageLink: json['image_link'] ?? 'N/A',
+      capacity: json['capacity'] ?? 0,
+      availableSeats: json['new_areas'] ?? {},
     );
   }
 }

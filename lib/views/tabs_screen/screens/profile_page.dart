@@ -100,7 +100,7 @@ class ProfilePageState extends State<ProfilePage> {
                           );
                         },
                         child: Text(S.of(context).login,
-                            style: TextStyle(fontSize: 16, color: blackColor)),
+                            style: const TextStyle(fontSize: 16, color: blackColor)),
                       ),
                     ],
                   ),
