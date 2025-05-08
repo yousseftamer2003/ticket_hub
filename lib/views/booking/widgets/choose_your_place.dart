@@ -198,60 +198,64 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
                 width: 40,
                 height: 40,
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 85),
               _buildSeat(1),
               const SizedBox(width: 8),
               _buildSeat(2),
             ],
           ),
           const SizedBox(height: 16),
-          ..._buildSeatRows(3, 18, 4),
-          const SizedBox(height: 20),
-          Container(
-            width: double.infinity,
-            height: 2,
-            color: Colors.grey[300],
-          ),
-          const SizedBox(height: 20),
-          ..._buildSeatRows(19, 48, 5),
+          ..._buildBusSeatsWithMiddleGap(startSeat: 3, endSeat: 43),
+          const SizedBox(height: 10),
+          _buildLastRow(startSeat: 44),
         ],
       ),
     );
   }
 
-  List<Widget> _buildSeatRows(int startSeat, int endSeat, int seatsPerRow) {
+  List<Widget> _buildBusSeatsWithMiddleGap(
+      {required int startSeat, required int endSeat}) {
     List<Widget> rows = [];
-    int currentSeat = startSeat;
+    int current = startSeat;
 
-    while (currentSeat <= endSeat) {
-      List<Widget> rowSeats = [];
-      for (int i = 0; i < seatsPerRow && currentSeat <= endSeat; i++) {
-        rowSeats.add(_buildSeat(currentSeat));
-        if (i < seatsPerRow - 1 && currentSeat <= endSeat) {
-          rowSeats.add(const SizedBox(width: 8));
-        }
-        currentSeat++;
-      }
+    while (current <= endSeat) {
+      List<Widget> row = [
+        _buildSeat(current),
+        const SizedBox(width: 8),
+        _buildSeat(current + 1),
+        const SizedBox(width: 24),
+        _buildSeat(current + 2),
+        const SizedBox(width: 8),
+        _buildSeat(current + 3),
+      ];
 
       rows.add(
         Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: rowSeats,
-          ),
+          padding: const EdgeInsets.only(bottom: 8.0, left: 15),
+          child: Row(children: row),
         ),
       );
+      current += 4;
     }
-
     return rows;
+  }
+
+  Widget _buildLastRow({required int startSeat}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: List.generate(5, (index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: _buildSeat(startSeat + index),
+        );
+      }),
+    );
   }
 
   Widget _buildSeat(int seatNumber) {
     bool isSelected = selectedSeats.contains(seatNumber);
     bool isAvailable = availableSeats.contains(seatNumber);
     bool isUnavailable = unavailableSeats.contains(seatNumber);
-
     return GestureDetector(
       onTap: isAvailable ? () => _toggleSeatSelection(seatNumber) : null,
       child: Container(
