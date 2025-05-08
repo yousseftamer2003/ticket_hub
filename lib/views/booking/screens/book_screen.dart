@@ -83,7 +83,7 @@ class _BookScreenState extends State<BookScreen> {
                   ...paymentMethods.map(
                       (method) => _buildPaymentOption(method.name, method.id)),
                   const SizedBox(height: 20),
-                  if (_selectedPaymentMethod?.toLowerCase() != 'paypal' &&
+                  if (_selectedPaymentMethod != 'Visa Card' &&
                       _selectedPaymentMethod != null) ...[
                     const SizedBox(height: 20),
                     const Text(
@@ -117,17 +117,17 @@ class _BookScreenState extends State<BookScreen> {
                     text: 'Book Now',
                     onPressed: () {
                       if (_selectedPaymentMethodId != null) {
-                        if (_selectedPaymentMethod?.toLowerCase() == 'paypal') {
+                        if (_selectedPaymentMethod == "Visa Card") {
                           bookingProvider.bookTrip(
                             context,
                             tripId: selectedTrip.id,
                             paymentMethodId: _selectedPaymentMethodId!,
                             amount: selectedTrip.price,
                           );
-                          
                         } else {
                           if (imageController.base64Image == null) {
-                            showCustomSnackbar(context,'Please upload a receipt image', false);
+                            showCustomSnackbar(context,
+                                'Please upload a receipt image', false);
                             return;
                           }
                           bookingProvider.bookTrip(
@@ -135,11 +135,16 @@ class _BookScreenState extends State<BookScreen> {
                             tripId: selectedTrip.id,
                             paymentMethodId: _selectedPaymentMethodId!,
                             amount: selectedTrip.price,
-                            receiptImage:imageController.imageFile!, 
+                            receiptImage: imageController.imageFile!,
                           );
-                          imageController.clearImage();                         }
+                          imageController.clearImage();
+                        }
                       } else {
-                        showCustomSnackbar(context,'Please select payment method',false,);
+                        showCustomSnackbar(
+                          context,
+                          'Please select payment method',
+                          false,
+                        );
                       }
                     },
                   )

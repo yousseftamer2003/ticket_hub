@@ -36,10 +36,30 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  MenuItem _selectedVehicleType = MenuItem.all;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _selectedVehicleType = MenuItem.values[index];
+      
+      // Update trip type in the booking controller
+      final String tripType;
+      switch (_selectedVehicleType) {
+        case MenuItem.all:
+          tripType = "all";
+          break;
+        case MenuItem.hiace:
+          tripType = "hiace";
+          break;
+        case MenuItem.bus:
+          tripType = "bus";
+          break;
+        case MenuItem.train:
+          tripType = "train";
+          break;
+      }
+      Provider.of<BookingController>(context, listen: false).setTripType(tripType);
     });
   }
 
@@ -47,6 +67,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     Provider.of<BookingController>(context, listen: false)
         .fetchCitiesandPaymentMethods();
+    // Set default trip type to "all"
+    Provider.of<BookingController>(context, listen: false).setTripType("all");
     super.initState();
   }
 
@@ -134,6 +156,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (ctx) => SearchResultScreen(
                           departureFrom: booking.searchData.departureStation!,
                           arrivalTo: booking.searchData.arrivalStation!,
+                          selectedVehicleType: _selectedVehicleType,
                         ),
                       ),
                     );

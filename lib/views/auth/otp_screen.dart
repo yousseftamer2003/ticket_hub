@@ -112,10 +112,10 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 S.of(context).check_email,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w400,
                 ),
@@ -159,7 +159,7 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
               child: Text.rich(
                 TextSpan(
                   text: S.of(context).dont_receive_code,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: Color(0xFF7C7C7C),
@@ -167,7 +167,7 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
                   children: [
                     TextSpan(
                       text: S.of(context).resend,
-                      style: TextStyle(
+                      style: const TextStyle(
                         decoration: TextDecoration.underline,
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -198,7 +198,7 @@ class _OtpPasswordScreenState extends State<OtpPasswordScreen> {
                         ? const CircularProgressIndicator(color: Colors.white)
                         : Text(
                             S.of(context).reset_password,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

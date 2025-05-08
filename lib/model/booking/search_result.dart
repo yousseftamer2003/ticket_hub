@@ -1,22 +1,22 @@
 class TripResponse {
   final List<Trip> allTrips;
-  // final List<Trip> busTrips;
-  // final List<Trip> hiaceTrips;
-  // final List<Trip> trainTrips;
+  final List<Trip> busTrips;
+  final List<Trip> hiaceTrips;
+  final List<Trip> trainTrips;
 
   TripResponse({
     required this.allTrips,
-    // required this.busTrips,
-    // required this.hiaceTrips,
-    // required this.trainTrips,
+    required this.busTrips,
+    required this.hiaceTrips,
+    required this.trainTrips,
   });
 
   factory TripResponse.fromJson(Map<String, dynamic> json) {
     return TripResponse(
       allTrips: (json['all_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
-      // busTrips: (json['bus_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
-      // hiaceTrips: (json['hiace_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
-      // trainTrips: (json['train_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
+      busTrips: (json['bus_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
+      hiaceTrips: (json['hiace_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
+      trainTrips: (json['train_trips'] as List).map((e) => Trip.fromJson(e)).toList(),
     );
   }
 }

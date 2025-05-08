@@ -14,12 +14,17 @@ class ChooseYourPlace extends StatefulWidget {
 
 class _ChooseYourPlaceState extends State<ChooseYourPlace> {
   List<int> selectedSeats = [];
-
   List<int> availableSeats = [];
   final List<int> unavailableSeats = [];
+  bool isBus = false;
+  int totalSeats = 14; // Default total seats
 
   void _toggleSeatSelection(int seatNumber) {
-    final totalTravelers = Provider.of<BookingController>(context, listen: false).searchData.travelersList!.length;
+    final totalTravelers =
+        Provider.of<BookingController>(context, listen: false)
+            .searchData
+            .travelersList!
+            .length;
 
     setState(() {
       if (selectedSeats.contains(seatNumber)) {
@@ -28,7 +33,8 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
         if (selectedSeats.length < totalTravelers) {
           selectedSeats.add(seatNumber);
         } else {
-          showCustomSnackbar(context, 'You can only select $totalTravelers seats.', false);
+          showCustomSnackbar(
+              context, 'You can only select $totalTravelers seats.', false);
         }
       }
     });
@@ -36,20 +42,36 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
 
   @override
   void initState() {
-    final bookingProvider = Provider.of<BookingController>(context, listen: false);
-    for(int i = 1; i <= bookingProvider.selectedTrip!.bus!.availableSeats.length; i++){
-      if(bookingProvider.selectedTrip!.bus!.availableSeats['$i'] == false){
+    super.initState();
+    final bookingProvider =
+        Provider.of<BookingController>(context, listen: false);
+
+    isBus = bookingProvider.selectedTrip?.tripType.toLowerCase() == 'bus';
+
+    if (isBus) {
+      totalSeats = 48;
+    } else {
+      totalSeats = 14;
+    }
+
+    for (int i = 1; i <= totalSeats; i++) {
+      if (i <= bookingProvider.selectedTrip!.bus!.availableSeats.length &&
+          bookingProvider.selectedTrip!.bus!.availableSeats['$i'] == false) {
         availableSeats.add(i);
-      }else{
+      } else if (i > bookingProvider.selectedTrip!.bus!.availableSeats.length) {
+        availableSeats.add(i);
+      } else {
         unavailableSeats.add(i);
       }
     }
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final totalTravelers = Provider.of<BookingController>(context).searchData.travelersList!.length;
+    final totalTravelers = Provider.of<BookingController>(context)
+        .searchData
+        .travelersList!
+        .length;
 
     return Scaffold(
       bottomNavigationBar: selectedSeats.length == totalTravelers
@@ -58,17 +80,18 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
               child: DarkCustomButton(
                 text: "Continue",
                 onPressed: () {
-                  final travelers = Provider.of<BookingController>(context, listen: false)
-                      .searchData
-                      .travelersList!;
+                  final travelers =
+                      Provider.of<BookingController>(context, listen: false)
+                          .searchData
+                          .travelersList!;
                   if (travelers.any((t) => t.name == '' || t.age == '')) {
-                    showCustomSnackbar(context, 'Please fill Travelers data', false);
+                    showCustomSnackbar(
+                        context, 'Please fill Travelers data', false);
                     return;
                   }
-
-                  final bookingProvider = Provider.of<BookingController>(context, listen: false);
+                  final bookingProvider =
+                      Provider.of<BookingController>(context, listen: false);
                   bookingProvider.chosenSeats = selectedSeats;
-
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (ctx) => const BookScreen()));
                 },
@@ -80,68 +103,148 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Select An Available Seat",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(
-                  'assets/images/swa2.png',
-                  width: 50,
-                  height: 50,
+                const Text(
+                  "Select An Available Seat",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(width: 16),
-                _buildSeat(1),
+                Text(
+                  "${selectedSeats.length}/$totalTravelers selected",
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
+                ),
               ],
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                _buildSeat(2),
-                const SizedBox(width: 8),
-                _buildSeat(3),
-                const SizedBox(width: 8),
-                _buildSeat(4),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                _buildSeat(5),
-                const SizedBox(width: 8),
-                _buildSeat(6),
-                const Spacer(),
-                _buildSeat(7),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                _buildSeat(8),
-                const SizedBox(width: 8),
-                _buildSeat(9),
-                const Spacer(),
-                _buildSeat(10),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                _buildSeat(11),
-                const SizedBox(width: 8),
-                _buildSeat(12),
-                const SizedBox(width: 8),
-                _buildSeat(13),
-                const SizedBox(width: 8),
-                _buildSeat(14),
-              ],
+            Expanded(
+              child: isBus ? _buildBusLayout() : _buildDefaultLayout(),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildDefaultLayout() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Image.asset(
+              'assets/images/swa2.png',
+              width: 50,
+              height: 50,
+            ),
+            const SizedBox(width: 16),
+            _buildSeat(1),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            _buildSeat(2),
+            const SizedBox(width: 8),
+            _buildSeat(3),
+            const SizedBox(width: 8),
+            _buildSeat(4),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            _buildSeat(5),
+            const SizedBox(width: 8),
+            _buildSeat(6),
+            const Spacer(),
+            _buildSeat(7),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            _buildSeat(8),
+            const SizedBox(width: 8),
+            _buildSeat(9),
+            const Spacer(),
+            _buildSeat(10),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            _buildSeat(11),
+            const SizedBox(width: 8),
+            _buildSeat(12),
+            const SizedBox(width: 8),
+            _buildSeat(13),
+            const SizedBox(width: 8),
+            _buildSeat(14),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBusLayout() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Image.asset(
+                'assets/images/swa2.png',
+                width: 40,
+                height: 40,
+              ),
+              const SizedBox(width: 16),
+              _buildSeat(1),
+              const SizedBox(width: 8),
+              _buildSeat(2),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ..._buildSeatRows(3, 18, 4),
+          const SizedBox(height: 20),
+          Container(
+            width: double.infinity,
+            height: 2,
+            color: Colors.grey[300],
+          ),
+          const SizedBox(height: 20),
+          ..._buildSeatRows(19, 48, 5),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildSeatRows(int startSeat, int endSeat, int seatsPerRow) {
+    List<Widget> rows = [];
+    int currentSeat = startSeat;
+
+    while (currentSeat <= endSeat) {
+      List<Widget> rowSeats = [];
+      for (int i = 0; i < seatsPerRow && currentSeat <= endSeat; i++) {
+        rowSeats.add(_buildSeat(currentSeat));
+        if (i < seatsPerRow - 1 && currentSeat <= endSeat) {
+          rowSeats.add(const SizedBox(width: 8));
+        }
+        currentSeat++;
+      }
+
+      rows.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: rowSeats,
+          ),
+        ),
+      );
+    }
+
+    return rows;
   }
 
   Widget _buildSeat(int seatNumber) {
@@ -152,8 +255,8 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
     return GestureDetector(
       onTap: isAvailable ? () => _toggleSeatSelection(seatNumber) : null,
       child: Container(
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isSelected
@@ -167,7 +270,7 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
         child: Text(
           "$seatNumber",
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.bold,
             color: isUnavailable ? Colors.grey[600] : Colors.black,
           ),

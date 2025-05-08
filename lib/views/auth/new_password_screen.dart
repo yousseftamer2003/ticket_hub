@@ -51,7 +51,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               children: [
                 Text(
                   S.of(context).createANewAccount,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
               ],
             ),
@@ -96,7 +96,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   if (_passwordController.text.isEmpty ||
                       _confirmpasswordController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Please fill all fields')),
+                      const SnackBar(content: Text('Please fill all fields')),
                     );
                     return;
                   }

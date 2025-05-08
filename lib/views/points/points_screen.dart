@@ -71,7 +71,7 @@ class _PointsScreenState extends State<PointsScreen> {
                   children: [
                     Text(
                       S.of(context).currentPoints,
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
                     ),
                     const SizedBox(height: 8),
                     Text(

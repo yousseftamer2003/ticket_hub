@@ -47,12 +47,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 children: [
                   Text(
                     S.of(context).welcome,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
                   ),
                   const SizedBox(height: 10),
                   Text(
                     S.of(context).createANewAccount,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF7C7C7C),

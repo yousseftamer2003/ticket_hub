@@ -199,7 +199,7 @@ class WalletRechargeScreenState extends State<WalletRechargeScreen> {
                 _base64Image != null
                     ? Text(
                         S.of(context).image_selected,
-                        style: TextStyle(color: Colors.green),
+                        style: const TextStyle(color: Colors.green),
                       )
                     : const SizedBox.shrink(),
                 const SizedBox(height: 24),

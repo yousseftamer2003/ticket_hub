@@ -56,7 +56,8 @@ class _WalletScreenState extends State<WalletScreen> {
               children: [
                 Text(
                   S.of(context).user_balance,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
                 Expanded(
@@ -80,7 +81,7 @@ class _WalletScreenState extends State<WalletScreen> {
                           children: [
                             Text(
                               S.of(context).transaction_history,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             Icon(
@@ -112,7 +113,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             : Center(
                                 child: Text(
                                   S.of(context).no_transactions,
-                                  style: TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ),
                     ],
