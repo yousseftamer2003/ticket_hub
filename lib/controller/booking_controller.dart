@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/widgets/custom_snack_bar.dart';
 import 'package:ticket_hub/controller/auth/login_provider.dart';
+import 'package:ticket_hub/controller/payment_web_view.dart';
 import 'package:ticket_hub/model/booking/booking_lists_model.dart';
 import 'package:ticket_hub/model/booking/search_data.dart';
 import 'package:ticket_hub/model/booking/search_result.dart';
@@ -129,66 +130,98 @@ class BookingController with ChangeNotifier {
   }
 
   Future<void> bookTrip(
-    BuildContext context, {
-    required int tripId,
-    required int paymentMethodId,
-    required int amount,
-    File? receiptImage,
-  }) async {
-    final authServices = Provider.of<LoginProvider>(context, listen: false);
-    final token = authServices.token;
+  BuildContext context, {
+  required int tripId,
+  required int paymentMethodId,
+  required int amount,
+  File? receiptImage,
+}) async {
+  final authServices = Provider.of<LoginProvider>(context, listen: false);
+  final token = authServices.token;
 
-    try {
-      final uri =
-          Uri.parse('https://bcknd.ticket-hub.net/user/booking/payment');
-      final request = http.MultipartRequest('POST', uri);
+  try {
+    final uri =
+        Uri.parse('https://bcknd.ticket-hub.net/user/booking/payment');
+    final request = http.MultipartRequest('POST', uri);
 
-      request.headers.addAll({
-        'Authorization': 'Bearer $token',
-      });
+    request.headers.addAll({
+      'Authorization': 'Bearer $token',
+    });
 
-      request.fields['payment_method_id'] = paymentMethodId.toString();
-      request.fields['trip_id'] = tripId.toString();
-      request.fields['amount'] = amount.toString();
-      request.fields['travel_date'] = searchData.departureDate!;
-      request.fields['travelers'] = jsonEncode(searchData.travelers);
+    request.fields['payment_method_id'] = paymentMethodId.toString();
+    request.fields['trip_id'] = tripId.toString();
+    request.fields['amount'] = amount.toString();
+    request.fields['travel_date'] = searchData.departureDate!;
+    request.fields['travelers'] = jsonEncode(searchData.travelers);
 
-      for (int i = 0; i < chosenSeats.length; i++) {
-        request.fields['seats[$i]'] = chosenSeats[i].toString();
-      }
-
-      final travellers = searchData.travelersList!;
-      for (int i = 0; i < travellers.length; i++) {
-        final travelerJson = travellers[i].toJson();
-        travelerJson.forEach((key, value) {
-          request.fields['travellers_data[$i][$key]'] = value.toString();
-        });
-      }
-
-      if (receiptImage != null) {
-        request.files.add(await http.MultipartFile.fromPath(
-          'receipt_image',
-          receiptImage.path,
-        ));
-      }
-
-      final response = await request.send();
-
-      if (response.statusCode == 200) {
-        showCustomSnackbar(context, 'Trip booked Successfully', true);
-        Future.delayed(const Duration(seconds: 3), () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (ctx) => const TabsScreen(selectedIndex: 1)),
-          );
-        });
-      } else {
-        final resBody = await response.stream.bytesToString();
-        log('Failed to book trip. Status code: ${response.statusCode}');
-        log('Response body: $resBody');
-      }
-    } catch (e) {
-      log('Error booking trip: $e');
+    for (int i = 0; i < chosenSeats.length; i++) {
+      request.fields['seats[$i]'] = chosenSeats[i].toString();
     }
+
+    final travellers = searchData.travelersList!;
+    for (int i = 0; i < travellers.length; i++) {
+      final travelerJson = travellers[i].toJson();
+      travelerJson.forEach((key, value) {
+        request.fields['travellers_data[$i][$key]'] = value.toString();
+      });
+    }
+
+    if (receiptImage != null) {
+      request.files.add(await http.MultipartFile.fromPath(
+        'receipt_image',
+        receiptImage.path,
+      ));
+    }
+
+    // log('Sending POST request to: $uri');
+    // log('Headers:\n${request.headers}');
+    // log('Fields:');
+    // request.fields.forEach((key, value) {
+    //   log('$key: $value');
+    // });
+
+    // if (receiptImage != null) {
+    //   log('Attached file: receipt_image = ${receiptImage.path}');
+    // }
+
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      final resBody = await response.stream.bytesToString();
+      // log('Response body: $resBody');
+      if(resBody.contains('paymentLink')){
+        final String url = jsonDecode(resBody)['paymentLink'];
+        final result = await Navigator.of(context).push(
+          MaterialPageRoute(builder: (ctx)=> PaymentWebView(url: url))
+        );
+        if(!result){
+          showCustomSnackbar(context, 'Trip booked Successfully', true);
+          Future.delayed(const Duration(seconds: 3), () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (ctx) => const TabsScreen(selectedIndex: 1)),
+            );
+          });
+        }else{
+          showCustomSnackbar(context, 'Payment Failed', false);
+        }
+      }else{
+        showCustomSnackbar(context, 'Trip booked Successfully', true);
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (ctx) => const TabsScreen(selectedIndex: 1)),
+        );
+      });
+      }
+    } else {
+      final resBody = await response.stream.bytesToString();
+      log('Failed to book trip. Status code: ${response.statusCode}');
+      log('Response body: $resBody');
+    }
+  } catch (e) {
+    log('Error booking trip: $e');
   }
+}
+
 }

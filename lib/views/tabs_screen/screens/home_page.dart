@@ -65,10 +65,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    Provider.of<BookingController>(context, listen: false)
-        .fetchCitiesandPaymentMethods();
-    // Set default trip type to "all"
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<BookingController>(context, listen: false).fetchCitiesandPaymentMethods();
     Provider.of<BookingController>(context, listen: false).setTripType("all");
+    });
     super.initState();
   }
 
