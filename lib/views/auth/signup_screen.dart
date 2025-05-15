@@ -23,7 +23,11 @@ class _SignupScreenState extends State<SignupScreen> {
   String? _selectedGender;
   String? _selectedNationality;
 
-  final List<String> _genders = ['male', 'female'];
+  final Map<String, String> _genderMap = {
+    'Male': 'male',
+    'Female': 'female',
+    'Prefer not to say': 'other',
+  };
 
   @override
   void initState() {
@@ -47,7 +51,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 children: [
                   Text(
                     S.of(context).welcome,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.w400),
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -91,11 +96,17 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(height: 20),
                   CustomDropdown(
                     label: S.of(context).gender,
-                    items: _genders,
-                    selectedValue: _selectedGender,
+                    items: _genderMap.keys.toList(), // Display values
+                    selectedValue: _selectedGender != null
+                        ? _genderMap.entries
+                            .firstWhere(
+                                (entry) => entry.value == _selectedGender)
+                            .key
+                        : null,
                     onChanged: (value) {
                       setState(() {
-                        _selectedGender = value;
+                        _selectedGender =
+                            _genderMap[value]; // Store actual value
                       });
                     },
                   ),

@@ -42,8 +42,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
       _selectedVehicleType = MenuItem.values[index];
-      
-      // Update trip type in the booking controller
       final String tripType;
       switch (_selectedVehicleType) {
         case MenuItem.all:
@@ -59,17 +57,20 @@ class _HomePageState extends State<HomePage> {
           tripType = "train";
           break;
       }
-      Provider.of<BookingController>(context, listen: false).setTripType(tripType);
+      Provider.of<BookingController>(context, listen: false)
+          .setTripType(tripType);
     });
   }
 
   @override
   void initState() {
-    Provider.of<BookingController>(context, listen: false)
-        .fetchCitiesandPaymentMethods();
-    // Set default trip type to "all"
-    Provider.of<BookingController>(context, listen: false).setTripType("all");
     super.initState();
+    final bookingController =
+        Provider.of<BookingController>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      bookingController.fetchCitiesandPaymentMethods();
+      bookingController.setTripType("all");
+    });
   }
 
   @override
@@ -97,7 +98,6 @@ class _HomePageState extends State<HomePage> {
                     children: List.generate(MenuItem.values.length, (index) {
                       final menuItem = MenuItem.values[index];
                       final bool isSelected = _selectedIndex == index;
-
                       return GestureDetector(
                         onTap: () => _onItemTapped(index),
                         child: Container(
@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                   final booking =
                       Provider.of<BookingController>(context, listen: false);
                   if (booking.searchData.departureStation != null &&
-                      booking.searchData.arrivalStation != null && 
+                      booking.searchData.arrivalStation != null &&
                       booking.searchData.departureDate != null) {
                     await booking.searchTrips(context);
                     Navigator.of(context).push(
@@ -161,7 +161,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   } else {
-                    showCustomSnackbar(context, 'Please fill all the fields', false);
+                    showCustomSnackbar(
+                        context, 'Please fill all the fields', false);
                   }
                 }),
           )

@@ -11,46 +11,55 @@ class TripSelectionWidget extends StatefulWidget {
 
 class _TripSelectionWidgetState extends State<TripSelectionWidget> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<BookingController>(context, listen: false)
+          .setTripType("one_way");
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<BookingController>(
       builder: (context, booking, _) {
         return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Radio<String>(
-              value: "one_way",
-              groupValue: booking.searchData.type,
-              onChanged: (value) {
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Radio<String>(
+                value: "one_way",
+                groupValue: booking.searchData.type,
+                onChanged: (value) {
                   booking.setTripType(value!);
-              },
-              activeColor: Colors.orange,
-            ),
-            const Text(
-              "One-Way",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(width: 20),
-            Radio<String>(
-              value: "Round-Trip",
-              groupValue: booking.searchData.type,
-              onChanged: (value) {
-                booking.setTripType(value!);
-              },
-              activeColor: Colors.orange,
-            ),
-            const Text(
-              "Round-Trip",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-      );
+                },
+                activeColor: Colors.orange,
+              ),
+              const Text(
+                "One-Way",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(width: 20),
+              Radio<String>(
+                value: "Round-Trip",
+                groupValue: booking.searchData.type,
+                onChanged: (value) {
+                  booking.setTripType(value!);
+                },
+                activeColor: Colors.orange,
+              ),
+              const Text(
+                "Round-Trip",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        );
       },
     );
   }

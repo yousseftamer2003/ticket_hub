@@ -1,0 +1,2 @@
+E:/ticket_hub/android/app/.cxx/RelWithDebInfo/5er6n6d7/x86/CMakeFiles/edit_cache.dir
+E:/ticket_hub/android/app/.cxx/RelWithDebInfo/5er6n6d7/x86/CMakeFiles/rebuild_cache.dir

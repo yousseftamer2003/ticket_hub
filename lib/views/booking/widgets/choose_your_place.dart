@@ -17,7 +17,7 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
   List<int> availableSeats = [];
   final List<int> unavailableSeats = [];
   bool isBus = false;
-  int totalSeats = 14; // Default total seats
+  int totalSeats = 14;
 
   void _toggleSeatSelection(int seatNumber) {
     final totalTravelers =
@@ -49,7 +49,7 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
     isBus = bookingProvider.selectedTrip?.tripType.toLowerCase() == 'bus';
 
     if (isBus) {
-      totalSeats = 48;
+      totalSeats = 49;
     } else {
       totalSeats = 14;
     }
@@ -198,16 +198,12 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
                 width: 40,
                 height: 40,
               ),
-              const SizedBox(width: 85),
-              _buildSeat(1),
-              const SizedBox(width: 8),
-              _buildSeat(2),
             ],
           ),
           const SizedBox(height: 16),
-          ..._buildBusSeatsWithMiddleGap(startSeat: 3, endSeat: 43),
+          ..._buildBusSeatsWithMiddleGap(startSeat: 1, endSeat: 43),
           const SizedBox(height: 10),
-          _buildLastRow(startSeat: 44),
+          _buildLastRow(startSeat: 45),
         ],
       ),
     );
@@ -223,7 +219,7 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
         _buildSeat(current),
         const SizedBox(width: 8),
         _buildSeat(current + 1),
-        const SizedBox(width: 24),
+        const SizedBox(width: 50),
         _buildSeat(current + 2),
         const SizedBox(width: 8),
         _buildSeat(current + 3),
@@ -231,7 +227,7 @@ class _ChooseYourPlaceState extends State<ChooseYourPlace> {
 
       rows.add(
         Padding(
-          padding: const EdgeInsets.only(bottom: 8.0, left: 15),
+          padding: const EdgeInsets.only(bottom: 8.0, left: 5),
           child: Row(children: row),
         ),
       );

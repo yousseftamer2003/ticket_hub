@@ -173,6 +173,7 @@ class BookingController with ChangeNotifier {
       }
 
       final response = await request.send();
+      final resBody = await response.stream.bytesToString();
 
       if (response.statusCode == 200) {
         showCustomSnackbar(context, 'Trip booked Successfully', true);
@@ -183,12 +184,23 @@ class BookingController with ChangeNotifier {
           );
         });
       } else {
-        final resBody = await response.stream.bytesToString();
         log('Failed to book trip. Status code: ${response.statusCode}');
         log('Response body: $resBody');
+
+        try {
+          final decoded = jsonDecode(resBody);
+          final errorMessage =
+              decoded['errors'] ?? 'Booking failed. Please try again.';
+
+          showCustomSnackbar(context, errorMessage.toString(), false);
+        } catch (e) {
+          showCustomSnackbar(
+              context, 'Booking failed. Please try again.', false);
+        }
       }
     } catch (e) {
       log('Error booking trip: $e');
+      showCustomSnackbar(context, 'An unexpected error occurred.', false);
     }
   }
 }

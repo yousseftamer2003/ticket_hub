@@ -17,14 +17,14 @@ class _YourRideContentState extends State<YourRideContent> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final bookingProvider = Provider.of<BookingController>(context, listen: false);
+      final bookingProvider =
+          Provider.of<BookingController>(context, listen: false);
       final travelersCount = bookingProvider.searchData.travelers ?? 0;
-      
-      
+
       bookingProvider.searchData.travelersList ??= List.generate(
-          travelersCount,
-          (index) => Traveler(name: '', age: ''),
-        );
+        travelersCount,
+        (index) => Traveler(name: '', age: ''),
+      );
     });
   }
 
@@ -71,7 +71,9 @@ class _YourRideContentState extends State<YourRideContent> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 20,),
+                    const SizedBox(
+                      width: 20,
+                    ),
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -91,7 +93,9 @@ class _YourRideContentState extends State<YourRideContent> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 const Text(
                   'Arrival Time:',
                   style: TextStyle(
@@ -157,12 +161,12 @@ class _YourRideContentState extends State<YourRideContent> {
                     travelersCount,
                     (i) => Traveler(name: '', age: ''),
                   );
-                  
-                  // Ensure we have enough travelers in the list
-                  while (bookingProvider.searchData.travelersList!.length <= index) {
-                    bookingProvider.searchData.travelersList!.add(Traveler(name: '', age: ''));
+                  while (bookingProvider.searchData.travelersList!.length <=
+                      index) {
+                    bookingProvider.searchData.travelersList!
+                        .add(Traveler(name: '', age: ''));
                   }
-                  
+
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: Card(
@@ -181,7 +185,10 @@ class _YourRideContentState extends State<YourRideContent> {
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(12)),
                               gradient: LinearGradient(
-                                colors: [orangeColor, Color.fromARGB(255, 247, 217, 191)],
+                                colors: [
+                                  orangeColor,
+                                  Color.fromARGB(255, 247, 217, 191)
+                                ],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
@@ -201,25 +208,29 @@ class _YourRideContentState extends State<YourRideContent> {
                                 ),
                                 const SizedBox(height: 10),
                                 TextFormField(
-                                  initialValue: bookingProvider.searchData.travelersList![index].name,
+                                  initialValue: bookingProvider
+                                      .searchData.travelersList![index].name,
                                   decoration: const InputDecoration(
                                     labelText: 'Full Name',
                                     border: OutlineInputBorder(),
                                   ),
                                   onChanged: (value) {
-                                    bookingProvider.searchData.travelersList![index].name = value;
+                                    bookingProvider.searchData
+                                        .travelersList![index].name = value;
                                   },
                                 ),
                                 const SizedBox(height: 10),
                                 TextFormField(
-                                  initialValue: bookingProvider.searchData.travelersList![index].age,
+                                  initialValue: bookingProvider
+                                      .searchData.travelersList![index].age,
                                   keyboardType: TextInputType.number,
                                   decoration: const InputDecoration(
                                     labelText: 'Age',
                                     border: OutlineInputBorder(),
                                   ),
                                   onChanged: (value) {
-                                    bookingProvider.searchData.travelersList![index].age = value;
+                                    bookingProvider.searchData
+                                        .travelersList![index].age = value;
                                   },
                                 ),
                               ],
