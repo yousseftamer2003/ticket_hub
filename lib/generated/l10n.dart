@@ -60,9 +60,9 @@ class S {
     return Intl.message('All', name: 'all', desc: '', args: []);
   }
 
-  /// `Hiace`
+  /// `mini-van`
   String get Hiace {
-    return Intl.message('Hiace', name: 'Hiace', desc: '', args: []);
+    return Intl.message('mini-van', name: 'Hiace', desc: '', args: []);
   }
 
   /// `Bus`
