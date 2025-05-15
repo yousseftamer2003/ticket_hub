@@ -5,9 +5,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentWebView extends StatefulWidget {
   final String url;
-  final int orderId;
 
-  const PaymentWebView({super.key, required this.url, required this.orderId});
+  const PaymentWebView({super.key, required this.url});
 
   @override
   State<PaymentWebView> createState() => _PaymentWebViewState();
@@ -37,8 +36,9 @@ class _PaymentWebViewState extends State<PaymentWebView> {
           onNavigationRequest: (NavigationRequest request) {
             log('call back Url: ${request.url}');
             if (request.url.startsWith(
-                'https://mostafagadbcknd.food2go.online/customer/make_order/')) {
+                'https://bcknd.ticket-hub.net/user/booking/')) {
               if (request.url.contains('success=true')) {
+                Navigator.of(context).pop(false);
               } else {
                 Navigator.of(context).pop(true);
               }

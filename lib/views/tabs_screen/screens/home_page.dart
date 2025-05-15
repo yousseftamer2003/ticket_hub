@@ -64,6 +64,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<BookingController>(context, listen: false).fetchCitiesandPaymentMethods();
+    Provider.of<BookingController>(context, listen: false).setTripType("all");
+    });
     super.initState();
     final bookingController =
         Provider.of<BookingController>(context, listen: false);

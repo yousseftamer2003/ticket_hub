@@ -8,7 +8,7 @@
 
 
     <application
-        android:label="ticket_hub"
+        android:label="Ticket Hub"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

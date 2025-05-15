@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:ticket_hub/constant/widgets/custom_snack_bar.dart';
 import 'package:ticket_hub/controller/auth/login_provider.dart';
+import 'package:ticket_hub/controller/payment_web_view.dart';
 import 'package:ticket_hub/model/booking/booking_lists_model.dart';
 import 'package:ticket_hub/model/booking/search_data.dart';
 import 'package:ticket_hub/model/booking/search_result.dart';
@@ -172,18 +173,48 @@ class BookingController with ChangeNotifier {
         ));
       }
 
+      // log('Sending POST request to: $uri');
+      // log('Headers:\n${request.headers}');
+      // log('Fields:');
+      // request.fields.forEach((key, value) {
+      //   log('$key: $value');
+      // });
+
+      // if (receiptImage != null) {
+      //   log('Attached file: receipt_image = ${receiptImage.path}');
+      // }
+
       final response = await request.send();
-      final resBody = await response.stream.bytesToString();
 
       if (response.statusCode == 200) {
-        showCustomSnackbar(context, 'Trip booked Successfully', true);
-        Future.delayed(const Duration(seconds: 3), () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (ctx) => const TabsScreen(selectedIndex: 1)),
-          );
-        });
+        final resBody = await response.stream.bytesToString();
+        // log('Response body: $resBody');
+        if (resBody.contains('paymentLink')) {
+          final String url = jsonDecode(resBody)['paymentLink'];
+          final result = await Navigator.of(context).push(
+              MaterialPageRoute(builder: (ctx) => PaymentWebView(url: url)));
+          if (!result) {
+            showCustomSnackbar(context, 'Trip booked Successfully', true);
+            Future.delayed(const Duration(seconds: 3), () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (ctx) => const TabsScreen(selectedIndex: 1)),
+              );
+            });
+          } else {
+            showCustomSnackbar(context, 'Payment Failed', false);
+          }
+        } else {
+          showCustomSnackbar(context, 'Trip booked Successfully', true);
+          Future.delayed(const Duration(seconds: 3), () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (ctx) => const TabsScreen(selectedIndex: 1)),
+            );
+          });
+        }
       } else {
+        final resBody = await response.stream.bytesToString();
         log('Failed to book trip. Status code: ${response.statusCode}');
         log('Response body: $resBody');
 
