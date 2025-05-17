@@ -9,7 +9,7 @@ import 'package:ticket_hub/views/booking/screens/bus_details_screen.dart';
 
 class ResultContainer extends StatelessWidget {
   const ResultContainer(
-      {super.key,required this.isCheapest,required this.trip});
+      {super.key, required this.isCheapest, required this.trip});
   final Trip trip;
   final bool isCheapest;
 
@@ -36,8 +36,10 @@ class ResultContainer extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  'assets/images/bus_result_image.png',
+                child: Image.network(
+                  trip.bus != null
+                      ? trip.bus!.imageLink
+                      : 'assets/images/bus_result_image.png',
                   width: 80,
                   height: 80,
                   fit: BoxFit.cover,
@@ -61,7 +63,7 @@ class ResultContainer extends StatelessWidget {
                               ),
                             ),
                             Text(
-                            trip.bus != null ? trip.bus!.busNumber : '',
+                              trip.bus != null ? trip.bus!.busNumber : '',
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -78,22 +80,13 @@ class ResultContainer extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Row(
+                    Row(
                       children: [
                         Text(
-                          "Cairo Express",
+                          trip.tripName,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 16,
                             color: Colors.orange,
-                          ),
-                        ),
-                        SizedBox(width: 4),
-                        Icon(Icons.star, size: 16, color: Colors.orange),
-                        Text(
-                          "4.8 (86)",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
                           ),
                         ),
                       ],
@@ -125,7 +118,7 @@ class ResultContainer extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      "From \$${trip.price} / Person",
+                      "${trip.price} ${trip.currency?.symbol} / Person",
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -170,10 +163,10 @@ class ResultContainer extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Provider.of<BookingController>(context, listen: false).setTrip(trip);
+                  Provider.of<BookingController>(context, listen: false)
+                      .setTrip(trip);
                   final authProvider =
                       Provider.of<LoginProvider>(context, listen: false);
-
                   if (authProvider.isUserAuthenticated()) {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -188,7 +181,7 @@ class ResultContainer extends StatelessWidget {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.of(ctx).pop(); 
+                              Navigator.of(ctx).pop();
                             },
                             child: const Text("Cancel"),
                           ),
@@ -201,9 +194,8 @@ class ResultContainer extends StatelessWidget {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: orangeColor,
-                              foregroundColor: Colors.white
-                            ),
+                                backgroundColor: orangeColor,
+                                foregroundColor: Colors.white),
                             child: const Text("Login"),
                           ),
                         ],

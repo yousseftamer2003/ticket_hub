@@ -61,18 +61,11 @@ class _BookScreenState extends State<BookScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
                   Text(
                     "Total Booking: ${selectedTrip.price} EGP",
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  const TextField(
-                    decoration: InputDecoration(
-                      hintText: "Discount Coupon",
-                      prefixIcon: Icon(Icons.local_offer),
-                      border: OutlineInputBorder(),
-                    ),
                   ),
                   const SizedBox(height: 20),
                   const Text(

@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -24,9 +23,7 @@ class BookingController with ChangeNotifier {
   TripResponse? get searchResult => _searchResult;
 
   List<int> chosenSeats = [];
-
   SearchData searchData = SearchData();
-
   Trip? selectedTrip;
 
   void setTrip(Trip trip) {
@@ -172,17 +169,6 @@ class BookingController with ChangeNotifier {
           receiptImage.path,
         ));
       }
-
-      // log('Sending POST request to: $uri');
-      // log('Headers:\n${request.headers}');
-      // log('Fields:');
-      // request.fields.forEach((key, value) {
-      //   log('$key: $value');
-      // });
-
-      // if (receiptImage != null) {
-      //   log('Attached file: receipt_image = ${receiptImage.path}');
-      // }
 
       final response = await request.send();
 
