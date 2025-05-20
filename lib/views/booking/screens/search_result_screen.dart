@@ -110,7 +110,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                           itemCount: results.length,
                           itemBuilder: (context, index) {
                             final result = results[index];
-                            int minPrice = results.isEmpty
+                            num minPrice = results.isEmpty
                                 ? 0
                                 : results
                                     .map((result) => result.price)

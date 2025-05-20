@@ -130,7 +130,7 @@ class BookingController with ChangeNotifier {
     BuildContext context, {
     required int tripId,
     required int paymentMethodId,
-    required int amount,
+    required double amount,
     File? receiptImage,
   }) async {
     final authServices = Provider.of<LoginProvider>(context, listen: false);

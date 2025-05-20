@@ -36,7 +36,7 @@ class Trip {
   final String arrivalTime;
   final String date;
   final int availableSeats;
-  final int price;
+  final double price;
   final String cancellationPolicy;
   final String cancelationPayAmount;
   final int cancelationPayValue;
@@ -84,13 +84,13 @@ class Trip {
       arrivalTime: json['arrival_time'] ?? '',
       date: json['date'] ?? '',
       availableSeats: json['avalible_seats'] ?? 0,
-      price: json['price'] ?? 0,
+      price: json['price'].toDouble() ?? 0.0,
       cancellationPolicy: json['cancellation_policy'] ?? '',
       cancelationPayAmount: json['cancelation_pay_amount'] ?? '',
       cancelationPayValue: json['cancelation_pay_value'] ?? 0,
       cancelationHours: json['cancelation_hours'] ?? 0,
       maxBookDate: json['max_book_date'] ?? '',
-      serviceFees: json['service_fees'] ?? 0,
+      serviceFees: json['service_fees'].toDouble() ?? 0.0 ?? 0,
       bus: json['bus'] != null ? Bus.fromJson(json['bus']) : null,
       currency:
           json['currency'] != null ? Currency.fromJson(json['currency']) : null,
