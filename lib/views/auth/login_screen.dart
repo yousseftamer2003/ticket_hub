@@ -43,7 +43,8 @@ class LoginScreenState extends State<LoginScreen> {
                 children: [
                   Text(
                     S.of(context).WelcomeBack,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -124,39 +125,6 @@ class LoginScreenState extends State<LoginScreen> {
                       );
                     }
                   }),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Expanded(child: Divider(color: Colors.grey, thickness: 0)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      S.of(context).orLoginWith,
-                      style:
-                          const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  const Expanded(child: Divider(color: Colors.grey, thickness: 0)),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.facebook,
-                        color: Colors.grey, size: 40),
-                    onPressed: () {},
-                  ),
-                  const SizedBox(width: 20),
-                  IconButton(
-                    icon: Image.asset(
-                        'assets/images/Instagram Icon Container.png',
-                        width: 40),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

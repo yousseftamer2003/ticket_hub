@@ -96,6 +96,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(height: 20),
                   CustomDropdown(
                     label: S.of(context).gender,
+                    hintText: 'For same-gender carpooling',
                     items: _genderMap.keys.toList(), // Display values
                     selectedValue: _selectedGender != null
                         ? _genderMap.entries
@@ -117,6 +118,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           provider.nationalities.map((n) => n.name).toList();
                       return CustomDropdown(
                         label: S.of(context).nationality,
+                        hintText: 'To display region-specific prices.',
                         items: nationalities,
                         selectedValue: _selectedNationality,
                         onChanged: (value) {
@@ -144,10 +146,14 @@ class _SignupScreenState extends State<SignupScreen> {
                               Provider.of<NationalityProvider>(context,
                                   listen: false);
 
-                          final selectedNationalityId = nationalityProvider
-                              .nationalities
-                              .firstWhere((n) => n.name == _selectedNationality)
-                              .id;
+                          int selectedNationalityId = 1;
+                          if (_selectedNationality != null) {
+                            selectedNationalityId = nationalityProvider
+                                .nationalities
+                                .firstWhere(
+                                    (n) => n.name == _selectedNationality)
+                                .id;
+                          }
 
                           Provider.of<SignUpProvider>(context, listen: false)
                               .signupUser(
@@ -156,8 +162,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             email: _emailController.text,
                             phone: _phoneController.text,
                             password: _passwordController.text,
-                            gender: _selectedGender ?? '',
-                            nationalityId: selectedNationalityId.toString(),
+                            gender: _selectedGender,
+                            nationalityId: selectedNationalityId,
                           );
                         },
                       );

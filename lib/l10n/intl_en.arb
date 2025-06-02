@@ -121,6 +121,6 @@
     "wallet_screen_title": "Wallet",
     "user_balance": "User Balance",
     "transaction_history": "Transaction History",
-    "no_transactions": "No transactions available."
-
+    "no_transactions": "No transactions available.",
+    "deleteAccount": "Delete Account"
 }

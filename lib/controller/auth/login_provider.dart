@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticket_hub/model/auth/login_model.dart';
+import 'package:ticket_hub/views/auth/login_screen.dart';
 
 class LoginProvider extends ChangeNotifier {
   UserModel? _userModel;
@@ -56,48 +56,84 @@ class LoginProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-Future<void> logout(BuildContext context) async {
-  final loginProvider = Provider.of<LoginProvider>(context, listen: false);
-  final String? token = loginProvider.token;
 
-  const String url = 'https://bcknd.ticket-hub.net/api/logout';
-  if (token == null) return;
+  Future<void> logout(BuildContext context) async {
+    const String url = 'https://bcknd.ticket-hub.net/api/logout';
+    if (token == null) return;
 
-  _isLoading = true;
-  notifyListeners();
+    _isLoading = true;
+    notifyListeners();
 
-  try {
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-    final Map<String, dynamic> responseData = json.decode(response.body);
+      final Map<String, dynamic> responseData = json.decode(response.body);
 
-    if (response.statusCode == 200 && responseData["success"] == "You have successfully logged out.") {
-      log(response.body);
-      _userModel = null;
-      _error = null; // Clear any previous error
-      _token = null; // Ensure token is removed
-    } else {
-      log(response.body);
-      _error = 'Logout failed: ${response.statusCode}, ${response.body}';
+      if (response.statusCode == 200 &&
+          responseData["success"] == "You have successfully logged out.") {
+        log(response.body);
+        _userModel = null;
+        _error = null; // Clear any previous error
+        _token = null; // Ensure token is removed
+      } else {
+        log(response.body);
+        _error = 'Logout failed: ${response.statusCode}, ${response.body}';
+      }
+    } catch (e) {
+      log(e.toString());
+      _error = 'Exception: $e';
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
-  } catch (e) {
-    log(e.toString());
-    _error = 'Exception: $e';
-  } finally {
-    _isLoading = false;
+  }
+
+  Future<void> deleteAccount(BuildContext context) async {
+    const String url = 'https://bcknd.ticket-hub.net/api/delete_account';
+    if (token == null) return;
+
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        log(response.body);
+        _userModel = null;
+        _error = null; // Clear any previous error
+        _token = null; // Ensure token is removed
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => const LoginScreen()),
+        );
+      } else {
+        log(response.body);
+        _error = 'Logout failed: ${response.statusCode}, ${response.body}';
+      }
+    } catch (e) {
+      log(e.toString());
+      _error = 'Exception: $e';
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getTokenFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    _token = prefs.getString('token');
     notifyListeners();
   }
-}
-
-Future<void> getTokenFromPrefs() async{
-  final prefs = await SharedPreferences.getInstance();
-  _token = prefs.getString('token');
-  notifyListeners();
-}
 }

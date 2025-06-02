@@ -44,6 +44,7 @@ class CustomTextField extends StatelessWidget {
 
 class CustomDropdown extends StatelessWidget {
   final String label;
+  final String hintText;
   final List<String> items;
   final String? selectedValue;
   final Function(String?) onChanged;
@@ -54,12 +55,14 @@ class CustomDropdown extends StatelessWidget {
     required this.items,
     required this.selectedValue,
     required this.onChanged,
+    required this.hintText,
   });
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       decoration: InputDecoration(
+        hintText: hintText,
         labelText: label,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

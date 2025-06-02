@@ -122,6 +122,7 @@
     "wallet_screen_title": "المحفظة",
     "user_balance": "رصيد المستخدم",
     "transaction_history": "سجل المعاملات",
-    "no_transactions": "لا توجد معاملات متاحة."
+    "no_transactions": "لا توجد معاملات متاحة.",
+    "deleteAccount": "حذف الحساب"
   }
   

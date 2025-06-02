@@ -15,10 +15,10 @@ class SignUpProvider extends ChangeNotifier {
   Future<void> signupUser({
     required String password,
     required String email,
-    required String nationalityId,
+    required int? nationalityId,
     required String name,
     required String phone,
-    required String gender,
+    required String? gender,
     required BuildContext context,
   }) async {
     const String url = "https://bcknd.ticket-hub.net/api/register";
@@ -27,31 +27,40 @@ class SignUpProvider extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
+    String? nationalityIdString = nationalityId?.toString();
+
+    if (nationalityId == null) {
+      nationalityIdString = "60";
+    }
+
     try {
+      Map<String, dynamic> requestBody = {
+        'password': password,
+        'email': email,
+        'nationality_id': nationalityIdString,
+        'name': name,
+        'phone': phone,
+      };
+
+      // Only include gender if it's not null
+      if (gender != null) {
+        requestBody['gender'] = gender;
+      }
+
       final response = await http.post(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'password': password,
-          'email': email,
-          'nationality_id': nationalityId,
-          'name': name,
-          'phone': phone,
-          'gender': gender,
-        }),
+        body: jsonEncode(requestBody),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
-
         if (data['token'] != null) {
           log("Registration Successful: ${response.body}");
-
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const TabsScreen()),
           );
-
           await prefs.setString('token', data['token']);
         } else {
           _errorMessage = "Failed to retrieve token";

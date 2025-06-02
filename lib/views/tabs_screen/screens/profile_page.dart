@@ -100,7 +100,8 @@ class ProfilePageState extends State<ProfilePage> {
                           );
                         },
                         child: Text(S.of(context).login,
-                            style: const TextStyle(fontSize: 16, color: blackColor)),
+                            style: const TextStyle(
+                                fontSize: 16, color: blackColor)),
                       ),
                     ],
                   ),
@@ -197,6 +198,14 @@ class ProfilePageState extends State<ProfilePage> {
                           onTap: () => _logout(context),
                           child: _buildInfoRow(
                               Icons.logout, S.of(context).logout,
+                              showArrow: true),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Provider.of<LoginProvider>(context, listen: false)
+                                .deleteAccount(context);
+                          },
+                          child: _buildInfoRow(Icons.delete, 'Delete Account',
                               showArrow: true),
                         ),
                       ]),
