@@ -84,7 +84,7 @@ class ResultContainer extends StatelessWidget {
                       children: [
                         Text(
                           trip.tripName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.orange,
                           ),

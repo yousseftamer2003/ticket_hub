@@ -38,6 +38,50 @@ class BookingController with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> searchTrips(BuildContext context) async {
+    try {
+      Map<String, dynamic> requestBody = {
+        'from': searchData.departureFromId,
+        'to': searchData.arrivalToId,
+        'travelers': searchData.travelers,
+        'type': searchData.type!.isEmpty ? 'one_way' : searchData.type,
+      };
+
+      if (searchData.departureDate != null) {
+        requestBody['date'] = searchData.departureDate;
+      }
+
+      if (searchData.returnDate != null) {
+        requestBody['return_date'] = searchData.returnDate;
+      }
+
+      final body = jsonEncode(requestBody);
+
+      final response = await http.post(
+        Uri.parse('https://bcknd.ticket-hub.net/user/booking'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        log('Response data: $responseData');
+        _searchResult = TripResponse.fromJson(responseData);
+        notifyListeners();
+      } else {
+        log('Failed to search trips. Status code: ${response.statusCode}');
+        log('Response body: ${response.body}');
+        showCustomSnackbar(
+            context, 'Failed to search trips. Please try again.', false);
+      }
+    } catch (e) {
+      log('Error searching trips: $e');
+      showCustomSnackbar(context, 'Error searching trips: $e', false);
+    }
+  }
+
   Future<void> fetchCitiesandPaymentMethods() async {
     try {
       final response = await http.get(
@@ -62,50 +106,6 @@ class BookingController with ChangeNotifier {
       }
     } catch (e) {
       log('Error fetching cities: $e');
-    }
-  }
-
-  Future<void> searchTrips(BuildContext context) async {
-    try {
-      final body = searchData.returnDate != null
-          ? jsonEncode({
-              'from': searchData.departureFromId,
-              'to': searchData.arrivalToId,
-              'date': searchData.departureDate,
-              'return_date': searchData.returnDate,
-              'travelers': searchData.travelers,
-              'type': searchData.type!.isEmpty ? 'one_way' : searchData.type,
-            })
-          : jsonEncode({
-              'from': searchData.departureFromId,
-              'to': searchData.arrivalToId,
-              'date': searchData.departureDate,
-              'travelers': searchData.travelers,
-              'type': 'one_way',
-            });
-
-      final response = await http.post(
-        Uri.parse('https://bcknd.ticket-hub.net/user/booking'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: body,
-      );
-
-      if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        log('Response data: $responseData');
-        _searchResult = TripResponse.fromJson(responseData);
-        notifyListeners();
-      } else {
-        log('Failed to search trips. Status code: ${response.statusCode}');
-        log('Response body: ${response.body}');
-        showCustomSnackbar(
-            context, 'Failed to search trips. Please try again.', false);
-      }
-    } catch (e) {
-      log('Error searching trips: $e');
-      showCustomSnackbar(context, 'Error searching trips: $e', false);
     }
   }
 

@@ -65,8 +65,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<BookingController>(context, listen: false).fetchCitiesandPaymentMethods();
-    Provider.of<BookingController>(context, listen: false).setTripType("all");
+      Provider.of<BookingController>(context, listen: false)
+          .fetchCitiesandPaymentMethods();
+      Provider.of<BookingController>(context, listen: false).setTripType("all");
     });
     super.initState();
     final bookingController =
@@ -152,8 +153,7 @@ class _HomePageState extends State<HomePage> {
                   final booking =
                       Provider.of<BookingController>(context, listen: false);
                   if (booking.searchData.departureStation != null &&
-                      booking.searchData.arrivalStation != null &&
-                      booking.searchData.departureDate != null) {
+                      booking.searchData.arrivalStation != null) {
                     await booking.searchTrips(context);
                     Navigator.of(context).push(
                       MaterialPageRoute(

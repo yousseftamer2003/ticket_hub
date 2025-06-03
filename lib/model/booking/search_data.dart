@@ -14,9 +14,9 @@ class SearchData {
       this.arrivalStation,
       this.departureStation,
       this.arrivalToId,
-      this.departureDate = 'Select Date',
+      this.departureDate,
       this.returnDate,
-      this.travelers  = 1,
+      this.travelers = 1,
       this.travelersList,
       this.type = 'one_way'});
 }
@@ -25,10 +25,7 @@ class Traveler {
   String? name;
   String? age;
 
-  Traveler({
-    this.age,
-    this.name
-  });
+  Traveler({this.age, this.name});
 
   Map<String, dynamic> toJson() => {'name': name, 'age': age};
 }
