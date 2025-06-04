@@ -72,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "currentPoints": MessageLookupByLibrary.simpleMessage(
       "Your Current Points",
     ),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
     "departure_from": MessageLookupByLibrary.simpleMessage("Departure From"),
     "dontHaveAnAccount": MessageLookupByLibrary.simpleMessage(
       "Don\'t have an account?",

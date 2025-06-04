@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ticket_hub/constant/colors.dart';
-import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/controller/booking_controller.dart';
 import 'package:ticket_hub/model/booking/search_result.dart';
-import 'package:ticket_hub/views/auth/login_screen.dart';
 import 'package:ticket_hub/views/booking/screens/bus_details_screen.dart';
 
 class ResultContainer extends StatelessWidget {
@@ -163,45 +160,11 @@ class ResultContainer extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Provider.of<BookingController>(context, listen: false)
-                      .setTrip(trip);
-                  final authProvider =
-                      Provider.of<LoginProvider>(context, listen: false);
-                  if (authProvider.isUserAuthenticated()) {
+                  Provider.of<BookingController>(context, listen: false).setTrip(trip);
                     Navigator.of(context).push(
                       MaterialPageRoute(
                           builder: (ctx) => const TabViewScreen()),
                     );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        title: const Text("Login Required"),
-                        content: const Text("You need to log in to proceed."),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(ctx).pop();
-                            },
-                            child: const Text("Cancel"),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(ctx).pop();
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (ctx) => const LoginScreen()),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: orangeColor,
-                                foregroundColor: Colors.white),
-                            child: const Text("Login"),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
                 },
                 child: const Text(
                   "Select",

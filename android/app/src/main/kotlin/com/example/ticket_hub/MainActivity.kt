@@ -1,4 +1,4 @@
-package com.app.ticket
+package com.wego.ticket
 
 import io.flutter.embedding.android.FlutterActivity
 

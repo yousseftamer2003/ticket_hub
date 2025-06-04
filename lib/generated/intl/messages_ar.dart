@@ -66,6 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "currency": MessageLookupByLibrary.simpleMessage("العملة"),
     "currentPoints": MessageLookupByLibrary.simpleMessage("نقاطك الحالية"),
+    "deleteAccount": MessageLookupByLibrary.simpleMessage("حذف الحساب"),
     "departure_from": MessageLookupByLibrary.simpleMessage("المغادرة من"),
     "dontHaveAnAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
     "dont_receive_code": MessageLookupByLibrary.simpleMessage(

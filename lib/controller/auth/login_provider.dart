@@ -60,7 +60,7 @@ class LoginProvider extends ChangeNotifier {
   Future<void> logout(BuildContext context) async {
     const String url = 'https://bcknd.ticket-hub.net/api/logout';
     if (token == null) return;
-
+    final prefs = await SharedPreferences.getInstance();
     _isLoading = true;
     notifyListeners();
 
@@ -81,6 +81,7 @@ class LoginProvider extends ChangeNotifier {
         _userModel = null;
         _error = null; // Clear any previous error
         _token = null; // Ensure token is removed
+        prefs.remove('token');
       } else {
         log(response.body);
         _error = 'Logout failed: ${response.statusCode}, ${response.body}';

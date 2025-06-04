@@ -4,8 +4,10 @@ import 'package:ticket_hub/constant/colors.dart';
 import 'package:ticket_hub/constant/widgets/custom_appbar_widget.dart';
 import 'package:ticket_hub/constant/widgets/custom_button_widget.dart';
 import 'package:ticket_hub/constant/widgets/custom_snack_bar.dart';
+import 'package:ticket_hub/controller/auth/login_provider.dart';
 import 'package:ticket_hub/controller/booking_controller.dart';
 import 'package:ticket_hub/controller/image_controller.dart';
+import 'package:ticket_hub/views/auth/login_screen.dart';
 
 class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
@@ -109,34 +111,68 @@ class _BookScreenState extends State<BookScreen> {
                   DarkCustomButton(
                     text: 'Book Now',
                     onPressed: () {
-                      if (_selectedPaymentMethodId != null) {
-                        if (_selectedPaymentMethod == "Visa Card") {
-                          bookingProvider.bookTrip(
-                            context,
-                            tripId: selectedTrip.id,
-                            paymentMethodId: _selectedPaymentMethodId!,
-                            amount: selectedTrip.price,
-                          );
-                        } else {
-                          if (imageController.base64Image == null) {
-                            showCustomSnackbar(context,
-                                'Please upload a receipt image', false);
-                            return;
+                      final authProvider =
+                          Provider.of<LoginProvider>(context, listen: false);
+                      if (authProvider.isUserAuthenticated()) {
+                        if (_selectedPaymentMethodId != null) {
+                          if (_selectedPaymentMethod == "Visa Card") {
+                            bookingProvider.bookTrip(
+                              context,
+                              tripId: selectedTrip.id,
+                              paymentMethodId: _selectedPaymentMethodId!,
+                              amount: selectedTrip.price,
+                            );
+                          } else {
+                            if (imageController.base64Image == null) {
+                              showCustomSnackbar(context,
+                                  'Please upload a receipt image', false);
+                              return;
+                            }
+                            bookingProvider.bookTrip(
+                              context,
+                              tripId: selectedTrip.id,
+                              paymentMethodId: _selectedPaymentMethodId!,
+                              amount: selectedTrip.price,
+                              receiptImage: imageController.imageFile!,
+                            );
+                            imageController.clearImage();
                           }
-                          bookingProvider.bookTrip(
+                        } else {
+                          showCustomSnackbar(
                             context,
-                            tripId: selectedTrip.id,
-                            paymentMethodId: _selectedPaymentMethodId!,
-                            amount: selectedTrip.price,
-                            receiptImage: imageController.imageFile!,
+                            'Please select payment method',
+                            false,
                           );
-                          imageController.clearImage();
                         }
                       } else {
-                        showCustomSnackbar(
-                          context,
-                          'Please select payment method',
-                          false,
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: const Text("Login Required"),
+                            content:
+                                const Text("You need to log in to proceed."),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (ctx) => const LoginScreen()),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: orangeColor,
+                                    foregroundColor: Colors.white),
+                                child: const Text("Login"),
+                              ),
+                            ],
+                          ),
                         );
                       }
                     },
