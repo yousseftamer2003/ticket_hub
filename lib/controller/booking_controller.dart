@@ -145,10 +145,11 @@ class BookingController with ChangeNotifier {
         'Authorization': 'Bearer $token',
       });
 
+      log('date: ${selectedTrip!.date}');
       request.fields['payment_method_id'] = paymentMethodId.toString();
       request.fields['trip_id'] = tripId.toString();
       request.fields['amount'] = amount.toString();
-      request.fields['travel_date'] = searchData.departureDate!;
+      request.fields['travel_date'] = selectedTrip!.date;
       request.fields['travelers'] = jsonEncode(searchData.travelers);
 
       for (int i = 0; i < chosenSeats.length; i++) {
